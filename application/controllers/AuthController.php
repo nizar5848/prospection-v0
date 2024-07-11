@@ -32,7 +32,11 @@ class AuthController extends CI_Controller
             'required');
 
         if ($this->form_validation->run() === false) {
-            $this->load->view('auth/register_admin');
+//            $this->load->view('auth/register_admin');
+            $data = [
+                "view" => "auth/register_admin",
+            ];
+            $this->load->view("auth/layout", $data);
         } else {
             $data = array(
                 'email'      => $this->input->post('email'),
@@ -65,7 +69,11 @@ class AuthController extends CI_Controller
         $this->form_validation->set_rules('last_name', 'Last Name', 'required');
 
         if ($this->form_validation->run() === false) {
-            $this->load->view('auth/register_user');
+//            $this->load->view('auth/register_user');
+            $data = [
+                "view" => "auth/register_user",
+            ];
+            $this->load->view("auth/layout", $data);
         } else {
             $data = array(
                 'email'      => $this->input->post('email'),
@@ -89,7 +97,11 @@ class AuthController extends CI_Controller
         $this->form_validation->set_rules('password', 'Password', 'required');
 
         if ($this->form_validation->run() === false) {
-            $this->load->view('auth/login');
+//            $this->load->view('auth/login');
+            $data = [
+                "view" => "auth/login",
+            ];
+            $this->load->view("auth/layout", $data);
         } else {
             $email    = $this->input->post('email');
             $password = $this->input->post('password');
