@@ -65,11 +65,19 @@
                    class="form-control form-control-lg"
                    placeholder="Password" required="">
         </div>
-        <div class="checkbox mb-3">
-            <label>
-                <input type="checkbox" value="remember-me"> Stay logged in
-            </label>
-        </div>
+        <?php
+        $is_logged_in = true; // This could be based on your actual login logic
+        ?>
+
+        <?php if ( ! $is_admin_exists): ?>
+            <div class="checkbox mb-3">
+                <a href="<?php echo base_url('authController/register'); ?>">
+                    creer admin
+                </a>
+            </div>
+        <?php endif; ?>
+
+
         <button class="btn btn-lg btn-primary btn-block" type="submit">Let
             me in
         </button>

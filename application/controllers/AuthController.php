@@ -13,53 +13,59 @@ class AuthController extends CI_Controller
         $this->load->helper('url');
     }
 
-    
-        public function register() {
-            // Load the UserModel
-            $this->load->model('UserModel');
-    
-            // Check if an admin already exists
-            $is_admin_exists = $this->UserModel->count_admins() > 0;
-            $is_admin = !$is_admin_exists;
-    
-            // Form validation rules
-            $this->form_validation->set_rules('email', 'Email', 'required|valid_email|is_unique[users.email]');
-            $this->form_validation->set_rules('password', 'Password', 'required|min_length[8]');
-            $this->form_validation->set_rules('confirm_password', 'Confirm Password', 'required|matches[password]');
-            $this->form_validation->set_rules('first_name', 'First Name', 'required');
-            $this->form_validation->set_rules('last_name', 'Last Name', 'required');
-            
-            if ($is_admin_exists) {
-                $this->form_validation->set_rules('role', 'Role', 'required');
-            }
-    
-            if ($this->form_validation->run() === FALSE) {
-                $data = [
-                    "view" => "auth/register",
-                    "is_admin_exists" => $is_admin_exists
-                ];
-                $this->load->view("auth/layout", $data);
-            } else {
-                $role = $is_admin ? 'admin' : $this->input->post('role');
-                $data = array(
-                    'email'      => $this->input->post('email'),
-                    'password'   => password_hash($this->input->post('password'), PASSWORD_BCRYPT),
-                    'first_name' => $this->input->post('first_name'),
-                    'last_name'  => $this->input->post('last_name'),
-                    'role'       => $role,
-                );
-    
-                $this->UserModel->create_user($data);
-    
-                $redirect_url = $is_admin ? 'authController/login' : 'admin/dashboard';
-                redirect($redirect_url);
-            }
+
+    public function register()
+    {
+        // Load the UserModel
+        $this->load->model('UserModel');
+
+        // Check if an admin already exists
+        $is_admin_exists = $this->UserModel->count_admins() > 0;
+        $is_admin        = ! $is_admin_exists;
+
+        // Form validation rules
+        $this->form_validation->set_rules('email', 'Email',
+            'required|valid_email|is_unique[users.email]');
+        $this->form_validation->set_rules('password', 'Password',
+            'required|min_length[8]');
+        $this->form_validation->set_rules('confirm_password',
+            'Confirm Password', 'required|matches[password]');
+        $this->form_validation->set_rules('first_name', 'First Name',
+            'required');
+        $this->form_validation->set_rules('last_name', 'Last Name', 'required');
+
+        if ($is_admin_exists) {
+            $this->form_validation->set_rules('role', 'Role', 'required');
         }
-    
-    
+
+        if ($this->form_validation->run() === false) {
+            $data = [
+                "view"            => "auth/register",
+                "is_admin_exists" => $is_admin_exists,
+            ];
+            $this->load->view("auth/layout", $data);
+        } else {
+            $role = $is_admin ? 'admin' : $this->input->post('role');
+            $data = array(
+                'email'      => $this->input->post('email'),
+                'password'   => password_hash($this->input->post('password'),
+                    PASSWORD_BCRYPT),
+                'first_name' => $this->input->post('first_name'),
+                'last_name'  => $this->input->post('last_name'),
+                'role'       => $role,
+            );
+
+            $this->UserModel->create_user($data);
+
+            $redirect_url = $is_admin ? 'authController/login' : 'admin/dashboard';
+            redirect($redirect_url);
+        }
+    }
+
 
     public function login()
     {
+        $is_admin_exists = $this->UserModel->count_admins() > 0;
         // Form validation rules
         $this->form_validation->set_rules('email', 'Email',
             'required|valid_email');
@@ -68,7 +74,8 @@ class AuthController extends CI_Controller
         if ($this->form_validation->run() === false) {
 //            $this->load->view('auth/login');
             $data = [
-                "view" => "auth/login",
+                "view"            => "auth/login",
+                "is_admin_exists" => $is_admin_exists,
             ];
             $this->load->view("auth/layout", $data);
         } else {

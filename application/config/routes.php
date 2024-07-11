@@ -1,6 +1,6 @@
 <?php
 
-$route['default_controller']   = 'AuthController/register_admin';
+$route['default_controller']   = 'AuthController/login';
 $route['404_override']         = '';
 $route['translate_uri_dashes'] = false;
 
