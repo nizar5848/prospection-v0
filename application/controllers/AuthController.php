@@ -13,81 +13,50 @@ class AuthController extends CI_Controller
         $this->load->helper('url');
     }
 
-    public function register_admin()
-    {
-        // Check if an admin already exists
-        if ($this->UserModel->count_admins() > 0) {
-            redirect('authController/login');
+    
+        public function register() {
+            // Load the UserModel
+            $this->load->model('UserModel');
+    
+            // Check if an admin already exists
+            $is_admin_exists = $this->UserModel->count_admins() > 0;
+            $is_admin = !$is_admin_exists;
+    
+            // Form validation rules
+            $this->form_validation->set_rules('email', 'Email', 'required|valid_email|is_unique[users.email]');
+            $this->form_validation->set_rules('password', 'Password', 'required|min_length[8]');
+            $this->form_validation->set_rules('confirm_password', 'Confirm Password', 'required|matches[password]');
+            $this->form_validation->set_rules('first_name', 'First Name', 'required');
+            $this->form_validation->set_rules('last_name', 'Last Name', 'required');
+            
+            if ($is_admin_exists) {
+                $this->form_validation->set_rules('role', 'Role', 'required');
+            }
+    
+            if ($this->form_validation->run() === FALSE) {
+                $data = [
+                    "view" => "auth/register",
+                    "is_admin_exists" => $is_admin_exists
+                ];
+                $this->load->view("auth/layout", $data);
+            } else {
+                $role = $is_admin ? 'admin' : $this->input->post('role');
+                $data = array(
+                    'email'      => $this->input->post('email'),
+                    'password'   => password_hash($this->input->post('password'), PASSWORD_BCRYPT),
+                    'first_name' => $this->input->post('first_name'),
+                    'last_name'  => $this->input->post('last_name'),
+                    'role'       => $role,
+                );
+    
+                $this->UserModel->create_user($data);
+    
+                $redirect_url = $is_admin ? 'authController/login' : 'admin/dashboard';
+                redirect($redirect_url);
+            }
         }
-
-        // Form validation rules
-        $this->form_validation->set_rules('email', 'Email',
-            'required|valid_email|is_unique[users.email]');
-        $this->form_validation->set_rules('password', 'Mot de passe',
-            'required');
-        $this->form_validation->set_rules('confirm_password',
-            'Confirmez le mot de passe', 'required|matches[password]');
-        $this->form_validation->set_rules('first_name', 'Prénom', 'required');
-        $this->form_validation->set_rules('last_name', 'Nom de famille',
-            'required');
-
-        if ($this->form_validation->run() === false) {
-//            $this->load->view('auth/register_admin');
-            $data = [
-                "view" => "auth/register_admin",
-            ];
-            $this->load->view("auth/layout", $data);
-        } else {
-            $data = array(
-                'email'      => $this->input->post('email'),
-                'password'   => password_hash($this->input->post('password'),
-                    PASSWORD_BCRYPT),
-                'first_name' => $this->input->post('first_name'),
-                'last_name'  => $this->input->post('last_name'),
-                'role'       => 'admin',
-            );
-
-            $this->UserModel->create_user($data);
-            redirect('authController/login');
-        }
-    }
-
-
-    public function register_user()
-    {
-        // Ensure only admin can access this method
-        if ( ! $this->session->userdata('is_admin')) {
-            redirect('authController/login');
-        }
-
-        // Form validation rules
-        $this->form_validation->set_rules('email', 'Email',
-            'required|valid_email|is_unique[users.email]');
-        $this->form_validation->set_rules('password', 'Password', 'required');
-        $this->form_validation->set_rules('first_name', 'First Name',
-            'required');
-        $this->form_validation->set_rules('last_name', 'Last Name', 'required');
-
-        if ($this->form_validation->run() === false) {
-//            $this->load->view('auth/register_user');
-            $data = [
-                "view" => "auth/register_user",
-            ];
-            $this->load->view("auth/layout", $data);
-        } else {
-            $data = array(
-                'email'      => $this->input->post('email'),
-                'password'   => password_hash($this->input->post('password'),
-                    PASSWORD_BCRYPT),
-                'first_name' => $this->input->post('first_name'),
-                'last_name'  => $this->input->post('last_name'),
-                'role'       => 'user',
-            );
-
-            $this->UserModel->create_user($data);
-            redirect('user/dashboard');
-        }
-    }
+    
+    
 
     public function login()
     {
