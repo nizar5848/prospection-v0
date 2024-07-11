@@ -1,21 +1,18 @@
 <?php
 
-$route['default_controller']   = 'AuthController'; // Set the default controller
+$route['default_controller']   = 'AuthController/register_admin';
 $route['404_override']         = '';
-$route['translate_uri_dashes'] = false; // Disable automatic translation of dashes to underscores
+$route['translate_uri_dashes'] = false;
 
 // Authentication routes
-$route['auth/register_admin'] = 'authController/register_admin'; // Route for admin registration
-$route['auth/register_user']  = 'authController/register_user';  // Route for user registration
-$route['auth/login']          = 'authController/login';          // Route for login
-$route['auth/logout']         = 'authController/logout';         // Route for logout
+$route['auth/register_admin'] = 'authController/register_admin';
+$route['auth/register_user']  = 'authController/register_user';
+$route['auth/login']          = 'authController/login';
+$route['auth/logout']         = 'authController/logout';
 
 // Admin routes
-$route['admin/dashboard'] = 'adminController/dashboard';    // Route for the admin dashboard
+$route['admin/dashboard'] = 'adminController/dashboard';
+
 
 // User routes
-$route['user/dashboard'] = 'userController/dashboard';     // Route for the user dashboard
-
-// Optional: Additional routes
-$route['admin/manage_users'] = 'adminController/manage_users';  // Example route for managing users
-$route['user/profile']       = 'userController/profile';       // Example route for user profile
+$route['user/dashboard'] = 'userController/dashboard';

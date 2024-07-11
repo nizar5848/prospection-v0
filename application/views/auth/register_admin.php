@@ -35,27 +35,31 @@
 <div class="wrapper vh-100">
     <div class="row align-items-center h-100">
         <!--        <form class="col-lg-6 col-md-8 col-10 mx-auto">-->
-        <?php echo form_open('AuthController/register_admin',
+
+        <?php echo form_open('authController/register_admin',
             ['class' => 'col-lg-6 col-md-8 col-10 mx-auto']); ?>
+
         <div class="mx-auto text-center my-4">
             <a class="navbar-brand mx-auto mt-2 flex-fill text-center"
                href="../index.html">
-                <svg version="1.1" id="logo"
-                     class="navbar-brand-img brand-md"
+                <svg version="1.1" id="logo" class="navbar-brand-img brand-md"
                      xmlns="http://www.w3.org/2000/svg"
-                     xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
-                     y="0px" viewBox="0 0 120 120" xml:space="preserve">
-                <g>
-                    <polygon class="st0"
-                             points="78,105 15,105 24,87 87,87 	"/>
-                    <polygon class="st0"
-                             points="96,69 33,69 42,51 105,51 	"/>
-                    <polygon class="st0" points="78,33 15,33 24,15 87,15 	"/>
-                </g>
-              </svg>
+                     xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                     viewBox="0 0 120 120" xml:space="preserve">
+                    <g>
+                        <polygon class="st0"
+                                 points="78,105 15,105 24,87 87,87 	"/>
+                        <polygon class="st0"
+                                 points="96,69 33,69 42,51 105,51 	"/>
+                        <polygon class="st0"
+                                 points="78,33 15,33 24,15 87,15 	"/>
+                    </g>
+                </svg>
             </a>
-            <h2 class="my-3">Register</h2>
+            <h2 class="my-3">Inscription</h2>
         </div>
+        <?php echo validation_errors('<div class="alert alert-danger">',
+            '</div>'); ?>
         <div class="form-group">
             <label for="inputEmail4">Email</label>
             <input type="email" class="form-control" name="email"
@@ -63,12 +67,12 @@
         </div>
         <div class="form-row">
             <div class="form-group col-md-6">
-                <label for="firstname">Firstname</label>
+                <label for="firstname">Prénom</label>
                 <input type="text" id="firstname" name="first_name"
                        class="form-control">
             </div>
             <div class="form-group col-md-6">
-                <label for="lastname">Lastname</label>
+                <label for="lastname">Nom de famille</label>
                 <input type="text" id="lastname" name="last_name"
                        class="form-control">
             </div>
@@ -77,33 +81,35 @@
         <div class="row mb-4">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="inputPassword5">New Password</label>
+                    <label for="inputPassword5">Nouveau mot de passe</label>
                     <input type="password" name="password" class="form-control"
                            id="inputPassword5">
                 </div>
                 <div class="form-group">
-                    <label for="inputPassword6">Confirm Password</label>
+                    <label for="inputPassword6">Confirmez le mot de
+                        passe</label>
                     <input type="password" class="form-control"
-                           id="inputPassword6">
+                           name="confirm_password" id="inputPassword6">
                 </div>
             </div>
             <div class="col-md-6">
-                <p class="mb-2">Password requirements</p>
-                <p class="small text-muted mb-2"> To create a new password,
-                    you have to meet all of the following requirements: </p>
+                <p class="mb-2">Exigences du mot de passe</p>
+                <p class="small text-muted mb-2">Pour créer un nouveau mot de
+                    passe, vous devez remplir toutes les conditions suivantes
+                    :</p>
                 <ul class="small text-muted pl-4 mb-0">
-                    <li> Minimum 8 character</li>
-                    <li>At least one special character</li>
-                    <li>At least one number</li>
-                    <li>Can’t be the same as a previous password</li>
+                    <li>Minimum 8 caractères</li>
+                    <li>Au moins un caractère spécial</li>
+                    <li>Au moins un chiffre</li>
+                    <li>Ne peut pas être le même qu'un mot de passe précédent
+                    </li>
                 </ul>
             </div>
         </div>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign
-            up
+        <button class="btn btn-lg btn-primary btn-block" type="submit">
+            S'inscrire
         </button>
         <p class="mt-5 mb-3 text-muted text-center">© 2020</p>
-        <!--        </form>-->
         <?php echo form_close(); ?>
     </div>
 </div>

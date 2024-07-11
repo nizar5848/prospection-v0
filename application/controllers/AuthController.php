@@ -23,10 +23,13 @@ class AuthController extends CI_Controller
         // Form validation rules
         $this->form_validation->set_rules('email', 'Email',
             'required|valid_email|is_unique[users.email]');
-        $this->form_validation->set_rules('password', 'Password', 'required');
-        $this->form_validation->set_rules('first_name', 'First Name',
+        $this->form_validation->set_rules('password', 'Mot de passe',
             'required');
-        $this->form_validation->set_rules('last_name', 'Last Name', 'required');
+        $this->form_validation->set_rules('confirm_password',
+            'Confirmez le mot de passe', 'required|matches[password]');
+        $this->form_validation->set_rules('first_name', 'Prénom', 'required');
+        $this->form_validation->set_rules('last_name', 'Nom de famille',
+            'required');
 
         if ($this->form_validation->run() === false) {
             $this->load->view('auth/register_admin');
@@ -44,6 +47,7 @@ class AuthController extends CI_Controller
             redirect('authController/login');
         }
     }
+
 
     public function register_user()
     {
@@ -105,6 +109,7 @@ class AuthController extends CI_Controller
                     redirect('userController/dashboard');
                 }
             } else {
+                echo "error login";
                 $this->session->set_flashdata('error',
                     'Invalid email or password');
                 redirect('authController/login');
