@@ -57,6 +57,14 @@
                     <a class="dropdown-item" href="#">Profile</a>
                     <a class="dropdown-item" href="#">Settings</a>
                     <a class="dropdown-item" href="#">Activities</a>
+                    <!--                    <form action="authController/logout">-->
+                    <!--                        <button class="dropdown-item" type="submit">-->
+                    <!--                            Déconnection-->
+                    <!--                        </button>-->
+                    <!--                    </form>-->
+                    <a class="dropdown-item"
+                       href="<?= base_url('authController/logout') ?>">Déconnection</a>
+
                 </div>
             </li>
         </ul>
@@ -468,7 +476,7 @@
             <div class="row justify-content-center">
                 <div class="col-12">
                     <div class="row align-items-center mb-2">
-                       
+
                     </div>
 
 
@@ -514,10 +522,10 @@
                     </div>
                     <!-- Here we can add some content -->
 
-                <?php
-                $this->load->view($view);
-                ?>
-                
+                    <?php
+                    $this->load->view($view);
+                    ?>
+
                     <!-- Here we can add some content -->
 
 
