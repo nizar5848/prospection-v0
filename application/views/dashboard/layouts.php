@@ -468,10 +468,7 @@
             <div class="row justify-content-center">
                 <div class="col-12">
                     <div class="row align-items-center mb-2">
-                        <div class="col">
-                            <h2 class="h5 page-title">Welcome! <?= $name ?>. Ton
-                                e-mail: <?= $email ?></h2>
-                        </div>
+                       
                     </div>
 
 
@@ -517,7 +514,10 @@
                     </div>
                     <!-- Here we can add some content -->
 
-
+                <?php
+                $this->load->view($view);
+                ?>
+                
                     <!-- Here we can add some content -->
 
 

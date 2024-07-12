@@ -20,9 +20,9 @@ class AdminController extends CI_Controller
     {
         $data =
             [
-                'view'  => 'dashboard/table_content',
-                "name"  => $this->session->userdata('first_name'),
-                "email" => $this->session->userdata('email'),
+                'view'  => 'dashboard/home',
+                "firstname"  => $this->session->userdata('first_name'),
+                "lastname" => $this->session->userdata('last_name'),
 
             ];
 
