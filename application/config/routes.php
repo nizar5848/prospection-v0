@@ -11,7 +11,7 @@ $route['auth/login']          = 'authController/login';
 $route['auth/logout']         = 'authController/logout';
 
 // Admin routes
-$route['admin/dashboard'] = 'adminController/dashboard';
+$route['dashboard/layouts'] = 'adminController/dashboard';
 
 
 // User routes

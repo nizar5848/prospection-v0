@@ -18,7 +18,13 @@ class AdminController extends CI_Controller
 
     public function dashboard()
     {
-        $this->load->view('admin/dashboard');
+        $data = 
+        [
+            'view' => 'dashboard/table_content',
+        ];
+
+        $this->load->view('dashboard/layouts', $data);
+        
     }
 
     // Other admin methods
