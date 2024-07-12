@@ -26,8 +26,14 @@ class AuthController extends CI_Controller
         // Form validation rules
         $this->form_validation->set_rules('email', 'Email',
             'required|valid_email|is_unique[users.email]');
-        $this->form_validation->set_rules('password', 'Password',
-            'required|min_length[8]');
+            $this->form_validation->set_rules('password', 'Password', [
+                'required',
+                'min_length[8]',
+                'regex_match[/[0-9]/]',
+                'regex_match[/[^a-zA-Z0-9]/]'
+            ], [
+                'regex_match' => 'The {field} must contain at least one digit and one special character.'
+            ]);
         $this->form_validation->set_rules('confirm_password',
             'Confirm Password', 'required|matches[password]');
         $this->form_validation->set_rules('first_name', 'First Name',

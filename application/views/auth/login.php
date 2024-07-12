@@ -81,7 +81,7 @@
         <button class="btn btn-lg btn-primary btn-block" type="submit">Let
             me in
         </button>
-        <p class="mt-5 mb-3 text-muted">© 2020</p>
+        <p class="mt-5 mb-3 text-muted">© 2024</p>
         <!--        </form>-->
         <?php echo form_close(); ?>
     </div>

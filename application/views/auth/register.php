@@ -53,7 +53,6 @@
                     <li>Minimum 8 caractères</li>
                     <li>Au moins un caractère spécial</li>
                     <li>Au moins un chiffre</li>
-                    <li>Ne peut pas être le même qu'un mot de passe précédent</li>
                 </ul>
             </div>
         </div>
