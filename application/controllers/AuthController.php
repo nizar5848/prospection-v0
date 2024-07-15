@@ -46,6 +46,7 @@ class AuthController extends CI_Controller
 
         if ($this->form_validation->run() === false) {
             $data = [
+                "title" => 'Inscription',
                 "view"            => "auth/register",
                 "is_admin_exists" => $is_admin_exists,
             ];
@@ -80,6 +81,7 @@ class AuthController extends CI_Controller
         if ($this->form_validation->run() === false) {
 //            $this->load->view('auth/login');
             $data = [
+                "title" => 'Connexion',
                 "view"            => "auth/login",
                 "is_admin_exists" => $is_admin_exists,
             ];
