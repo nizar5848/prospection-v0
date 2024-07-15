@@ -53,7 +53,6 @@
     </script>
 </head>
 <body class="light ">
-<div>Layout</div>
 <?php
 
 $this->load->view($view);

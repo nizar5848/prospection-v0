@@ -119,6 +119,6 @@ class AuthController extends CI_Controller
             'email', 'first_name', 'last_name', 'role', 'is_admin',
         ]);
         $this->session->sess_destroy();
-        redirect('authController/login');
+        redirect('login');
     }
 }
