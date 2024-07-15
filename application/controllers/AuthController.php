@@ -100,9 +100,9 @@ class AuthController extends CI_Controller
                     $user['role'] == 'admin');
 
                 if ($user['role'] == 'admin') {
-                    redirect('adminController/dashboard');
+                    redirect('admin/dashboard');
                 } else {
-                    redirect('userController/dashboard');
+                    redirect('user/dashboard');
                 }
             } else {
                 echo "error login";

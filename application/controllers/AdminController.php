@@ -20,6 +20,7 @@ class AdminController extends CI_Controller
     {
         $data =
             [
+                "title" => 'Admin Dashboard',
                 'view'  => 'dashboard/home',
                 "firstname"  => $this->session->userdata('first_name'),
                 "lastname" => $this->session->userdata('last_name'),
@@ -28,6 +29,8 @@ class AdminController extends CI_Controller
 
         $this->load->view('dashboard/layouts', $data);
     }
+
+    
 
     // Other admin methods
 }

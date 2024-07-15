@@ -71,7 +71,7 @@
 
         <?php if ( ! $is_admin_exists): ?>
             <div class="checkbox mb-3">
-                <a href="<?php echo base_url('authController/register'); ?>">
+                <a href="<?php echo base_url('register'); ?>">
                     créer admin
                 </a>
             </div>

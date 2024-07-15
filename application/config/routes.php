@@ -5,13 +5,14 @@ $route['404_override']         = '';
 $route['translate_uri_dashes'] = false;
 
 // Authentication routes
-$route['auth/register_admin'] = 'authController/register_admin';
-$route['auth/register_user']  = 'authController/register_user';
-$route['auth/login']          = 'authController/login';
-$route['auth/logout']         = 'authController/logout';
+
+$route['login']          = 'authController/login';
+$route['logout']         = 'authController/logout';
+$route['register']         = 'authController/register';
 
 // Admin routes
 $route['dashboard/layouts'] = 'adminController/dashboard';
+$route['admin/dashboard'] = 'adminController/dashboard';
 
 
 // User routes

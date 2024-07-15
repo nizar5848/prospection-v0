@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="icon" href="favicon.ico">
-    <title>Tiny Dashboard - A Bootstrap Dashboard Template</title>
+    <title>NA | <?= $title; ?></title>
     <!-- Simple bar CSS -->
     <link rel="stylesheet" href="../css/simplebar.css">
     <!-- Fonts CSS -->
@@ -63,7 +63,7 @@
                     <!--                        </button>-->
                     <!--                    </form>-->
                     <a class="dropdown-item"
-                       href="<?= base_url('authController/logout') ?>">Déconnection</a>
+                       href="<?= base_url('authController/logout') ?>">Déconnexion</a>
 
                 </div>
             </li>
@@ -131,6 +131,12 @@
                                         class="ml-1 item-text">Systems</span></a>
                         </li>
                     </ul>
+                    <li class="nav-item w-100">
+                    <a class="nav-link" href="<?= base_url('register') ?>">
+                        <i class="fe fe-user-plus fe-16"></i>
+                        <span class="ml-3 item-text">Créer utilisateur</span>
+                    </a>
+                </li>
                 </li>
             </ul>
             <p class="text-muted nav-heading mt-4 mb-1">
