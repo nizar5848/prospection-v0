@@ -1,8 +1,11 @@
-<div class="wrapper vh-100">
+<div class="wrapper vh-98 p-5">
     <div class="row align-items-center h-100">
         <?php echo form_open('AuthController/register', ['class' => 'col-lg-6 col-md-8 col-10 mx-auto']); ?>
         
-        <div class="mx-auto text-center my-4">
+        <div class="checkbox mb-3">
+            <a href="<?php echo base_url('register'); ?>" class="">Retour</a>
+        </div>
+        <div class="mx-auto text-center mt-5 flex">
             <a class="navbar-brand mx-auto mt-2 flex-fill text-center" href="../index.html">
                 <svg version="1.1" id="logo" class="navbar-brand-img brand-md" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 120 120" xml:space="preserve">
                     <g>
