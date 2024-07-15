@@ -30,9 +30,30 @@
           href="<?php echo base_url('css/app-dark.css'); ?>"
           id="darkTheme" disabled>
 
+
+<!--    js imports-->
+    <!-- Other head elements -->
+    <script src="<?php echo base_url('js/jquery.min.js'); ?>"></script>
+    <script src="<?php echo base_url('js/popper.min.js'); ?>"></script>
+    <script src="<?php echo base_url('js/moment.min.js'); ?>"></script>
+    <script src="<?php echo base_url('js/bootstrap.min.js'); ?>"></script>
+    <script src="<?php echo base_url('js/simplebar.min.js'); ?>"></script>
+    <script src="<?php echo base_url('js/daterangepicker.js'); ?>"></script>
+    <script src="<?php echo base_url('js/jquery.stickOnScroll.js'); ?>"></script>
+    <script src="<?php echo base_url('js/tinycolor-min.js'); ?>"></script>
+    <script src="<?php echo base_url('js/config.js'); ?>"></script>
+    <script src="<?php echo base_url('js/apps.js'); ?>"></script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-56159088-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { dataLayer.push(arguments); }
+      gtag('js', new Date());
+      gtag('config', 'UA-56159088-1');
+    </script>
 </head>
 <body class="light ">
-
+<div>Layout</div>
 <?php
 
 $this->load->view($view);
@@ -40,30 +61,28 @@ $this->load->view($view);
 ?>
 
 
-<script src="../js/jquery.min.js"></script>
-<script src="../js/popper.min.js"></script>
-<script src="../js/moment.min.js"></script>
-<script src="../js/bootstrap.min.js"></script>
-<script src="../js/simplebar.min.js"></script>
-<script src='../js/daterangepicker.js'></script>
-<script src='../js/jquery.stickOnScroll.js'></script>
-<script src="../js/tinycolor-min.js"></script>
-<script src="../js/config.js"></script>
-<script src="../js/apps.js"></script>
+<!--<script src="../js/jquery.min.js"></script>-->
+<!--<script src="../js/popper.min.js"></script>-->
+<!--<script src="../js/moment.min.js"></script>-->
+<!--<script src="../js/bootstrap.min.js"></script>-->
+<!--<script src="../js/simplebar.min.js"></script>-->
+<!--<script src='../js/daterangepicker.js'></script>-->
+<!--<script src='../js/jquery.stickOnScroll.js'></script>-->
+<!--<script src="../js/tinycolor-min.js"></script>-->
+<!--<script src="../js/config.js"></script>-->
+<!--<script src="../js/apps.js"></script>-->
 <!-- Global site tag (gtag.js) - Google Analytics -->
-<script async
-        src="https://www.googletagmanager.com/gtag/js?id=UA-56159088-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-
-  function gtag() {
-    dataLayer.push(arguments);
-  }
-
-  gtag('js', new Date());
-  gtag('config', 'UA-56159088-1');
-</script>
-</body>
-</html>
+<!--<script async-->
+<!--        src="https://www.googletagmanager.com/gtag/js?id=UA-56159088-1"></script>-->
+<!--<script>-->
+<!--  window.dataLayer = window.dataLayer || [];-->
+<!---->
+<!--  function gtag() {-->
+<!--    dataLayer.push(arguments);-->
+<!--  }-->
+<!---->
+<!--  gtag('js', new Date());-->
+<!--  gtag('config', 'UA-56159088-1');-->
+<!--</script>-->
 </body>
 </html>

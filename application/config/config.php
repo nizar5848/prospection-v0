@@ -531,3 +531,9 @@ $config['rewrite_short_tags'] = false;
 | Array:		array('10.0.1.200', '192.168.5.0/24')
 */
 $config['proxy_ips'] = '';
+
+
+// added to solve the import problem in /views/auth/layout.php
+$root = "http://".$_SERVER['HTTP_HOST'];
+$root .= str_replace(basename($_SERVER['SCRIPT_NAME']), "", $_SERVER['SCRIPT_NAME']);
+$config['base_url'] = $root;

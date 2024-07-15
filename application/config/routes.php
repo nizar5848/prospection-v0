@@ -5,6 +5,7 @@ $route['404_override']         = '';
 $route['translate_uri_dashes'] = false;
 
 // Authentication routes
+$route['auth/layouts'] = 'authController/login';
 
 $route['login']          = 'authController/login';
 $route['logout']         = 'authController/logout';
