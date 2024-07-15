@@ -18,7 +18,7 @@
         <?php echo validation_errors('<div class="alert alert-danger">', '</div>'); ?>
         
         <div class="form-group">
-            <label for="inputEmail4">Email</label>
+            <label for="inputEmail4">E-mail</label>
             <input type="email" class="form-control" name="email" id="inputEmail4" required>
         </div>
         
@@ -28,7 +28,7 @@
                 <input type="text" id="firstname" name="first_name" class="form-control" required>
             </div>
             <div class="form-group col-md-6">
-                <label for="lastname">Nom de famille</label>
+                <label for="lastname">Nom</label>
                 <input type="text" id="lastname" name="last_name" class="form-control" required>
             </div>
         </div>
@@ -68,7 +68,7 @@
         <?php endif; ?>
         
         <button class="btn btn-lg btn-primary btn-block" type="submit"><?php echo $is_admin_exists ? 'Sign up' : 'S\'inscrire'; ?></button>
-        <p class="mt-5 mb-3 text-muted text-center">© 2020</p>
+        <p class="mt-5 mb-3 text-muted text-center">© 2024</p>
         
         <?php echo form_close(); ?>
     </div>

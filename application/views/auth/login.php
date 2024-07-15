@@ -50,20 +50,20 @@
               </g>
             </svg>
         </a>
-        <h1 class="h6 mb-3">Sign in</h1>
+        <h1 class="h6 mb-3">Connexion</h1>
         <div class="form-group">
-            <label for="inputEmail" class="sr-only">Email address</label>
+            <label for="inputEmail" class="sr-only">e-mail</label>
             <input type="email" id="inputEmail"
                    name="email"
                    class="form-control form-control-lg"
-                   placeholder="Email address" required="" autofocus="">
+                   placeholder="e-mail" required="" autofocus="">
         </div>
         <div class="form-group">
-            <label for="inputPassword" class="sr-only">Password</label>
+            <label for="inputPassword" class="sr-only">Mot de passe</label>
             <input type="password" id="inputPassword"
                    name="password"
                    class="form-control form-control-lg"
-                   placeholder="Password" required="">
+                   placeholder="Mot de passe" required="">
         </div>
         <?php
         $is_logged_in = true; // This could be based on your actual login logic
@@ -72,15 +72,13 @@
         <?php if ( ! $is_admin_exists): ?>
             <div class="checkbox mb-3">
                 <a href="<?php echo base_url('authController/register'); ?>">
-                    creer admin
+                    créer admin
                 </a>
             </div>
         <?php endif; ?>
 
 
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Let
-            me in
-        </button>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Se connecter</button>
         <p class="mt-5 mb-3 text-muted">© 2024</p>
         <!--        </form>-->
         <?php echo form_close(); ?>
