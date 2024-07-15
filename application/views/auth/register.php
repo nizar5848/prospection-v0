@@ -3,7 +3,7 @@
         <?php echo form_open('AuthController/register', ['class' => 'col-lg-6 col-md-8 col-10 mx-auto']); ?>
         
         <div class="checkbox mb-3">
-            <a href="<?php echo base_url('register'); ?>" class="">Retour</a>
+            <a href="<?php echo base_url('admin/dashboard'); ?>" class="">Retour</a>
         </div>
         <div class="mx-auto text-center mt-5 flex">
             <a class="navbar-brand mx-auto mt-2 flex-fill text-center" href="../index.html">
