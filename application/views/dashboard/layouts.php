@@ -279,22 +279,7 @@
   gtag('js', new Date());
   gtag('config', 'UA-56159088-1');
 
-  //   datatable script testing
 
-  //displaying data on page start here
-  $(document).ready(function() {
-    $('#example1').DataTable({
-      'ajax': {
-        'url': "<?php echo base_url('AdminController/fetchDatafromDatabase'); ?>",
-        'dataSrc': function(json) {
-          console.log('data shows here:');
-          console.log(json);
-          return json.data;
-        },
-      },
-      'order': [],
-    });
-  });
 </script>
 </body>
 </html>

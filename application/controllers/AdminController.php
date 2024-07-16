@@ -46,19 +46,28 @@ class AdminController extends CI_Controller
 
     public function fetchDatafromDatabase()
     {
-        $resultList = $this->UserModel->fetchAllData('*', 'users', array());
+        $query = $this->db->get('users');
+        $data  = $query->result_array();
 
-        $result = array();
-        $i      = 1;
-        foreach ($resultList as $key => $value) {
-            $result['data'][] = array(
-                $i++,
-                $value['first_name'],
-                $value['last_name'],
-                $value['email'],
-                $value['role'],
-            );
-        }
-        echo json_encode($result);
+        // Format the data to include an 'actions' field
+        $formattedData = array_map(function ($row) {
+            $row['actions'] = '
+                           
+            <div class="d-flex justify-content-center align-items-center" >
+            
+    <button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <span class="text-muted sr-only">Action</span>
+    </button>
+    <div class="dropdown-menu dropdown-menu-left">
+        <a class="dropdown-item" href="#">Edit</a>
+        <a class="dropdown-item" href="#">Remove</a>
+        <a class="dropdown-item" href="#">Assign</a>
+</div>               
+    </div';
+
+            return $row;
+        }, $data);
+
+        echo json_encode(['data' => $formattedData]);
     }
 }
