@@ -9,6 +9,7 @@ class AdminController extends CI_Controller
         parent::__construct();
         $this->load->library('session');
         $this->load->helper('url');
+        $this->load->model('UserModel');
 
         // Check if the user is an admin
         if ( ! $this->session->userdata('is_admin')) {
@@ -20,17 +21,44 @@ class AdminController extends CI_Controller
     {
         $data =
             [
-                "title" => 'Admin Dashboard',
-                'view'  => 'dashboard/home',
-                "firstname"  => $this->session->userdata('first_name'),
-                "lastname" => $this->session->userdata('last_name'),
+                "title"     => 'Admin Dashboard',
+                'view'      => 'dashboard/home',
+                "firstname" => $this->session->userdata('first_name'),
+                "lastname"  => $this->session->userdata('last_name'),
 
             ];
 
         $this->load->view('dashboard/layouts', $data);
     }
 
-    
 
-    // Other admin methods
+    // code for datatable
+    public function usersTable()
+    {
+        $layout_data = [
+            "title" => "Liste des utilisateurs",
+            "view"  => "dashboard/users_table",
+        ];
+
+        $this->load->view('dashboard/layouts', $layout_data);
+//        $this->load->view('dashboard/users_table');
+    }
+
+    public function fetchDatafromDatabase()
+    {
+        $resultList = $this->UserModel->fetchAllData('*', 'users', array());
+
+        $result = array();
+        $i      = 1;
+        foreach ($resultList as $key => $value) {
+            $result['data'][] = array(
+                $i++,
+                $value['first_name'],
+                $value['last_name'],
+                $value['email'],
+                $value['role'],
+            );
+        }
+        echo json_encode($result);
+    }
 }

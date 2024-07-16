@@ -20,6 +20,8 @@
     <!-- App CSS -->
     <link rel="stylesheet" href="../css/app-light.css" id="lightTheme">
     <link rel="stylesheet" href="../css/app-dark.css" id="darkTheme" disabled>
+
+
 </head>
 <body class="vertical  light  ">
 <div class="wrapper">
@@ -98,12 +100,13 @@
             </div>
             <ul class="navbar-nav flex-fill w-100 mb-2">
                 <li class="nav-item w-100">
-                    <a class="nav-link" href="<?= base_url('/admin/dashboard') ?>">
+                    <a class="nav-link"
+                       href="<?= base_url('/admin/dashboard') ?>">
                         <i class="fe fe-home fe-16"></i>
                         <span class="ml-3 item-text">Dashboard</span>
                     </a>
-                </li>  
-                
+                </li>
+
                 </li>
             </ul>
             <p class="text-muted nav-heading mt-4 mb-1">
@@ -117,58 +120,58 @@
                     </a>
                 </li>
                 <li class="nav-item w-100">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="users-table">
                         <i class="fe fe-list"></i>
                         <span class="ml-3 item-text">Liste des utilisateurs</span>
                     </a>
                 </li>
-            <p class="text-muted nav-heading mt-4 mb-1">
-                <span>Gestion des prospections</span>
-            </p>
-            <ul class="navbar-nav flex-fill w-100 mb-2">
-                <li class="nav-item w-100">
-                    <a class="nav-link" href="#">
-                        <i class="fe fe-list"></i>
-                        <span class="ml-3 item-text">Liste des prospections</span>
-                    </a>
-                </li>
-            </ul>
-            <p class="text-muted nav-heading mt-4 mb-1">
-                <span>Rapports et statistiques</span>
-            </p>
-            <ul class="navbar-nav flex-fill w-100 mb-2">
+                <p class="text-muted nav-heading mt-4 mb-1">
+                    <span>Gestion des prospections</span>
+                </p>
+                <ul class="navbar-nav flex-fill w-100 mb-2">
                     <li class="nav-item w-100">
-                    <a class="nav-link" href="#">
-                        <i class="fe fe-paperclip fe-16"></i>
-                        <span class="ml-3 item-text">Rapports</span>
-                    </a>
+                        <a class="nav-link" href="#">
+                            <i class="fe fe-list"></i>
+                            <span class="ml-3 item-text">Liste des prospections</span>
+                        </a>
+                    </li>
+                </ul>
+                <p class="text-muted nav-heading mt-4 mb-1">
+                    <span>Rapports et statistiques</span>
+                </p>
+                <ul class="navbar-nav flex-fill w-100 mb-2">
+                    <li class="nav-item w-100">
+                        <a class="nav-link" href="#">
+                            <i class="fe fe-paperclip fe-16"></i>
+                            <span class="ml-3 item-text">Rapports</span>
+                        </a>
                     </li>
                     <li class="nav-item w-100">
-                    <a class="nav-link" href="#">
-                        <i class="fe fe-pie-chart fe-16"></i>
-                        <span class="ml-3 item-text">Statistiques</span>
-                    </a>
+                        <a class="nav-link" href="#">
+                            <i class="fe fe-pie-chart fe-16"></i>
+                            <span class="ml-3 item-text">Statistiques</span>
+                        </a>
                     </li>
-            </ul>
+                </ul>
 
-        
-            <p class="text-muted nav-heading mt-4 mb-1">
-                <span>Rappels</span>
-            </p>
-            <ul class="navbar-nav flex-fill w-100 mb-2">
+
+                <p class="text-muted nav-heading mt-4 mb-1">
+                    <span>Rappels</span>
+                </p>
+                <ul class="navbar-nav flex-fill w-100 mb-2">
                     <li class="nav-item w-100">
-                    <a class="nav-link" href="#">
-                        <i class="fe fe-bell fe-16"></i>
-                        <span class="ml-3 item-text">Rappels</span>
-                    </a>
+                        <a class="nav-link" href="#">
+                            <i class="fe fe-bell fe-16"></i>
+                            <span class="ml-3 item-text">Rappels</span>
+                        </a>
                     </li>
                     <li class="nav-item w-100">
-                    <a class="nav-link" href="#">
-                        <i class="fe fe-calendar fe-16"></i>
-                        <span class="ml-3 item-text">Calendar</span>
-                    </a>
+                        <a class="nav-link" href="#">
+                            <i class="fe fe-calendar fe-16"></i>
+                            <span class="ml-3 item-text">Calendar</span>
+                        </a>
                     </li>
-            </ul>
+                </ul>
         </nav>
     </aside>
     <main role="main" class="main-content">
@@ -256,6 +259,13 @@
 <script src="../js/apexcharts.min.js"></script>
 <script src="../js/apexcharts.custom.js"></script>
 <script src="../js/apps.js"></script>
+
+<!--    imports for data table-->
+
+<script type="text/javascript"
+        src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async
         src="https://www.googletagmanager.com/gtag/js?id=UA-56159088-1"></script>
@@ -268,6 +278,23 @@
 
   gtag('js', new Date());
   gtag('config', 'UA-56159088-1');
+
+  //   datatable script testing
+
+  //displaying data on page start here
+  $(document).ready(function() {
+    $('#example1').DataTable({
+      'ajax': {
+        'url': "<?php echo base_url('AdminController/fetchDatafromDatabase'); ?>",
+        'dataSrc': function(json) {
+          console.log('data shows here:');
+          console.log(json);
+          return json.data;
+        },
+      },
+      'order': [],
+    });
+  });
 </script>
 </body>
 </html>

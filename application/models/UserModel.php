@@ -26,4 +26,17 @@ class UserModel extends CI_Model
 
         return $this->db->count_all_results();
     }
+
+    // code for datatable
+
+
+    public function fetchAllData($data, $tablename, $where)
+    {
+        $query = $this->db->select($data)
+            ->from($tablename)
+            ->where($where)
+            ->get();
+
+        return $query->result_array();
+    }
 }
