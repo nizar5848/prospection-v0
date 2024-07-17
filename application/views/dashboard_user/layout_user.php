@@ -100,7 +100,7 @@
             <ul class="navbar-nav flex-fill w-100 mb-2">
                 <li class="nav-item w-100">
                     <a class="nav-link"
-                       href="<?= base_url('/admin/dashboard') ?>">
+                       href="<?= base_url('/user/dashboard') ?>">
                         <i class="fe fe-home fe-16"></i>
                         <span class="ml-3 item-text">Dashboard</span>
                     </a>
@@ -109,37 +109,25 @@
                 </li>
             </ul>
             <p class="text-muted nav-heading mt-4 mb-1">
-                <span>Gestion des utilisateurs</span>
+                <span>Gestion des prospects</span>
             </p>
             <ul class="navbar-nav flex-fill w-100 mb-2">
                 <li class="nav-item w-100">
-                    <a class="nav-link" href="<?= base_url('register') ?>">
+                    <a class="nav-link" href="<?= base_url('user/register-prospect') ?>">
                         <i class="fe fe-user-plus fe-16"></i>
-                        <span class="ml-3 item-text">Créer utilisateur</span>
+                        <span class="ml-3 item-text">Créer nouveau prospect</span>
                     </a>
                 </li>
                 <li class="nav-item w-100">
                     <a class="nav-link" href="users-table">
                         <i class="fe fe-list"></i>
-                        <span class="ml-3 item-text">Liste des utilisateurs</span>
+                        <span class="ml-3 item-text">Liste des prospects</span>
                     </a>
                 </li>
-                <p class="text-muted nav-heading mt-4 mb-1">
-                    <span>Gestion des prospections</span>
-                </p>
-                <ul class="navbar-nav flex-fill w-100 mb-2">
-                    <li class="nav-item w-100">
-                        <a class="nav-link" href="#">
-                            <i class="fe fe-list"></i>
-                            <span class="ml-3 item-text">Liste des prospections</span>
-                        </a>
-                    </li>
-                </ul>
+                
                 <p class="text-muted nav-heading mt-4 mb-1">
                     <span>Rapports et statistiques</span>
                 </p>
-                <?php
-                if($this->session->userdata('role'))?>
                 <ul class="navbar-nav flex-fill w-100 mb-2">
                     <li class="nav-item w-100">
                         <a class="nav-link" href="#">
@@ -225,7 +213,7 @@
                         </div>
                     </div>
                     <!-- Here we can add some content -->
-                  
+
                     <?php
                     $this->load->view($view);
                     ?>

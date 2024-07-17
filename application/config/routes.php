@@ -18,4 +18,5 @@ $route['admin/users-table'] = 'adminController/usersTable';
 
 
 // User routes
-$route['user/dashboard'] = 'userController/dashboard';
+$route['user/dashboard'] = 'userController/dashboard_user';
+$route['user/register-prospect'] = 'userController/register_prospect';
