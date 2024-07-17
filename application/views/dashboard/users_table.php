@@ -1,14 +1,16 @@
 <div class="container">
+<h2>Liste des utilisateurs:</h2>
+<br><br>
     <table id="example1" class="table border dt-responsive nowrap"
            style="width:100%">
         <thead>
         <tr>
-            <th class="text-info">Identifiant</th>
-            <th class="text-info">Nom</th>
-            <th class="text-info">Prénom</th>
-            <th class="text-info">E-mail</th>
-            <th class="text-info">Rôle</th>
-            <th class="text-info">Actions</th>
+            <th class="text-dark">Identifiant</th>
+            <th class="text-dark">Nom</th>
+            <th class="text-dark">Prénom</th>
+            <th class="text-dark">E-mail</th>
+            <th class="text-dark">Rôle</th>
+            <th class="text-dark">Actions</th>
         </tr>
         </thead>
         <tbody>
