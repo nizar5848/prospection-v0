@@ -17,6 +17,12 @@
     <link rel="stylesheet" href="../css/feather.css">
     <!-- Date Range Picker CSS -->
     <link rel="stylesheet" href="../css/daterangepicker.css">
+
+    <!--    datatable-->
+    <link rel="stylesheet" type="text/css"
+          href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <!-- App CSS -->
     <link rel="stylesheet" href="../css/app-light.css" id="lightTheme">
     <link rel="stylesheet" href="../css/app-dark.css" id="darkTheme" disabled>
@@ -31,12 +37,12 @@
             <i class="fe fe-menu navbar-toggler-icon"></i>
         </button>
         <ul class="nav">
-            <li class="nav-item">
-                <a class="nav-link text-muted my-2" href="#" id="modeSwitcher"
-                   data-mode="light">
-                    <i class="fe fe-sun fe-16"></i>
-                </a>
-            </li>
+            <!--            <li class="nav-item">-->
+            <!--                <a class="nav-link text-muted my-2" href="#" id="modeSwitcher"-->
+            <!--                   data-mode="light">-->
+            <!--                    <i class="fe fe-sun fe-16"></i>-->
+            <!--                </a>-->
+            <!--            </li>-->
             <li class="nav-item nav-notif">
                 <a class="nav-link text-muted my-2" href="./#"
                    data-toggle="modal" data-target=".modal-notif">
@@ -59,11 +65,6 @@
                     <a class="dropdown-item" href="#">Profile</a>
                     <a class="dropdown-item" href="#">Settings</a>
                     <a class="dropdown-item" href="#">Activities</a>
-                    <!--                    <form action="authController/logout">-->
-                    <!--                        <button class="dropdown-item" type="submit">-->
-                    <!--                            Déconnection-->
-                    <!--                        </button>-->
-                    <!--                    </form>-->
                     <a class="dropdown-item"
                        href="<?= base_url('authController/logout') ?>">Déconnexion</a>
 

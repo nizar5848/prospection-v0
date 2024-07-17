@@ -30,6 +30,24 @@
           href="<?php echo base_url('css/app-dark.css'); ?>"
           id="darkTheme" disabled>
 
+    <!--   <- Retour style -->
+    <style>
+        .hover-arrow {
+            display: inline-block;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .hover-arrow .fe-arrow-left {
+            display: inline-block;
+            transition: transform 0.3s ease; /* Smooth transition for transform */
+        }
+
+        .hover-arrow:hover .fe-arrow-left {
+            transform: translateX(-5px); /* Adjust the value to control translation */
+        }
+    </style>
+
 
     <!--    js imports-->
     <!-- Other head elements -->

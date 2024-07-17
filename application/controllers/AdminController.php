@@ -59,9 +59,9 @@ class AdminController extends CI_Controller
         <span class="text-muted sr-only">Action</span>
     </button>
     <div class="dropdown-menu dropdown-menu-left">
-        <a class="dropdown-item" href="#">Edit</a>
-        <a class="dropdown-item" href="#">Remove</a>
-        <a class="dropdown-item" href="#">Assign</a>
+        <a class="dropdown-item" href="#">Editer</a>
+        <a class="dropdown-item" href="#">Supprimer</a>
+        <a class="dropdown-item" href="#">Suspendre</a>
 </div>               
     </div';
 

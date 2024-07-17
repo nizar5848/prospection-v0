@@ -7,7 +7,8 @@
 
         <div class="checkbox mb-3">
             <a href="<?php echo base_url('admin/dashboard'); ?>"
-               class="">Retour</a>
+               class="hover-arrow link-underline-primary"><i
+                        class="fe fe-arrow-left"></i>Retour</a>
         </div>
         <div class="mx-auto text-center mt-5 flex">
             <a class="navbar-brand mx-auto mt-2 flex-fill text-center"
