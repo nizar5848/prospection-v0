@@ -6,7 +6,7 @@
         ]); ?>
 
         <div class="checkbox mb-3">
-            <a href="<?php echo base_url('admin/dashboard'); ?>"
+            <a href="<?php echo base_url('dashboard'); ?>"
                class="hover-arrow link-underline-primary"><i
                         class="fe fe-arrow-left"></i>Retour</a>
         </div>

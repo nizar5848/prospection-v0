@@ -9,21 +9,22 @@
     <link rel="icon" href="favicon.ico">
     <title>NA | <?= $title; ?></title>
     <!-- Simple bar CSS -->
-    <link rel="stylesheet" href="../css/simplebar.css">
-    <!-- Fonts CSS -->
-    <link href="https://fonts.googleapis.com/css2?family=Overpass:ital,wght@0,100;0,200;0,300;0,400;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,600;1,700;1,800;1,900&display=swap"
-          rel="stylesheet">
-    <!-- Icons CSS -->
-    <link rel="stylesheet" href="../css/feather.css">
-    <!-- Date Range Picker CSS -->
-    <link rel="stylesheet" href="../css/daterangepicker.css">
+<link rel="stylesheet" href="<?php echo base_url('css/simplebar.css'); ?>">
+<!-- Fonts CSS -->
+<link href="https://fonts.googleapis.com/css2?family=Overpass:ital,wght@0,100;0,200;0,300;0,400;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet">
+<!-- Icons CSS -->
+<link rel="stylesheet" href="<?php echo base_url('css/feather.css'); ?>">
+<!-- Date Range Picker CSS -->
+<link rel="stylesheet" href="<?php echo base_url('css/daterangepicker.css'); ?>">
 
-    <!--    datatable-->
-    <link rel="stylesheet" type="text/css"
-          href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
-    <!-- App CSS -->
-    <link rel="stylesheet" href="../css/app-light.css" id="lightTheme">
-    <link rel="stylesheet" href="../css/app-dark.css" id="darkTheme" disabled>
+<!-- datatable -->
+<link rel="stylesheet" type="text/css"
+      href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+<!-- App CSS -->
+<link rel="stylesheet" href="<?php echo base_url('css/app-light.css'); ?>" id="lightTheme">
+<link rel="stylesheet" href="<?php echo base_url('css/app-dark.css'); ?>" id="darkTheme" disabled>
+
 
 
 </head>
@@ -54,8 +55,7 @@
                    data-toggle="dropdown" aria-haspopup="true"
                    aria-expanded="false">
               <span class="avatar avatar-sm mt-2">
-                <img src="../assets/avatars/face-1.jpg" alt="..."
-                     class="avatar-img rounded-circle">
+              <img src="<?php echo base_url('assets/avatars/face-1.jpg'); ?>" alt="..." class="avatar-img rounded-circle">
               </span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right"
@@ -108,6 +108,7 @@
 
                 </li>
             </ul>
+            <?php if ($this->session->userdata('role') == 'admin'): ?>
             <p class="text-muted nav-heading mt-4 mb-1">
                 <span>Gestion des utilisateurs</span>
             </p>
@@ -124,14 +125,27 @@
                         <span class="ml-3 item-text">Liste des utilisateurs</span>
                     </a>
                 </li>
+                <?php endif; ?>
                 <p class="text-muted nav-heading mt-4 mb-1">
                     <span>Gestion des prospections</span>
                 </p>
+
                 <ul class="navbar-nav flex-fill w-100 mb-2">
+
+                <?php if ($this->session->userdata('role') == 'user'): ?>
+                <li class="nav-item w-100">
+                    <a class="nav-link" href="<?= base_url('register-prospect') ?>">
+                        <i class="fe fe-user-plus fe-16"></i>
+                        <span class="ml-3 item-text">Créer prospect</span>
+                    </a>
+                </li>
+                <?php endif; ?>
+
+
                     <li class="nav-item w-100">
                         <a class="nav-link" href="#">
                             <i class="fe fe-list"></i>
-                            <span class="ml-3 item-text">Liste des prospections</span>
+                            <span class="ml-3 item-text">Liste des prospects</span>
                         </a>
                     </li>
                 </ul>
@@ -235,31 +249,31 @@
 
     </main> <!-- main -->
 </div> <!-- .wrapper -->
-<script src="../js/jquery.min.js"></script>
-<script src="../js/popper.min.js"></script>
-<script src="../js/moment.min.js"></script>
-<script src="../js/bootstrap.min.js"></script>
-<script src="../js/simplebar.min.js"></script>
-<script src='../js/daterangepicker.js'></script>
-<script src='../js/jquery.stickOnScroll.js'></script>
-<script src="../js/tinycolor-min.js"></script>
-<script src="../js/config.js"></script>
-<script src="../js/d3.min.js"></script>
-<script src="../js/topojson.min.js"></script>
-<script src="../js/datamaps.all.min.js"></script>
-<script src="../js/datamaps-zoomto.js"></script>
-<script src="../js/datamaps.custom.js"></script>
-<script src="../js/Chart.min.js"></script>
+<script src="<?php echo base_url('js/jquery.min.js'); ?>"></script>
+<script src="<?php echo base_url('js/popper.min.js'); ?>"></script>
+<script src="<?php echo base_url('js/moment.min.js'); ?>"></script>
+<script src="<?php echo base_url('js/bootstrap.min.js'); ?>"></script>
+<script src="<?php echo base_url('js/simplebar.min.js'); ?>"></script>
+<script src="<?php echo base_url('js/daterangepicker.js'); ?>"></script>
+<script src="<?php echo base_url('js/jquery.stickOnScroll.js'); ?>"></script>
+<script src="<?php echo base_url('js/tinycolor-min.js'); ?>"></script>
+<script src="<?php echo base_url('js/config.js'); ?>"></script>
+<script src="<?php echo base_url('js/d3.min.js'); ?>"></script>
+<script src="<?php echo base_url('js/topojson.min.js'); ?>"></script>
+<script src="<?php echo base_url('js/datamaps.all.min.js'); ?>"></script>
+<script src="<?php echo base_url('js/datamaps-zoomto.js'); ?>"></script>
+<script src="<?php echo base_url('js/datamaps.custom.js'); ?>"></script>
+<script src="<?php echo base_url('js/Chart.min.js'); ?>"></script>
 <script>
-  /* defind global options */
+  /* define global options */
   Chart.defaults.global.defaultFontFamily = base.defaultFontFamily;
   Chart.defaults.global.defaultFontColor = colors.mutedColor;
 </script>
-<script src="../js/gauge.min.js"></script>
-<script src="../js/jquery.sparkline.min.js"></script>
-<script src="../js/apexcharts.min.js"></script>
-<script src="../js/apexcharts.custom.js"></script>
-<script src="../js/apps.js"></script>
+<script src="<?php echo base_url('js/gauge.min.js'); ?>"></script>
+<script src="<?php echo base_url('js/jquery.sparkline.min.js'); ?>"></script>
+<script src="<?php echo base_url('js/apexcharts.min.js'); ?>"></script>
+<script src="<?php echo base_url('js/apexcharts.custom.js'); ?>"></script>
+<script src="<?php echo base_url('js/apps.js'); ?>"></script>
 
 <!--    imports for data table-->
 

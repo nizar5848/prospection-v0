@@ -2,7 +2,7 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class AdminController extends CI_Controller
+class DashboardController extends CI_Controller
 {
     public function __construct()
     {
@@ -11,13 +11,14 @@ class AdminController extends CI_Controller
         $this->load->helper('url');
         $this->load->model('UserModel');
 
-        // Check if the user is an admin
-        if ( ! $this->session->userdata('is_admin')) {
+
+
+        if (!$this->session->userdata('auth')) {
             redirect('authController/login');
         }
     }
 
-    public function dashboard()
+    public function adminDashboard()
     {
         $data =
             [
@@ -25,6 +26,23 @@ class AdminController extends CI_Controller
                 'view'      => 'dashboard/home',
                 "firstname" => $this->session->userdata('first_name'),
                 "lastname"  => $this->session->userdata('last_name'),
+                "role" => $this->session->userdata('role'),
+
+
+            ];
+
+        $this->load->view('dashboard/layouts', $data);
+    }
+
+    public function userDashboard()
+    {
+        $data =
+            [
+                "title"     => 'User Dashboard',
+                'view'      => 'dashboard/home',
+                "firstname" => $this->session->userdata('first_name'),
+                "lastname"  => $this->session->userdata('last_name'),
+                "role"      => $this->session->userdata('role'),
 
             ];
 

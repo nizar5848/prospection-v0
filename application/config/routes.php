@@ -12,11 +12,10 @@ $route['logout']   = 'authController/logout';
 $route['register'] = 'authController/register';
 
 // Admin routes
-$route['dashboard/layouts'] = 'adminController/dashboard';
-$route['admin/dashboard']   = 'adminController/dashboard';
-$route['admin/users-table'] = 'adminController/usersTable';
+$route['dashboard/layouts'] = 'dashboardController/adminDashboard';
+$route['dashboard']   = 'dashboardController/adminDashboard';
+$route['users-table'] = 'dashboardController/usersTable';
 
 
 // User routes
-$route['user/dashboard'] = 'userController/dashboard_user';
-$route['user/register-prospect'] = 'userController/register_prospect';
+$route['dashboard'] = 'DashboardController/userDashboard';

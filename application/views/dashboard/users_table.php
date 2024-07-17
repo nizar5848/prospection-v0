@@ -34,7 +34,7 @@
         url: 'https://cdn.datatables.net/plug-ins/1.10.21/i18n/French.json',
       },
       ajax: {
-        url: "<?php echo base_url('AdminController/fetchDatafromDatabase'); ?>",
+        url: "<?php echo base_url('DashboardController/fetchDatafromDatabase'); ?>",
         dataSrc: function(json) {
           console.log('data shows here:');
           console.log(json);
