@@ -9,26 +9,29 @@
     <link rel="icon" href="favicon.ico">
     <title>NA | <?= $title; ?></title>
     <!-- Simple bar CSS -->
-<link rel="stylesheet" href="<?php echo base_url('css/simplebar.css'); ?>">
-<!-- Fonts CSS -->
-<link href="https://fonts.googleapis.com/css2?family=Overpass:ital,wght@0,100;0,200;0,300;0,400;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,600;1,700;1,800;1,900&display=swap"
-      rel="stylesheet">
-<!-- Icons CSS -->
-<link rel="stylesheet" href="<?php echo base_url('css/feather.css'); ?>">
-<!-- Date Range Picker CSS -->
-<link rel="stylesheet" href="<?php echo base_url('css/daterangepicker.css'); ?>">
+    <link rel="stylesheet" href="<?php echo base_url('css/simplebar.css'); ?>">
+    <!-- Fonts CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Overpass:ital,wght@0,100;0,200;0,300;0,400;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,600;1,700;1,800;1,900&display=swap"
+          rel="stylesheet">
+    <!-- Icons CSS -->
+    <link rel="stylesheet" href="<?php echo base_url('css/feather.css'); ?>">
+    <!-- Date Range Picker CSS -->
+    <link rel="stylesheet"
+          href="<?php echo base_url('css/daterangepicker.css'); ?>">
 
-<!-- datatable -->
-<link rel="stylesheet" type="text/css"
-      href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
-<!-- App CSS -->
-<link rel="stylesheet" href="<?php echo base_url('css/app-light.css'); ?>" id="lightTheme">
-<link rel="stylesheet" href="<?php echo base_url('css/app-dark.css'); ?>" id="darkTheme" disabled>
-<style>
-                .st0 {
-                    fill: green; /* Change fill color to green */
-                }
-</style>
+    <!-- datatable -->
+    <link rel="stylesheet" type="text/css"
+          href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+    <!-- App CSS -->
+    <link rel="stylesheet" href="<?php echo base_url('css/app-light.css'); ?>"
+          id="lightTheme">
+    <link rel="stylesheet" href="<?php echo base_url('css/app-dark.css'); ?>"
+          id="darkTheme" disabled>
+    <style>
+        .st0 {
+            fill: green; /* Change fill color to green */
+        }
+    </style>
 
 
 </head>
@@ -59,7 +62,8 @@
                    data-toggle="dropdown" aria-haspopup="true"
                    aria-expanded="false">
               <span class="avatar avatar-sm mt-2">
-              <img src="<?php echo base_url('assets/avatars/face-1.jpg'); ?>" alt="..." class="avatar-img rounded-circle">
+              <img src="<?php echo base_url('assets/avatars/face-1.jpg'); ?>"
+                   alt="..." class="avatar-img rounded-circle">
               </span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right"
@@ -86,11 +90,11 @@
             <div class="w-100 mb-4 d-flex">
                 <a class="navbar-brand mx-auto mt-2 flex-fill text-center"
                    href="./index.html">
-                   <svg version="1.1" id="logo"
-            class="navbar-brand-img brand-sm"
-            xmlns="http://www.w3.org/2000/svg"
-            xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
-            y="0px" viewBox="0 0 120 120" xml:space="preserve">
+                    <svg version="1.1" id="logo"
+                         class="navbar-brand-img brand-sm"
+                         xmlns="http://www.w3.org/2000/svg"
+                         xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+                         y="0px" viewBox="0 0 120 120" xml:space="preserve">
             
             <g>
                 <polygon class="st0" points="78,105 15,105 24,87 87,87"/>
@@ -124,7 +128,7 @@
                     </a>
                 </li>
                 <li class="nav-item w-100">
-                    <a class="nav-link" href="users-table">
+                    <a class="nav-link" href="table-utilisateurs">
                         <i class="fe fe-list"></i>
                         <span class="ml-3 item-text">Liste des utilisateurs</span>
                     </a>
@@ -136,20 +140,32 @@
 
                 <ul class="navbar-nav flex-fill w-100 mb-2">
 
-                <?php if ($this->session->userdata('role') == 'user'): ?>
-                <li class="nav-item w-100">
-                    <a class="nav-link" href="<?= base_url('register-prospect') ?>">
-                        <i class="fe fe-user-plus fe-16"></i>
-                        <span class="ml-3 item-text">Créer prospect</span>
-                    </a>
-                </li>
-                <?php endif; ?>
+                    <?php if ($this->session->userdata('role') == 'user'): ?>
+                        <li class="nav-item w-100">
+                            <a class="nav-link"
+                               href="<?= base_url('register-prospect') ?>">
+                                <i class="fe fe-user-plus fe-16"></i>
+                                <span class="ml-3 item-text">Créer prospect</span>
+                            </a>
+                        </li>
+                    <?php endif; ?>
 
 
                     <li class="nav-item w-100">
-                        <a class="nav-link" href="#">
-                            <i class="fe fe-list"></i>
-                            <span class="ml-3 item-text">Liste des prospects</span>
+                        <!-- lien selon le role -->
+                        <?php $role = $this->session->userdata('role') ?>
+                        <?php
+                        if (isset($role) && $role === 'admin') {
+                            echo '<a class="nav-link"
+                                 href="table-prospects-globale">';
+                        } elseif (isset($role) && $role === 'user') {
+                            echo '<a class="nav-link" href="table-prospects">';
+                        } else {
+                            echo '<a class="nav-link" href="table-prospects"';
+                        }
+                        ?>
+                        <i class="fe fe-list"></i>
+                        <span class="ml-3 item-text">Liste des prospects</span>
                         </a>
                     </li>
                 </ul>
@@ -157,7 +173,7 @@
                     <span>Rapports et statistiques</span>
                 </p>
                 <?php
-                if($this->session->userdata('role'))?>
+                if ($this->session->userdata('role')) ?>
                 <ul class="navbar-nav flex-fill w-100 mb-2">
                     <li class="nav-item w-100">
                         <a class="nav-link" href="#">
@@ -243,7 +259,7 @@
                         </div>
                     </div>
                     <!-- Here we can add some content -->
-                  
+
                     <?php
                     $this->load->view($view);
                     ?>

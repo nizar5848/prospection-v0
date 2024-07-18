@@ -12,8 +12,7 @@ class DashboardController extends CI_Controller
         $this->load->model('UserModel');
 
 
-
-        if (!$this->session->userdata('auth')) {
+        if ( ! $this->session->userdata('auth')) {
             redirect('authController/login');
         }
     }
@@ -26,7 +25,7 @@ class DashboardController extends CI_Controller
                 'view'      => 'dashboard/home',
                 "firstname" => $this->session->userdata('first_name'),
                 "lastname"  => $this->session->userdata('last_name'),
-                "role" => $this->session->userdata('role'),
+                "role"      => $this->session->userdata('role'),
 
 
             ];
@@ -39,7 +38,7 @@ class DashboardController extends CI_Controller
         $data =
             [
                 "title"     => 'User Dashboard',
-                'view'      => 'dashboard/home',
+                'view'      => 'dashboard/home_user',
                 "firstname" => $this->session->userdata('first_name'),
                 "lastname"  => $this->session->userdata('last_name'),
                 "role"      => $this->session->userdata('role'),
@@ -47,6 +46,18 @@ class DashboardController extends CI_Controller
             ];
 
         $this->load->view('dashboard/layouts', $data);
+    }
+
+    // prospects table for admin
+
+    public function prospectsTableAdmin()
+    {
+        $data = [
+            "title" => "Liste de tout les prospects.",
+            "view"  => "dashboard/prospects_table",
+        ];
+
+        $this->load->view("dashboard/layouts", $data);
     }
 
 
