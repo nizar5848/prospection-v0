@@ -55,6 +55,28 @@
         }
     </style>
 
+    <?php if ($this->session->userdata('role') === 'user'): ?>
+        <style>
+            /* Define the green class styles */
+            .green {
+                background: #32CD32;
+
+                color: white;
+            }
+
+            .green:hover {
+                background: #2db92d;
+            }
+
+            /* Apply the green class on hover */
+            .nav-item:hover .nav-link .fe,
+            .nav-item:hover .nav-link .item-text {
+                color: #32CD32;
+            }
+        </style>
+
+    <?php endif; ?>
+
 
 </head>
 <body class="vertical  light  ">
