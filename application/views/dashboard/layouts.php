@@ -6,7 +6,9 @@
           content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="favicon.ico">
+    <link rel="icon"
+          href="<?= $this->session->userdata('role') === 'admin' ? base_url('assets/ico/logo-blue.ico') : base_url('assets/ico/logo-green.ico') ?>">
+
     <title>NA | <?= $title; ?></title>
     <!-- Simple bar CSS -->
     <link rel="stylesheet" href="<?php echo base_url('css/simplebar.css'); ?>">
