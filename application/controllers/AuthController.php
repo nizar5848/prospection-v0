@@ -11,7 +11,6 @@ class AuthController extends CI_Controller
         $this->load->library('form_validation');
         $this->load->library('session');
         $this->load->helper('url');
-        
     }
 
 
@@ -27,14 +26,14 @@ class AuthController extends CI_Controller
         // Form validation rules
         $this->form_validation->set_rules('email', 'Email',
             'required|valid_email|is_unique[users.email]');
-            $this->form_validation->set_rules('password', 'Password', [
-                'required',
-                'min_length[8]',
-                'regex_match[/[0-9]/]',
-                'regex_match[/[^a-zA-Z0-9]/]'
-            ], [
-                'regex_match' => 'The {field} must contain at least one digit and one special character.'
-            ]);
+        $this->form_validation->set_rules('password', 'Password', [
+            'required',
+            'min_length[8]',
+            'regex_match[/[0-9]/]',
+            'regex_match[/[^a-zA-Z0-9]/]',
+        ], [
+            'regex_match' => 'The {field} must contain at least one digit and one special character.',
+        ]);
         $this->form_validation->set_rules('confirm_password',
             'Confirm Password', 'required|matches[password]');
         $this->form_validation->set_rules('first_name', 'First Name',
@@ -47,7 +46,7 @@ class AuthController extends CI_Controller
 
         if ($this->form_validation->run() === false) {
             $data = [
-                "title" => 'Inscription',
+                "title"           => 'Inscription',
                 "view"            => "auth/register",
                 "is_admin_exists" => $is_admin_exists,
             ];
@@ -74,47 +73,52 @@ class AuthController extends CI_Controller
     public function login()
     {
         $is_admin_exists = $this->UserModel->count_admins() > 0;
-    
+
         // Form validation rules
-        $this->form_validation->set_rules('email', 'Email', 'required|valid_email');
+        $this->form_validation->set_rules('email', 'Email',
+            'required|valid_email');
         $this->form_validation->set_rules('password', 'Password', 'required');
-    
+
         if ($this->form_validation->run() === false) {
             $data = [
-                "title" => 'Connexion',
-                "view" => "auth/login",
+                "title"           => 'Connexion',
+                "view"            => "auth/login",
                 "is_admin_exists" => $is_admin_exists,
             ];
             $this->load->view("auth/layout", $data);
         } else {
-            $email = $this->input->post('email');
+            $email    = $this->input->post('email');
             $password = $this->input->post('password');
-            $user = $this->UserModel->get_user_by_email($email);
-    
+            $user     = $this->UserModel->get_user_by_email($email);
+
             if ($user && password_verify($password, $user['password'])) {
                 $this->session->set_userdata([
-                    'email' => $user['email'],
+                    'email'      => $user['email'],
                     'first_name' => $user['first_name'],
-                    'last_name' => $user['last_name'],
-                    'role' => $user['role'],
-                    'is_admin' => $user['role'] == 'admin',
-                    'auth' => true 
+                    'last_name'  => $user['last_name'],
+                    'role'       => $user['role'],
+                    'is_admin'   => $user['role'] == 'admin',
+                    'auth'       => true,
                 ]);
-    
+
+                if ($user['role'] == 'admin') {
+                    redirect('dashboard-admin');
+                } else {
                     redirect('dashboard');
-                
+                }
             } else {
-                $this->session->set_flashdata('error', 'Invalid email or password');
+                $this->session->set_flashdata('error',
+                    'Invalid email or password');
                 redirect('authController/login');
             }
         }
     }
-    
+
 
     public function logout()
     {
         $this->session->unset_userdata([
-            'email', 'first_name', 'last_name', 'role', 'is_admin','auth'
+            'email', 'first_name', 'last_name', 'role', 'is_admin', 'auth',
         ]);
         $this->session->sess_destroy();
         redirect('login');

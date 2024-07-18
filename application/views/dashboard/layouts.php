@@ -29,7 +29,11 @@
           id="darkTheme" disabled>
     <style>
         .st0 {
-            fill: green; /* Change fill color to green */
+            fill: #32CD32; /* Change fill color to green */
+        }
+
+        .st1 {
+            fill: blue; /* Fill color for admin */
         }
     </style>
 
@@ -51,20 +55,32 @@
             <!--            </li>-->
             <li class="nav-item nav-notif">
                 <a class="nav-link text-muted my-2" href="./#"
-                   data-toggle="modal" data-target=".modal-notif">
-                    <span class="fe fe-bell fe-16"></span>
+                   data-toggle="modal" data-target=".modal-notif"
+                   style="padding-top: 13px; margin-right: 10px;"
+                >
+                    <span class="fe fe-bell fe-24"></span>
                     <span class="dot dot-md bg-success"></span>
                 </a>
             </li>
             <li class="nav-item dropdown">
+
                 <a class="nav-link dropdown-toggle text-muted pr-0" href="#"
                    id="navbarDropdownMenuLink" role="button"
                    data-toggle="dropdown" aria-haspopup="true"
-                   aria-expanded="false">
-              <span class="avatar avatar-sm mt-2">
-              <img src="<?php echo base_url('assets/avatars/face-1.jpg'); ?>"
-                   alt="..." class="avatar-img rounded-circle">
-              </span>
+                   aria-expanded="false"
+                   style="display: flex; align-items: center; height: fit-content">
+                <span class="avatar avatar-sm mt-2"
+                      style="display: flex; justify-content: center; align-items: center; background-color: <?= $this->session->userdata("role") === "admin" ? 'blue' : '#32CD32' ?>; border-radius: 50%; width: 35px; height: 35px;">
+                    <span style="color: white; font-size: 14px; margin-top: 4px; font-weight: bold;">
+                        <?php
+                        $first_name = $this->session->userdata('first_name');
+                        $last_name  = $this->session->userdata('last_name');
+                        $initials   = strtoupper($first_name[0].$last_name[0]);
+                        echo $initials;
+                        ?>
+                    </span>
+                </span>
+                    <i class="fa fa-caret-down ml-2"></i> <!-- Dropdown icon -->
                 </a>
                 <div class="dropdown-menu dropdown-menu-right"
                      aria-labelledby="navbarDropdownMenuLink">
@@ -73,7 +89,6 @@
                     <a class="dropdown-item" href="#">Activities</a>
                     <a class="dropdown-item"
                        href="<?= base_url('authController/logout') ?>">Déconnexion</a>
-
                 </div>
             </li>
         </ul>
@@ -90,18 +105,31 @@
             <div class="w-100 mb-4 d-flex">
                 <a class="navbar-brand mx-auto mt-2 flex-fill text-center"
                    href="./index.html">
-                    <svg version="1.1" id="logo"
-                         class="navbar-brand-img brand-sm"
-                         xmlns="http://www.w3.org/2000/svg"
-                         xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
-                         y="0px" viewBox="0 0 120 120" xml:space="preserve">
-            
-            <g>
-                <polygon class="st0" points="78,105 15,105 24,87 87,87"/>
-                <polygon class="st0" points="96,69 33,69 42,51 105,51"/>
-                <polygon class="st0" points="78,33 15,33 24,15 87,15"/>
-            </g>
-</svg>
+                    <?php if ($this->session->userdata('role') == 'user'): ?>
+                        <svg version="1.1" id="logo"
+                             class="navbar-brand-img brand-sm"
+                             xmlns="http://www.w3.org/2000/svg"
+                             xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+                             y="0px" viewBox="0 0 120 120" xml:space="preserve">
+        <g>
+            <polygon class="st0" points="78,105 15,105 24,87 87,87"/>
+            <polygon class="st0" points="96,69 33,69 42,51 105,51"/>
+            <polygon class="st0" points="78,33 15,33 24,15 87,15"/>
+        </g>
+    </svg>
+                    <?php elseif ($this->session->userdata('role') == 'admin'): ?>
+                        <svg version="1.1" id="logo"
+                             class="navbar-brand-img brand-sm"
+                             xmlns="http://www.w3.org/2000/svg"
+                             xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+                             y="0px" viewBox="0 0 120 120" xml:space="preserve">
+        <g>
+            <polygon class="st1" points="78,105 15,105 24,87 87,87"/>
+            <polygon class="st1" points="96,69 33,69 42,51 105,51"/>
+            <polygon class="st1" points="78,33 15,33 24,15 87,15"/>
+        </g>
+    </svg>
+                    <?php endif; ?>
 
                 </a>
             </div>

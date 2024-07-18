@@ -13,7 +13,7 @@ $route['register'] = 'authController/register';
 
 // Admin routes
 $route['dashboard/layouts']        = 'dashboardController/adminDashboard';
-$route['dashboard']                = 'dashboardController/adminDashboard';
+$route['dashboard-admin']          = 'dashboardController/adminDashboard';
 $route['table-utilisateurs']       = 'dashboardController/usersTable';
 $routes['table-prospects-globale'] = 'dashboardController/prospectsTableAdmin';
 
