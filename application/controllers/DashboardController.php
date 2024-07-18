@@ -61,6 +61,26 @@ class DashboardController extends CI_Controller
     }
 
 
+    public function calendar()
+    {
+        $data = [
+            "title" => "Calendrier",
+            "view"  => "dashboard/calendar",
+        ];
+
+        $this->load->view('dashboard/layouts', $data);
+    }
+
+    public function prospectsTableUser()
+    {
+        $data = [
+            "title" => "Liste de tout les prospects.",
+            "view"  => "dashboard/prospects_table",
+        ];
+
+        $this->load->view("dashboard/layouts", $data);
+    }
+
     // code for datatable
     public function usersTable()
     {
@@ -76,6 +96,33 @@ class DashboardController extends CI_Controller
     public function fetchDatafromDatabase()
     {
         $query = $this->db->get('users');
+        $data  = $query->result_array();
+
+        // Format the data to include an 'actions' field
+        $formattedData = array_map(function ($row) {
+            $row['actions'] = '
+                           
+            <div class="d-flex justify-content-center align-items-center" >
+            
+    <button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <span class="text-muted sr-only">Action</span>
+    </button>
+    <div class="dropdown-menu dropdown-menu-left">
+        <a class="dropdown-item" href="#">Editer</a>
+        <a class="dropdown-item" href="#">Supprimer</a>
+        <a class="dropdown-item" href="#">Suspendre</a>
+</div>               
+    </div';
+
+            return $row;
+        }, $data);
+
+        echo json_encode(['data' => $formattedData]);
+    }
+
+    public function fetchProspects()
+    {
+        $query = $this->db->get('prospects');
         $data  = $query->result_array();
 
         // Format the data to include an 'actions' field

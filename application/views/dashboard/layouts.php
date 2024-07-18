@@ -15,12 +15,28 @@
           rel="stylesheet">
     <!-- Icons CSS -->
     <link rel="stylesheet" href="<?php echo base_url('css/feather.css'); ?>">
+    <!-- FullCalendar CSS -->
+    <link rel="stylesheet"
+          href="<?php echo base_url('css/fullcalendar.css'); ?>">
+    <!-- Select2 CSS -->
+    <link rel="stylesheet" href="<?php echo base_url('css/select2.css'); ?>">
+    <!-- Dropzone CSS -->
+    <link rel="stylesheet" href="<?php echo base_url('css/dropzone.css'); ?>">
+    <!-- Uppy CSS -->
+    <link rel="stylesheet" href="<?php echo base_url('css/uppy.min.css'); ?>">
+    <!-- jQuery Steps CSS -->
+    <link rel="stylesheet"
+          href="<?php echo base_url('css/jquery.steps.css'); ?>">
+    <!-- jQuery Timepicker CSS -->
+    <link rel="stylesheet"
+          href="<?php echo base_url('css/jquery.timepicker.css'); ?>">
+    <!-- Quill Snow CSS -->
+    <link rel="stylesheet" href="<?php echo base_url('css/quill.snow.css'); ?>">
     <!-- Date Range Picker CSS -->
     <link rel="stylesheet"
           href="<?php echo base_url('css/daterangepicker.css'); ?>">
-
-    <!-- datatable -->
-    <link rel="stylesheet" type="text/css"
+    <!-- DataTables CSS -->
+    <link rel="stylesheet"
           href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
     <!-- App CSS -->
     <link rel="stylesheet" href="<?php echo base_url('css/app-light.css'); ?>"
@@ -181,17 +197,17 @@
 
                     <li class="nav-item w-100">
                         <!-- lien selon le role -->
-                        <?php $role = $this->session->userdata('role') ?>
+                        <?php $role = $this->session->userdata('role'); ?>
                         <?php
                         if (isset($role) && $role === 'admin') {
-                            echo '<a class="nav-link"
-                                 href="table-prospects-globale">';
+                            echo '<a class="nav-link" href="'.base_url('table-prospects-globale').'">';
                         } elseif (isset($role) && $role === 'user') {
-                            echo '<a class="nav-link" href="table-prospects">';
+                            echo '<a class="nav-link" href="'.base_url('table-prospects').'">';
                         } else {
-                            echo '<a class="nav-link" href="table-prospects"';
+                            echo '<a class="nav-link" href="'.base_url('table-prospects').'">';
                         }
                         ?>
+
                         <i class="fe fe-list"></i>
                         <span class="ml-3 item-text">Liste des prospects</span>
                         </a>
@@ -229,9 +245,10 @@
                         </a>
                     </li>
                     <li class="nav-item w-100">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link"
+                           href="<?= base_url('/calendrier') ?>">
                             <i class="fe fe-calendar fe-16"></i>
-                            <span class="ml-3 item-text">Calendar</span>
+                            <span class="ml-3 item-text">Calendrier</span>
                         </a>
                     </li>
                 </ul>
