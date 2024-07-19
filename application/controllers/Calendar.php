@@ -1,7 +1,15 @@
 <?php
 
+// application/controllers/Calendar.php
 class Calendar extends CI_Controller
 {
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->load->model('Event_model');
+    }
+
     public function view()
     {
         $this->load->view('dashboard/calendar');
@@ -9,22 +17,17 @@ class Calendar extends CI_Controller
 
     public function display_event()
     {
-        $this->load->database();
-        $display_query = "SELECT event_id, event_name, event_start_date, event_end_date FROM calendar_event_master";
-        $results       = $this->db->query($display_query);
-        $count         = $results->num_rows();
-        if ($count > 0) {
+        $events = $this->Event_model->get_events();
+        if ( ! empty($events)) {
             $data_arr = array();
-            $i        = 1;
-            foreach ($results->result_array() as $data_row) {
-                $data_arr[$i]['event_id'] = $data_row['event_id'];
-                $data_arr[$i]['title']    = $data_row['event_name'];
+            foreach ($events as $i => $event) {
+                $data_arr[$i]['event_id'] = $event['event_id'];
+                $data_arr[$i]['title']    = $event['event_name'];
                 $data_arr[$i]['start']    = date("Y-m-d",
-                    strtotime($data_row['event_start_date']));
+                    strtotime($event['event_start_date']));
                 $data_arr[$i]['end']      = date("Y-m-d",
-                    strtotime($data_row['event_end_date']));
+                    strtotime($event['event_end_date']));
                 $data_arr[$i]['color']    = '#36CD36';
-                $i++;
             }
 
             $data = array(
@@ -43,17 +46,19 @@ class Calendar extends CI_Controller
 
     public function save_event()
     {
-        $this->load->database();
         $event_name       = $this->input->post('event_name');
         $event_start_date = date("Y-m-d",
             strtotime($this->input->post('event_start_date')));
         $event_end_date   = date("Y-m-d",
             strtotime($this->input->post('event_end_date')));
 
-        $insert_query = "INSERT INTO `calendar_event_master`(`event_name`, `event_start_date`, `event_end_date`) VALUES (?, ?, ?)";
-        $this->db->query($insert_query,
-            array($event_name, $event_start_date, $event_end_date));
-        if ($this->db->affected_rows() > 0) {
+        $event = array(
+            'event_name'       => $event_name,
+            'event_start_date' => $event_start_date,
+            'event_end_date'   => $event_end_date,
+        );
+
+        if ($this->Event_model->save_event($event)) {
             $data = array(
                 'status' => true,
                 'msg'    => 'Event added successfully!',
