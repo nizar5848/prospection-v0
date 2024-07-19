@@ -1,6 +1,5 @@
 <?php
 
-// application/controllers/Calendar.php
 class Calendar extends CI_Controller
 {
 
@@ -23,10 +22,8 @@ class Calendar extends CI_Controller
             foreach ($events as $i => $event) {
                 $data_arr[$i]['event_id'] = $event['event_id'];
                 $data_arr[$i]['title']    = $event['event_name'];
-                $data_arr[$i]['start']    = date("Y-m-d",
-                    strtotime($event['event_start_date']));
-                $data_arr[$i]['end']      = date("Y-m-d",
-                    strtotime($event['event_end_date']));
+                $data_arr[$i]['start']    = $event['event_start_date'];  // Use YYYY-MM-DD format
+                $data_arr[$i]['end']      = $event['event_end_date'];      // Use YYYY-MM-DD format
                 $data_arr[$i]['color']    = '#36CD36';
             }
 
@@ -61,12 +58,12 @@ class Calendar extends CI_Controller
         if ($this->Event_model->save_event($event)) {
             $data = array(
                 'status' => true,
-                'msg'    => 'Event added successfully!',
+                'msg'    => 'Événement ajouté avec succès!',
             );
         } else {
             $data = array(
                 'status' => false,
-                'msg'    => 'Sorry, Event not added.',
+                'msg'    => 'Désolé, l\'événement n\'a pas été ajouté.',
             );
         }
         echo json_encode($data);

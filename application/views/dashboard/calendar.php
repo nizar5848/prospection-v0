@@ -1,17 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>How to create dynamic event calendar in HTML and PHP</title>
-    <!-- *Note: You must have internet connection on your laptop or pc otherwise below code is not working -->
-    <!-- CSS for full calendar -->
+    <title>Comment créer un calendrier dynamique en HTML et PHP</title>
+    <!-- Note: Vous devez avoir une connexion Internet sur votre ordinateur, sinon le code ci-dessous ne fonctionnera pas -->
+    <!-- CSS pour le calendrier complet -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.css"
           rel="stylesheet"/>
-    <!-- JS for jQuery -->
+    <!-- JS pour jQuery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <!-- JS for full calendar -->
+    <!-- JS pour le calendrier complet -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.js"></script>
-    <!-- Bootstrap CSS and JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/locale/fr.js"></script>
+    <!-- Bootstrap CSS et JS -->
     <link rel="stylesheet"
           href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"/>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
@@ -19,20 +20,29 @@
 <body>
 <div class="container">
     <div class="row">
-        <div class="col-lg-12">
-            <h5 align="center">How to create dynamic event calendar in HTML and
-                PHP</h5>
+        <div class="col-lg-12 mt-3">
+            <div class="d-flex justify-content-between align-items-end mb-3">
+                <a href="<?php echo base_url('dashboard'); ?>"
+                   class="hover-arrow link-underline-primary">
+                    <i class="fe fe-arrow-left"></i> Retour
+                </a>
+                <h5 class="text-center mx-auto">Calendrier</h5>
+            </div>
+
+
             <div id="calendar"></div>
         </div>
     </div>
+
 </div>
-<!-- Start popup dialog box -->
+<!-- Début de la boîte de dialogue contextuelle -->
 <div class="modal fade" id="event_entry_modal" tabindex="-1" role="dialog"
      aria-labelledby="modalLabel" aria-hidden="true">
     <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="modalLabel">Add New Event</h5>
+                <h5 class="modal-title" id="modalLabel">Ajouter un nouvel
+                    événement</h5>
                 <button type="button" class="close" data-dismiss="modal"
                         aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -43,30 +53,32 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="form-group">
-                                <label for="event_name">Event name</label>
+                                <label for="event_name">Nom de
+                                    l'événement</label>
                                 <input type="text" name="event_name"
                                        id="event_name" class="form-control"
-                                       placeholder="Enter your event name">
+                                       placeholder="Entrez le nom de votre événement">
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label for="event_start_date">Event
-                                    start</label>
+                                <label for="event_start_date">Début de
+                                    l'événement</label>
                                 <input type="date" name="event_start_date"
                                        id="event_start_date"
                                        class="form-control onlydatepicker"
-                                       placeholder="Event start date">
+                                       placeholder="Date de début de l'événement">
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label for="event_end_date">Event end</label>
+                                <label for="event_end_date">Fin de
+                                    l'événement</label>
                                 <input type="date" name="event_end_date"
                                        id="event_end_date" class="form-control"
-                                       placeholder="Event end date">
+                                       placeholder="Date de fin de l'événement">
                             </div>
                         </div>
                     </div>
@@ -74,16 +86,12 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary"
-                        onclick="save_event()">Save Event
+                        onclick="save_event()">Enregistrer l'événement
                 </button>
             </div>
         </div>
     </div>
 </div>
-<!-- End popup dialog box -->
-
-<br>
-<center>Developed by <a href="https://shinerweb.com/">Shinerweb</a></center>
 </body>
 <script>
   $(document).ready(function() {
@@ -108,6 +116,7 @@
           });
         });
         var calendar = $('#calendar').fullCalendar({
+          locale: 'fr',
           defaultView: 'month',
           timeZone: 'local',
           editable: true,
@@ -127,7 +136,7 @@
         }); //end fullCalendar block
       }, //end success block
       error: function(xhr, status, error) {
-        alert('Error: ' + xhr.statusText);
+        alert('Erreur: ' + xhr.statusText);
       },
     }); //end ajax block
   }
@@ -137,7 +146,7 @@
     var event_start_date = $('#event_start_date').val();
     var event_end_date = $('#event_end_date').val();
     if (event_name == '' || event_start_date == '' || event_end_date == '') {
-      alert('Please enter all required details.');
+      alert('Veuillez entrer tous les détails requis.');
       return false;
     }
     $.ajax({
@@ -159,8 +168,8 @@
         }
       },
       error: function(xhr, status, error) {
-        console.log('ajax error = ' + xhr.statusText);
-        alert('Error: ' + xhr.statusText);
+        console.log('Erreur AJAX = ' + xhr.statusText);
+        alert('Erreur: ' + xhr.statusText);
       },
     });
     return false;
