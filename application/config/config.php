@@ -226,7 +226,7 @@ $config['allow_get_array'] = true;
 | your log files will fill up very fast.
 |
 */
-$config['log_threshold'] = 0;
+$config['log_threshold'] = 4;
 
 /*
 |--------------------------------------------------------------------------
@@ -534,6 +534,7 @@ $config['proxy_ips'] = '';
 
 
 // added to solve the import problem in /views/auth/layout.php
-$root = "http://".$_SERVER['HTTP_HOST'];
-$root .= str_replace(basename($_SERVER['SCRIPT_NAME']), "", $_SERVER['SCRIPT_NAME']);
+$root               = "http://".$_SERVER['HTTP_HOST'];
+$root               .= str_replace(basename($_SERVER['SCRIPT_NAME']), "",
+    $_SERVER['SCRIPT_NAME']);
 $config['base_url'] = $root;

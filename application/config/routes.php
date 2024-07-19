@@ -22,5 +22,10 @@ $route['table-prospects-globale'] = 'dashboardController/prospectsTableAdmin';
 $route['dashboard']       = 'DashboardController/userDashboard';
 $route['table-prospects'] = 'dashboardController/prospectsTableUser';
 
-$route['calendrier']        = 'dashboardController/calendar';
+
 $route['register-prospect'] = "ProspectController/registerProspect";
+
+// calendrier
+$route['calendar/display_event'] = 'calendar/display_event';
+$route['calendar/save_event']    = 'calendar/save_event';
+$route['calendar']               = 'calendar/view';
