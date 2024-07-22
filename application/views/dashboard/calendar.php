@@ -70,6 +70,9 @@
                 </div>
             </div>
             <div class="modal-footer">
+                <button type="button" class="btn btn-danger" id="delete_event_button" onclick="delete_event()"
+                        style="display: none;">Supprimer l’événement
+                </button>
                 <button type="button" class="btn btn-primary" id="save_event_button" onclick="save_event()">Enregistrer
                     l’événement
                 </button>
@@ -83,9 +86,10 @@
   var currentEvent = null;
 
   function showAddEventModal() {
-    resetEventForm(); // Reset form and currentEvent
+    resetEventForm();
     $('#modalLabel').text('Ajouter un nouvel événement');
     $('#save_event_button').text('Enregistrer l’événement');
+    $('#delete_event_button').hide(); // Hide the delete button for new event
   }
 
   function resetEventForm() {
@@ -94,7 +98,7 @@
     $('#event_start_time').val('');
     $('#event_end_date').val('');
     $('#event_end_time').val('');
-    currentEvent = null; // Clear current event
+    currentEvent = null;
   }
 
   function save_event() {
@@ -121,7 +125,6 @@
     };
 
     if (currentEvent) {
-      // Update the existing event
       $.ajax({
         url: "<?php echo base_url('calendar/update_event'); ?>",
         type: 'POST',
@@ -146,7 +149,6 @@
         },
       });
     } else {
-      // Save a new event
       $.ajax({
         url: "<?php echo base_url('calendar/save_event'); ?>",
         type: 'POST',
@@ -172,8 +174,37 @@
     return false;
   }
 
+  function delete_event() {
+    if (currentEvent) {
+      if (confirm('Êtes-vous sûr de vouloir supprimer cet événement ?')) {
+        $.ajax({
+          url: "<?php echo base_url('calendar/delete_event'); ?>",
+          type: 'POST',
+          dataType: 'json',
+          data: {
+            event_id: currentEvent.event_id,
+          },
+          success: function(response) {
+            console.log('Delete event response:', response);
+            $('#event_entry_modal').modal('hide');
+            if (response.status == true) {
+              alert(response.msg);
+              location.reload();
+            } else {
+              alert(response.msg);
+            }
+          },
+          error: function(xhr, status, error) {
+            console.error('Error in delete_event AJAX call:', xhr, status, error);
+            alert('Erreur: ' + xhr.statusText);
+          },
+        });
+      }
+    }
+  }
+
   function display_events() {
-    var events = []; // Initialize an empty array for events
+    var events = [];
 
     $.ajax({
       url: '<?php echo base_url('calendar/display_event'); ?>',
@@ -182,7 +213,6 @@
         var result = response.data;
         console.log('Display events response:', result);
 
-        // Populate events array with data from AJAX response
         $.each(result, function(i, item) {
           events.push({
             event_id: item.event_id,
@@ -194,7 +224,6 @@
           });
         });
 
-        // Initialize FullCalendar after data is loaded
         var calendarEl = document.getElementById('calendar');
         var calendar = new FullCalendar.Calendar(calendarEl, {
           locale: 'fr',
@@ -211,14 +240,13 @@
             $('#modalLabel').text('Ajouter un nouvel événement');
             $('#save_event_button').text('Enregistrer l’événement');
             $('#event_entry_modal').modal('show');
-            resetEventForm(); // Clear form for new event
+            resetEventForm();
           },
-          events: events, // Pass events array to FullCalendar
+          events: events,
           eventClick: function(info) {
             console.log(info.event.title);
             info.jsEvent.preventDefault();
 
-            // Populate the form with event data for editing
             $('#event_name').val(info.event.title);
             $('#event_start_date').val(info.event.startStr.split('T')[0]);
             $('#event_start_time').val(info.event.startStr.split('T')[1]?.substring(0, 5) || '');
@@ -226,6 +254,7 @@
             $('#event_end_time').val(info.event.endStr.split('T')[1]?.substring(0, 5) || '');
             $('#modalLabel').text('Modifier l’événement');
             $('#save_event_button').text('Mettre à jour l’événement');
+            $('#delete_event_button').show(); // Show the delete button for existing event
             $('#event_entry_modal').modal('show');
             currentEvent = {
               event_id: info.event.extendedProps.event_id,
@@ -233,7 +262,7 @@
           },
         });
 
-        calendar.render(); // Render the calendar
+        calendar.render();
       },
       error: function(xhr, status, error) {
         alert('Erreur: ' + xhr.statusText);
@@ -245,5 +274,5 @@
   $(document).ready(function() {
     console.log('Document ready, initializing display_events.');
     display_events();
-  }); //end document.ready block
+  });
 </script>

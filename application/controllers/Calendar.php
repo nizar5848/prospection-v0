@@ -25,8 +25,8 @@ class Calendar extends CI_Controller
             foreach ($events as $i => $event) {
                 $data_arr[$i]['event_id'] = $event['event_id'];
                 $data_arr[$i]['title']    = $event['event_name'];
-                $data_arr[$i]['start']    = $event['event_start_datetime'];  // Use DATETIME format
-                $data_arr[$i]['end']      = $event['event_end_datetime'];    // Use DATETIME format
+                $data_arr[$i]['start']    = $event['event_start_datetime'];
+                $data_arr[$i]['end']      = $event['event_end_datetime'];
                 $data_arr[$i]['color']    = '#36CD36';
             }
 
@@ -92,6 +92,24 @@ class Calendar extends CI_Controller
             $data = [
                 'status' => false,
                 'msg'    => 'Désolé, l\'événement n\'a pas été mis à jour.',
+            ];
+        }
+        echo json_encode($data);
+    }
+
+    public function delete_event()
+    {
+        $event_id = $this->input->post('event_id');
+
+        if ($this->Event_model->delete_event($event_id)) {
+            $data = [
+                'status' => true,
+                'msg'    => 'Événement supprimé avec succès!',
+            ];
+        } else {
+            $data = [
+                'status' => false,
+                'msg'    => 'Désolé, l\'événement n\'a pas été supprimé.',
             ];
         }
         echo json_encode($data);
