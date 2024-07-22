@@ -10,6 +10,17 @@
           href="<?= $this->session->userdata('role') === 'admin' ? base_url('assets/ico/logo-blue.ico') : base_url('assets/ico/logo-green.ico') ?>">
 
     <title>NA | <?= $title; ?></title>
+
+    <!-- CSS pour le calendrier complet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.css"
+          rel="stylesheet"/>
+    <!-- JS pour jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <!-- Bootstrap CSS et JS -->
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"/>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <!-- Simple bar CSS -->
     <link rel="stylesheet" href="<?php echo base_url('css/simplebar.css'); ?>">
     <!-- Fonts CSS -->

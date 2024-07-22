@@ -9,9 +9,13 @@ class Calendar extends CI_Controller
         $this->load->model('Event_model');
     }
 
-    public function view()
+    public function index()
     {
-        $this->load->view('dashboard/calendar');
+        $data = [
+            'view'  => 'dashboard/calendar',
+            'title' => 'calendrier',
+        ];
+        $this->load->view('dashboard/layouts', $data);
     }
 
     public function display_event()

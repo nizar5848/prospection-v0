@@ -28,4 +28,4 @@ $route['register-prospect'] = "ProspectController/registerProspect";
 // calendrier
 $route['calendar/display_event'] = 'calendar/display_event';
 $route['calendar/save_event']    = 'calendar/save_event';
-$route['calendrier']             = 'calendar/view';
+$route['calendrier']             = 'calendar/index';

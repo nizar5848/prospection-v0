@@ -1,23 +1,3 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Comment créer un calendrier dynamique en HTML et PHP</title>
-    <!-- Note: Vous devez avoir une connexion Internet sur votre ordinateur, sinon le code ci-dessous ne fonctionnera pas -->
-    <!-- CSS pour le calendrier complet -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.css"
-          rel="stylesheet"/>
-    <!-- JS pour jQuery -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <!-- JS pour le calendrier complet -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/locale/fr.js"></script>
-    <!-- Bootstrap CSS et JS -->
-    <link rel="stylesheet"
-          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"/>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-</head>
-<body>
 <div class="container">
     <div class="row">
         <div class="col-lg-12 mt-3">
@@ -92,53 +72,75 @@
         </div>
     </div>
 </div>
-</body>
-<script>
-  $(document).ready(function() {
-    display_events();
-  }); //end document.ready block
 
+
+<!--<script src="js/jquery.min.js"></script>-->
+<!--<script src="js/popper.min.js"></script>-->
+<!--<script src="js/moment.min.js"></script>-->
+<!--<script src="js/bootstrap.min.js"></script>-->
+<!--<script src="js/simplebar.min.js"></script>-->
+<!--<script src='js/daterangepicker.js'></script>-->
+<!--<script src='js/jquery.stickOnScroll.js'></script>-->
+<!--<script src="js/tinycolor-min.js"></script>-->
+<!--<script src="js/config.js"></script>-->
+<!--<script src='js/fullcalendar.js'></script>-->
+<!--<script src='js/fullcalendar.custom.js'></script>-->
+
+<!--JS pour le calendrier complet-->-->
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>-->
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/locale/fr.js"></script>-->
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.js"></script>-->
+<script src='https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.15/index.global.min.js'></script>
+<script src='https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@6.1.15/index.global.min.js'></script>
+
+<script>
   function display_events() {
-    var events = new Array();
+    var events = []; // Initialize an empty array for events
+
     $.ajax({
       url: '<?php echo base_url('calendar/display_event'); ?>',
       dataType: 'json',
       success: function(response) {
         var result = response.data;
+        console.log(result);
+
+        // Populate events array with data from AJAX response
         $.each(result, function(i, item) {
           events.push({
-            event_id: result[i].event_id,
-            title: result[i].title,
-            start: result[i].start,
-            end: result[i].end,
-            color: result[i].color,
-            url: result[i].url,
+            event_id: item.event_id,
+            title: item.title,
+            start: item.start,
+            end: item.end,
+            color: item.color,
+            url: item.url,
           });
         });
-        var calendar = $('#calendar').fullCalendar({
+
+        // Initialize FullCalendar after data is loaded
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
           locale: 'fr',
-          defaultView: 'month',
+          initialView: 'dayGridMonth',
           timeZone: 'local',
           editable: true,
           selectable: true,
-          selectHelper: true,
-          select: function(start, end) {
-            $('#event_start_date').val(moment(start).format('YYYY-MM-DD'));
-            $('#event_end_date').val(moment(end).format('YYYY-MM-DD'));
+          select: function(info) {
+            $('#event_start_date').val(info.startStr);
+            $('#event_end_date').val(info.endStr);
             $('#event_entry_modal').modal('show');
           },
-          events: events,
-          eventRender: function(event, element, view) {
-            element.bind('click', function() {
-              alert(event.event_id);
-            });
+          events: events, // Pass events array to FullCalendar
+          eventClick: function(info) {
+            alert('Event ID: ' + info.event.id);
           },
-        }); //end fullCalendar block
-      }, //end success block
+        });
+
+        calendar.render(); // Render the calendar
+      },
       error: function(xhr, status, error) {
         alert('Erreur: ' + xhr.statusText);
       },
-    }); //end ajax block
+    });
   }
 
   function save_event() {
@@ -174,5 +176,8 @@
     });
     return false;
   }
+
+  $(document).ready(function() {
+    display_events();
+  }); //end document.ready block
 </script>
-</html>
