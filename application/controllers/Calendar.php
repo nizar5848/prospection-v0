@@ -72,4 +72,31 @@ class Calendar extends CI_Controller
         }
         echo json_encode($data);
     }
+
+    public function update_event()
+    {
+        $event_id         = $this->input->post('event_id');
+        $event_name       = $this->input->post('event_name');
+        $event_start_date = date("Y-m-d", strtotime($this->input->post('event_start_date')));
+        $event_end_date   = date("Y-m-d", strtotime($this->input->post('event_end_date')));
+
+        $event = array(
+            'event_name'       => $event_name,
+            'event_start_date' => $event_start_date,
+            'event_end_date'   => $event_end_date,
+        );
+
+        if ($this->Event_model->update_event($event_id, $event)) {
+            $data = array(
+                'status' => true,
+                'msg'    => 'Événement mis à jour avec succès!',
+            );
+        } else {
+            $data = array(
+                'status' => false,
+                'msg'    => 'Désolé, l\'événement n\'a pas été mis à jour.',
+            );
+        }
+        echo json_encode($data);
+    }
 }

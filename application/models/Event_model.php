@@ -20,4 +20,11 @@ class Event_model extends CI_Model
     {
         return $this->db->insert('events', $event);
     }
+
+    public function update_event($event_id, $event)
+    {
+        $this->db->where('event_id', $event_id);
+
+        return $this->db->update('events', $event);
+    }
 }
