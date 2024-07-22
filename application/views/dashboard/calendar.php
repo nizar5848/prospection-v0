@@ -12,6 +12,7 @@
         </div>
     </div>
 </div>
+
 <!-- Début de la boîte de dialogue contextuelle -->
 <div class="modal fade" id="event_entry_modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel"
      aria-hidden="true">
@@ -37,16 +38,32 @@
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label for="event_start_date">Début de l'événement</label>
+                                <label for="event_start_date">Début de l'événement (Date)</label>
                                 <input type="date" name="event_start_date" id="event_start_date"
                                        class="form-control onlydatepicker" placeholder="Date de début de l'événement">
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label for="event_end_date">Fin de l'événement</label>
+                                <label for="event_start_time">Début de l'événement (Heure)</label>
+                                <input type="time" name="event_start_time" id="event_start_time" class="form-control"
+                                       placeholder="Heure de début de l'événement">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="event_end_date">Fin de l'événement (Date)</label>
                                 <input type="date" name="event_end_date" id="event_end_date" class="form-control"
                                        placeholder="Date de fin de l'événement">
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="event_end_time">Fin de l'événement (Heure)</label>
+                                <input type="time" name="event_end_time" id="event_end_time" class="form-control"
+                                       placeholder="Heure de fin de l'événement">
                             </div>
                         </div>
                     </div>
@@ -60,7 +77,6 @@
         </div>
     </div>
 </div>
-
 <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.15/index.global.min.js'></script>
 <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@6.1.15/index.global.min.js'></script>
 <script>
@@ -75,25 +91,33 @@
   function resetEventForm() {
     $('#event_name').val('');
     $('#event_start_date').val('');
+    $('#event_start_time').val('');
     $('#event_end_date').val('');
+    $('#event_end_time').val('');
     currentEvent = null; // Clear current event
   }
 
   function save_event() {
     var event_name = $('#event_name').val();
     var event_start_date = $('#event_start_date').val();
+    var event_start_time = $('#event_start_time').val();
     var event_end_date = $('#event_end_date').val();
-    console.log('Saving event:', event_name, event_start_date, event_end_date);
+    var event_end_time = $('#event_end_time').val();
+    console.log('Saving event:', event_name, event_start_date, event_start_time, event_end_date, event_end_time);
 
-    if (event_name == '' || event_start_date == '' || event_end_date == '') {
+    if (event_name == '' || event_start_date == '' || event_start_time == '' || event_end_date == '' ||
+        event_end_time == '') {
       alert('Veuillez entrer tous les détails requis.');
       return false;
     }
 
+    var event_start_datetime = event_start_date + 'T' + event_start_time;
+    var event_end_datetime = event_end_date + 'T' + event_end_time;
+
     var event_data = {
       event_name: event_name,
-      event_start_date: event_start_date,
-      event_end_date: event_end_date,
+      event_start_datetime: event_start_datetime,
+      event_end_datetime: event_end_datetime,
     };
 
     if (currentEvent) {
@@ -180,8 +204,10 @@
           selectable: true,
           select: function(info) {
             console.log('Selected dates:', info.startStr, info.endStr);
-            $('#event_start_date').val(info.startStr);
-            $('#event_end_date').val(info.endStr);
+            $('#event_start_date').val(info.startStr.split('T')[0]);
+            $('#event_start_time').val(info.startStr.split('T')[1]?.substring(0, 5) || '');
+            $('#event_end_date').val(info.endStr.split('T')[0]);
+            $('#event_end_time').val(info.endStr.split('T')[1]?.substring(0, 5) || '');
             $('#modalLabel').text('Ajouter un nouvel événement');
             $('#save_event_button').text('Enregistrer l’événement');
             $('#event_entry_modal').modal('show');
@@ -194,8 +220,10 @@
 
             // Populate the form with event data for editing
             $('#event_name').val(info.event.title);
-            $('#event_start_date').val(info.event.startStr);
-            $('#event_end_date').val(info.event.endStr);
+            $('#event_start_date').val(info.event.startStr.split('T')[0]);
+            $('#event_start_time').val(info.event.startStr.split('T')[1]?.substring(0, 5) || '');
+            $('#event_end_date').val(info.event.endStr.split('T')[0]);
+            $('#event_end_time').val(info.event.endStr.split('T')[1]?.substring(0, 5) || '');
             $('#modalLabel').text('Modifier l’événement');
             $('#save_event_button').text('Mettre à jour l’événement');
             $('#event_entry_modal').modal('show');
