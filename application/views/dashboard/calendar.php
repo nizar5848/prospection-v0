@@ -3,7 +3,8 @@
         <div class="col-lg-12">
             <div class="d-flex justify-content-between align-items-end mb-3">
                 <h5 class="text-center mx-auto">Calendrier</h5>
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#event_entry_modal">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#event_entry_modal"
+                        onclick="showAddEventModal()">
                     Ajouter un événement
                 </button>
             </div>
@@ -12,14 +13,13 @@
     </div>
 </div>
 <!-- Début de la boîte de dialogue contextuelle -->
-<div class="modal fade" id="event_entry_modal" tabindex="-1" role="dialog"
-     aria-labelledby="modalLabel" aria-hidden="true">
+<div class="modal fade" id="event_entry_modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel"
+     aria-hidden="true">
     <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="modalLabel">Ajouter un nouvel événement</h5>
-                <button type="button" class="close" data-dismiss="modal"
-                        aria-label="Close">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -29,8 +29,7 @@
                         <div class="col-sm-12">
                             <div class="form-group">
                                 <label for="event_name">Nom de l'événement</label>
-                                <input type="text" name="event_name"
-                                       id="event_name" class="form-control"
+                                <input type="text" name="event_name" id="event_name" class="form-control"
                                        placeholder="Entrez le nom de votre événement">
                             </div>
                         </div>
@@ -39,17 +38,14 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label for="event_start_date">Début de l'événement</label>
-                                <input type="date" name="event_start_date"
-                                       id="event_start_date"
-                                       class="form-control onlydatepicker"
-                                       placeholder="Date de début de l'événement">
+                                <input type="date" name="event_start_date" id="event_start_date"
+                                       class="form-control onlydatepicker" placeholder="Date de début de l'événement">
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label for="event_end_date">Fin de l'événement</label>
-                                <input type="date" name="event_end_date"
-                                       id="event_end_date" class="form-control"
+                                <input type="date" name="event_end_date" id="event_end_date" class="form-control"
                                        placeholder="Date de fin de l'événement">
                             </div>
                         </div>
@@ -57,8 +53,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary"
-                        onclick="save_event()">Enregistrer l'événement
+                <button type="button" class="btn btn-primary" id="save_event_button" onclick="save_event()">Enregistrer
+                    l’événement
                 </button>
             </div>
         </div>
@@ -69,6 +65,19 @@
 <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@6.1.15/index.global.min.js'></script>
 <script>
   var currentEvent = null;
+
+  function showAddEventModal() {
+    resetEventForm(); // Reset form and currentEvent
+    $('#modalLabel').text('Ajouter un nouvel événement');
+    $('#save_event_button').text('Enregistrer l’événement');
+  }
+
+  function resetEventForm() {
+    $('#event_name').val('');
+    $('#event_start_date').val('');
+    $('#event_end_date').val('');
+    currentEvent = null; // Clear current event
+  }
 
   function save_event() {
     var event_name = $('#event_name').val();
@@ -173,8 +182,10 @@
             console.log('Selected dates:', info.startStr, info.endStr);
             $('#event_start_date').val(info.startStr);
             $('#event_end_date').val(info.endStr);
+            $('#modalLabel').text('Ajouter un nouvel événement');
+            $('#save_event_button').text('Enregistrer l’événement');
             $('#event_entry_modal').modal('show');
-            currentEvent = null; // Clear current event for new entry
+            resetEventForm(); // Clear form for new event
           },
           events: events, // Pass events array to FullCalendar
           eventClick: function(info) {
@@ -185,6 +196,8 @@
             $('#event_name').val(info.event.title);
             $('#event_start_date').val(info.event.startStr);
             $('#event_end_date').val(info.event.endStr);
+            $('#modalLabel').text('Modifier l’événement');
+            $('#save_event_button').text('Mettre à jour l’événement');
             $('#event_entry_modal').modal('show');
             currentEvent = {
               event_id: info.event.extendedProps.event_id,
@@ -205,5 +218,4 @@
     console.log('Document ready, initializing display_events.');
     display_events();
   }); //end document.ready block
-
 </script>
