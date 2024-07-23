@@ -12,5 +12,10 @@ class ProspectModel extends CI_Model {
         return $this->db->insert('prospects', $data); // Assuming 'prospects' is your table name
     }
 
+    public function delete_user_by_id($id) {
+        $this->db->where('id', $id);
+        return $this->db->delete('prospects');
+    }
+
 }
-?>
+

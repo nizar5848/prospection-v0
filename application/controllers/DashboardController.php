@@ -11,6 +11,7 @@ class DashboardController extends CI_Controller
         $this->load->helper('url');
         $this->load->model('UserModel');
         $this->load->library('form_validation');
+        $this->load->model('ProspectModel');
 
         if (!$this->session->userdata('auth')) {
             redirect('authController/login');
@@ -193,9 +194,8 @@ class DashboardController extends CI_Controller
                     <span class="text-muted sr-only">Action</span>
                 </button>
                 <div class="dropdown-menu dropdown-menu-left">
-                    <a class="dropdown-item" href="#">Editer</a>
-                    <a class="dropdown-item" href="#">Supprimer</a>
-                    <a class="dropdown-item" href="#">Suspendre</a>
+                    <a class="dropdown-item" href="' . base_url('DashboardController/edit_prospect/' . $row['id']) . '">Modifier</a>
+                    <a class="dropdown-item" href="' . base_url('DashboardController/delete_prospect/' . $row['id']) . '">Supprimer</a>
                 </div>               
             </div>';
 
@@ -302,6 +302,75 @@ class DashboardController extends CI_Controller
         // Set success message and redirect to user list
         $this->session->set_flashdata('success', 'User ' . ($new_status ? 'suspended' : 'unsuspended') . ' successfully');
         redirect('DashboardController/usersTable');
+    }
+
+
+    public function delete_prospect($id)
+    {
+            if ($this->ProspectModel->delete_user_by_id($id)) {
+                $this->session->set_flashdata('success', 'User deleted successfully.');
+            } else {
+                $this->session->set_flashdata('error', 'Failed to delete user.');
+            }
+            redirect('table-prospects');
+        }
+    
+
+    public function edit_prospect($id) {
+        // Fetch user data from the database
+        $user = $this->ProspectModel->get_user_by_id($id);
+        
+        if (!$user) {
+            show_404();
+        }
+    
+        // Check if the current user is an admin
+        $is_admin_exists = $this->session->userdata('role') === 'admin';
+    
+        // Form validation rules
+        $this->form_validation->set_rules('email', 'Email', 'required|valid_email');
+        $this->form_validation->set_rules('first_name', 'First Name', 'required');
+        $this->form_validation->set_rules('last_name', 'Last Name', 'required');
+    
+        if ($this->input->post('password')) {
+            $this->form_validation->set_rules('password', 'Password', 'required|min_length[8]');
+            $this->form_validation->set_rules('confirm_password', 'Confirm Password', 'required|matches[password]');
+        }
+    
+        // Check if the form is submitted and valid
+        if ($this->form_validation->run() === TRUE) {
+            // Prepare user data for update
+            $update_data = [
+                'email' => $this->input->post('email'),
+                'first_name' => $this->input->post('first_name'),
+                'last_name' => $this->input->post('last_name'),
+            ];
+    
+            if ($this->input->post('password')) {
+                $update_data['password'] = password_hash($this->input->post('password'), PASSWORD_BCRYPT);
+            }
+    
+            if ($is_admin_exists) {
+                $update_data['role'] = $this->input->post('role');
+            }
+    
+            // Update user data in the database
+            $this->UserModel->update_user($id, $update_data);
+    
+            // Set success message and redirect to user list
+            $this->session->set_flashdata('success', 'User updated successfully');
+            redirect('DashboardController/usersTable');
+        } else {
+            // Pass data to the view
+            $data = [
+                'title' => 'Modifier Utilisateur',
+                'view' => 'dashboard/edit_user',
+                'user' => $user,
+                'is_admin_exists' => $is_admin_exists,
+            ];
+    
+            $this->load->view('dashboard/layouts', $data);
+        }
     }
     
     
