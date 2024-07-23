@@ -93,6 +93,7 @@ class AuthController extends CI_Controller
 
             if ($user && password_verify($password, $user['password'])) {
                 $this->session->set_userdata([
+                    'id'         => $user['id'],
                     'email'      => $user['email'],
                     'first_name' => $user['first_name'],
                     'last_name'  => $user['last_name'],

@@ -10,6 +10,7 @@ $route['auth/layouts'] = 'authController/login';
 $route['login']    = 'authController/login';
 $route['logout']   = 'authController/logout';
 $route['register'] = 'authController/register';
+$route['register_user'] = 'dashboardController/register';
 
 // Admin routes
 $route['dashboard/layouts']       = 'dashboardController/adminDashboard';
@@ -30,3 +31,6 @@ $route['calendar/display_event'] = 'calendar/display_event';
 $route['calendar/save_event']    = 'calendar/save_event';
 $route['calendrier']             = 'calendar/index';
 $route['calendar/update_event']  = 'calendar/update_event';
+
+
+$route['supprimer-user'] = 'dashboardController/delete_user';

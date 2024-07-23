@@ -5,11 +5,6 @@
          mx-auto needs-validation', 'novalidate' => true,
         ]); ?>
 
-        <div class="checkbox mb-3">
-            <a href="<?php echo base_url('dashboard'); ?>"
-               class="hover-arrow link-underline-primary"><i
-                        class="fe fe-arrow-left"></i>Retour</a>
-        </div>
         <div class="mx-auto text-center mt-5 flex">
             <a class="navbar-brand mx-auto mt-2 flex-fill text-center"
                href="../index.html">

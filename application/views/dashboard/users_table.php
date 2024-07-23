@@ -11,7 +11,7 @@
             <th class="text-dark">E-mail</th>
             <th class="text-dark">Rôle</th>
             <th class="text-dark">Actions</th>
-        </tr>
+            </tr>
         </thead>
         <tbody>
         </tbody>
