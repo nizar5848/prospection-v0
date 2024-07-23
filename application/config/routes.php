@@ -32,5 +32,6 @@ $route['calendar/save_event']    = 'calendar/save_event';
 $route['calendrier']             = 'calendar/index';
 $route['calendar/update_event']  = 'calendar/update_event';
 
+//Delete User
 
 $route['supprimer-user'] = 'dashboardController/delete_user';

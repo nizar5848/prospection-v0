@@ -207,7 +207,7 @@
                     </a>
                 </li>
                 <li class="nav-item w-100">
-                    <a class="nav-link" href="table-utilisateurs">
+                    <a class="nav-link" href="<?= base_url('table-utilisateurs') ?>">
                         <i class="fe fe-list"></i>
                         <span class="ml-3 item-text">Liste des utilisateurs</span>
                     </a>

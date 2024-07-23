@@ -46,10 +46,22 @@ class UserModel extends CI_Model
     }
 
     
-    public function get_user_by_id($id)
-    {
+    public function get_user_by_id($id) {
+
         $query = $this->db->get_where('users', ['id' => $id]);
 
         return $query->row_array();
     }
+
+    public function update_user($id, $data) {
+        $this->db->where('id', $id);
+        return $this->db->update('users', $data);
+    }
+
+    public function update_suspended_status($id, $status) {
+        $this->db->where('id', $id);
+        return $this->db->update('users', ['suspended' => $status]);
+    }
+    
+    
 }
