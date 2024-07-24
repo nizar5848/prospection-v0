@@ -35,3 +35,4 @@ $route['calendar/update_event']  = 'calendar/update_event';
 //Delete User
 
 $route['supprimer-user'] = 'dashboardController/delete_user';
+

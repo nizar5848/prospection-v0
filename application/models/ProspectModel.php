@@ -17,5 +17,16 @@ class ProspectModel extends CI_Model {
         return $this->db->delete('prospects');
     }
 
+    public function get_prospect($id) {
+        $this->db->where('id', $id);
+        $query = $this->db->get('prospects');
+        return $query->row_array(); // Return the result as an associative array
+    }
+
+    public function update_prospect($id, $data) {
+        $this->db->where('id', $id);
+        return $this->db->update('prospects', $data);
+    }
+
 }
 

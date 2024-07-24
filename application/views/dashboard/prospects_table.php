@@ -18,8 +18,9 @@
             <th class="text-dark">Tel</th>
             <th class="text-dark">Adresse</th>
             <th class="text-dark">Status</th>
-
-            <th class="text-dark">Actions</th>
+            <?php if ($this->session->userdata('role') === 'user'): ?>
+                <th class="text-dark">Actions</th>
+            <?php endif; ?>
         </tr>
         </thead>
         <tbody>
@@ -32,12 +33,25 @@
 
 <!-- Import DataTables JS -->
 <script src="https://cdn.datatables.net/2.0.8/js/jquery.dataTables.min.js"></script>
-<!--<script src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap4.min.js"></script>-->
 <script src="https://cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.min.js"></script>
-<!--<script src="https://cdn.datatables.net/responsive/2.3.0/js/responsive.bootstrap4.min.js"></script>-->
 
 <script>
   $(document).ready(function() {
+    var columns = [
+      {data: 'id'},
+      {data: 'last_name'},
+      {data: 'first_name'},
+      {data: 'email'},
+      {data: 'company'},
+      {data: 'phone_number'},
+      {data: 'address'},
+      {data: 'status'}
+    ];
+
+    <?php if ($this->session->userdata('role') === 'user'): ?>
+        columns.push({data: 'actions', orderable: false, searchable: false});
+    <?php endif; ?>
+
     $('#example1').DataTable({
       language: {
         url: 'https://cdn.datatables.net/plug-ins/1.10.21/i18n/French.json',
@@ -50,17 +64,7 @@
           return json.data;
         },
       },
-      columns: [
-        {data: 'id'},
-        {data: 'last_name'},
-        {data: 'first_name'},
-        {data: 'email'},
-        {data: 'company'},
-        {data: 'phone_number'},
-        {data: 'address'},
-        {data: 'status'},
-        {data: 'actions', orderable: false, searchable: false},
-      ],
+      columns: columns,
       order: [],
       responsive: true,
     });

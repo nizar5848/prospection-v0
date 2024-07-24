@@ -316,62 +316,58 @@ class DashboardController extends CI_Controller
         }
     
 
-    public function edit_prospect($id) {
-        // Fetch user data from the database
-        $user = $this->ProspectModel->get_user_by_id($id);
+        public function edit_prospect($id) {
+            // Validate form input
+            $this->form_validation->set_rules('first_name', 'Prénom', 'required');
+            $this->form_validation->set_rules('last_name', 'Nom', 'required');
+            $this->form_validation->set_rules('email', 'E-mail', 'required|valid_email');
+            $this->form_validation->set_rules('company', 'Entreprise', 'required');
+            $this->form_validation->set_rules('phone_number', 'Numéro téléphone', 'required');
+            $this->form_validation->set_rules('address', 'Adresse', 'required');
         
-        if (!$user) {
-            show_404();
-        }
-    
-        // Check if the current user is an admin
-        $is_admin_exists = $this->session->userdata('role') === 'admin';
-    
-        // Form validation rules
-        $this->form_validation->set_rules('email', 'Email', 'required|valid_email');
-        $this->form_validation->set_rules('first_name', 'First Name', 'required');
-        $this->form_validation->set_rules('last_name', 'Last Name', 'required');
-    
-        if ($this->input->post('password')) {
-            $this->form_validation->set_rules('password', 'Password', 'required|min_length[8]');
-            $this->form_validation->set_rules('confirm_password', 'Confirm Password', 'required|matches[password]');
-        }
-    
-        // Check if the form is submitted and valid
-        if ($this->form_validation->run() === TRUE) {
-            // Prepare user data for update
-            $update_data = [
-                'email' => $this->input->post('email'),
-                'first_name' => $this->input->post('first_name'),
-                'last_name' => $this->input->post('last_name'),
-            ];
-    
-            if ($this->input->post('password')) {
-                $update_data['password'] = password_hash($this->input->post('password'), PASSWORD_BCRYPT);
+            // Load user data (assuming you have a way to get the current user)
+            $user = $this->session->userdata('user'); // Adjust this as per your application
+        
+            if ($this->form_validation->run() === FALSE) {
+                // Form validation failed, load the form again with errors
+                $data = [
+                    'title' => 'Modifier Prospects',
+                    'view' => 'dashboard/edit_prospect',
+                    'user' => $user,
+                    'prospects' => $this->ProspectModel->get_prospect($id)
+                ];
+                $this->load->view('dashboard/layouts', $data);
+            } else {
+                // Form validation succeeded, proceed to update the database
+                $data = array(
+                    'first_name' => $this->input->post('first_name'),
+                    'last_name' => $this->input->post('last_name'),
+                    'email' => $this->input->post('email'),
+                    'company' => $this->input->post('company'),
+                    'phone_number' => $this->input->post('phone_number'),
+                    'address' => $this->input->post('address'),
+                    'status' => 'nouveau', // Update status if needed
+                    'historiqueInteractions' => '' // Update this field as needed
+                );
+        
+                // Call the model to update data
+                if ($this->ProspectModel->update_prospect($id, $data)) {
+                    // Successfully updated
+                    redirect('table-prospects-globale'); // Replace with your redirect URL
+                } else {
+                    // Update failed, handle error
+                    $data = [
+                        'title' => 'Modifier Prospects',
+                        'view' => 'dashboard/edit_prospect',
+                        'user' => $user,
+                        'prospects' => $this->ProspectModel->get_prospect($id),
+                        'error' => 'Failed to update prospect'
+                    ];
+                    $this->load->view('dashboard/layouts', $data);
+                }
             }
-    
-            if ($is_admin_exists) {
-                $update_data['role'] = $this->input->post('role');
-            }
-    
-            // Update user data in the database
-            $this->UserModel->update_user($id, $update_data);
-    
-            // Set success message and redirect to user list
-            $this->session->set_flashdata('success', 'User updated successfully');
-            redirect('DashboardController/usersTable');
-        } else {
-            // Pass data to the view
-            $data = [
-                'title' => 'Modifier Utilisateur',
-                'view' => 'dashboard/edit_user',
-                'user' => $user,
-                'is_admin_exists' => $is_admin_exists,
-            ];
-    
-            $this->load->view('dashboard/layouts', $data);
         }
-    }
+        
     
     
 }
