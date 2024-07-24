@@ -12,9 +12,22 @@ class DashboardController extends CI_Controller
         $this->load->model('UserModel');
         $this->load->library('form_validation');
         $this->load->model('ProspectModel');
+        $this->load->model('Rappel_model');
 
-        if (!$this->session->userdata('auth')) {
+        if ( ! $this->session->userdata('auth')) {
             redirect('authController/login');
+        }
+
+        // rappels count
+        $user_id = $this->session->userdata('id');
+        if ($user_id) {
+            $pending_rappels = $this->Rappel_model->get_rappels_by_user($user_id);
+            $pending_count   = count($pending_rappels);
+
+            // Pass the pending count to all views
+            $this->load->vars([
+                'pending_count' => $pending_count,
+            ]);
         }
     }
 
@@ -89,7 +102,7 @@ class DashboardController extends CI_Controller
         $this->load->model('UserModel');
 
         $is_admin_exists = $this->UserModel->count_admins() > 0;
-        $is_admin = !$is_admin_exists;
+        $is_admin        = ! $is_admin_exists;
 
         $this->form_validation->set_rules('email', 'Email', 'required|valid_email|is_unique[users.email]');
         $this->form_validation->set_rules('password', 'Password', [
@@ -110,8 +123,8 @@ class DashboardController extends CI_Controller
 
         if ($this->form_validation->run() === false) {
             $data = [
-                "title" => 'Inscription',
-                "view"  => "dashboard/register_user",
+                "title"           => 'Inscription',
+                "view"            => "dashboard/register_user",
                 "is_admin_exists" => $is_admin_exists,
             ];
             $this->load->view("dashboard/layouts", $data);
@@ -134,58 +147,52 @@ class DashboardController extends CI_Controller
 
     public function fetchDatafromDatabase()
     {
-        $query = $this->db->get('users');
-        $data = $query->result_array();
-        $currentUserId = (int)$this->session->userdata('id');
+        $query           = $this->db->get('users');
+        $data            = $query->result_array();
+        $currentUserId   = (int) $this->session->userdata('id');
         $currentUserRole = $this->session->userdata('role'); // Supposons que le rôle soit stocké dans la session
-    
+
         $formattedData = array_map(function ($row) use ($currentUserId, $currentUserRole) {
-            $rowUserId = (int)$row['id'];
-            $rowUserRole = $row['role']; // Supposons que le rôle soit une colonne dans votre table users
+            $rowUserId        = (int) $row['id'];
+            $rowUserRole      = $row['role']; // Supposons que le rôle soit une colonne dans votre table users
             $rowUserSuspended = $row['suspended']; // Supposons que suspended soit une colonne dans votre table users
-    
+
             // Déterminer les actions en fonction du rôle de l'utilisateur actuel et du rôle de l'utilisateur de la ligne
             if ($rowUserId != $currentUserId) { // Empêcher l'utilisateur de voir les actions pour lui-même
                 if ($currentUserId == 1 || ($currentUserRole == 'admin' && $rowUserRole == 'user')) {
-                    $suspendLink = $rowUserSuspended 
-                        ? '<a class="dropdown-item" href="' . base_url('DashboardController/suspendre_user/' . $row['id']) . '">Désuspendre</a>'
-                        : '<a class="dropdown-item" href="' . base_url('DashboardController/suspendre_user/' . $row['id']) . '">Suspendre</a>';
-    
+                    $suspendLink = $rowUserSuspended
+                        ? '<a class="dropdown-item" href="'.base_url('DashboardController/suspendre_user/'.$row['id']).'">Désuspendre</a>'
+                        : '<a class="dropdown-item" href="'.base_url('DashboardController/suspendre_user/'.$row['id']).'">Suspendre</a>';
+
                     $row['actions'] = '
                     <div class="d-flex justify-content-center align-items-center">
                         <button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span class="text-muted sr-only">Action</span>
                         </button>
                         <div class="dropdown-menu dropdown-menu-left">
-                            <a class="dropdown-item" href="' . base_url('DashboardController/delete_user/' . $row['id']) . '">Supprimer</a>
-                            <a class="dropdown-item" href="' . base_url('DashboardController/edit_user/' . $row['id']) . '">Modifier</a>'
-                            . $suspendLink . '
+                            <a class="dropdown-item" href="'.base_url('DashboardController/delete_user/'.$row['id']).'">Supprimer</a>
+                            <a class="dropdown-item" href="'.base_url('DashboardController/edit_user/'.$row['id']).'">Modifier</a>'
+                        .$suspendLink.'
                         </div>
                     </div>';
                 } else {
-                    $row['actions'] = ''; 
+                    $row['actions'] = '';
                 }
             } else {
                 $row['actions'] = ''; // Pas d'actions pour l'utilisateur actuel sur son propre enregistrement
             }
-    
+
             return $row;
         }, $data);
-    
+
         echo json_encode(['data' => $formattedData]);
     }
-    
-    
 
-    
-    
-
-    
 
     public function fetchProspects()
     {
         $query = $this->db->get('prospects');
-        $data = $query->result_array();
+        $data  = $query->result_array();
 
         $formattedData = array_map(function ($row) {
             $row['actions'] = '
@@ -194,8 +201,8 @@ class DashboardController extends CI_Controller
                     <span class="text-muted sr-only">Action</span>
                 </button>
                 <div class="dropdown-menu dropdown-menu-left">
-                    <a class="dropdown-item" href="' . base_url('DashboardController/edit_prospect/' . $row['id']) . '">Modifier</a>
-                    <a class="dropdown-item" href="' . base_url('DashboardController/delete_prospect/' . $row['id']) . '">Supprimer</a>
+                    <a class="dropdown-item" href="'.base_url('DashboardController/edit_prospect/'.$row['id']).'">Modifier</a>
+                    <a class="dropdown-item" href="'.base_url('DashboardController/delete_prospect/'.$row['id']).'">Supprimer</a>
                 </div>               
             </div>';
 
@@ -225,153 +232,158 @@ class DashboardController extends CI_Controller
         }
     }
 
-    public function edit_user($id) {
+    public function edit_user($id)
+    {
         // Fetch user data from the database
         $user = $this->UserModel->get_user_by_id($id);
-        
-        if (!$user) {
+
+        if ( ! $user) {
             show_404();
         }
-    
+
         // Check if the current user is an admin
         $is_admin_exists = $this->session->userdata('role') === 'admin';
-    
+
         // Form validation rules
         $this->form_validation->set_rules('email', 'Email', 'required|valid_email');
         $this->form_validation->set_rules('first_name', 'First Name', 'required');
         $this->form_validation->set_rules('last_name', 'Last Name', 'required');
-    
+
         if ($this->input->post('password')) {
             $this->form_validation->set_rules('password', 'Password', 'required|min_length[8]');
             $this->form_validation->set_rules('confirm_password', 'Confirm Password', 'required|matches[password]');
         }
-    
+
         // Check if the form is submitted and valid
-        if ($this->form_validation->run() === TRUE) {
+        if ($this->form_validation->run() === true) {
             // Prepare user data for update
             $update_data = [
-                'email' => $this->input->post('email'),
+                'email'      => $this->input->post('email'),
                 'first_name' => $this->input->post('first_name'),
-                'last_name' => $this->input->post('last_name'),
+                'last_name'  => $this->input->post('last_name'),
             ];
-    
+
             if ($this->input->post('password')) {
                 $update_data['password'] = password_hash($this->input->post('password'), PASSWORD_BCRYPT);
             }
-    
+
             if ($is_admin_exists) {
                 $update_data['role'] = $this->input->post('role');
             }
-    
+
             // Update user data in the database
             $this->UserModel->update_user($id, $update_data);
-    
+
             // Set success message and redirect to user list
             $this->session->set_flashdata('success', 'User updated successfully');
             redirect('DashboardController/usersTable');
         } else {
             // Pass data to the view
             $data = [
-                'title' => 'Modifier Utilisateur',
-                'view' => 'dashboard/edit_user',
-                'user' => $user,
+                'title'           => 'Modifier Utilisateur',
+                'view'            => 'dashboard/edit_user',
+                'user'            => $user,
                 'is_admin_exists' => $is_admin_exists,
             ];
-    
+
             $this->load->view('dashboard/layouts', $data);
         }
     }
 
-    public function suspendre_user($id) {
+    public function suspendre_user($id)
+    {
         // Check if the current user is an admin
         if ($this->session->userdata('role') !== 'admin') {
             show_error('Unauthorized action', 403);
         }
-    
+
         // Fetch user data from the database
         $user = $this->UserModel->get_user_by_id($id);
-        
-        if (!$user) {
+
+        if ( ! $user) {
             show_404();
         }
-    
+
         // Update the suspended status of the user
-        $new_status = !$user['suspended'];
+        $new_status = ! $user['suspended'];
         $this->UserModel->update_suspended_status($id, $new_status);
-    
+
         // Set success message and redirect to user list
-        $this->session->set_flashdata('success', 'User ' . ($new_status ? 'suspended' : 'unsuspended') . ' successfully');
+        $this->session->set_flashdata('success', 'User '.($new_status ? 'suspended' : 'unsuspended').' successfully');
         redirect('DashboardController/usersTable');
     }
 
 
     public function delete_prospect($id)
     {
-            if ($this->ProspectModel->delete_user_by_id($id)) {
-                $this->session->set_flashdata('success', 'User deleted successfully.');
-            } else {
-                $this->session->set_flashdata('error', 'Failed to delete user.');
-            }
-            redirect('table-prospects');
+        if ($this->ProspectModel->delete_user_by_id($id)) {
+            $this->session->set_flashdata('success', 'User deleted successfully.');
+        } else {
+            $this->session->set_flashdata('error', 'Failed to delete user.');
         }
-    
+        redirect('table-prospects');
+    }
 
-    public function edit_prospect($id) {
+
+    public function edit_prospect($id)
+    {
         // Fetch user data from the database
         $user = $this->ProspectModel->get_user_by_id($id);
-        
-        if (!$user) {
+
+        if ( ! $user) {
             show_404();
         }
-    
+
         // Check if the current user is an admin
         $is_admin_exists = $this->session->userdata('role') === 'admin';
-    
+
         // Form validation rules
         $this->form_validation->set_rules('email', 'Email', 'required|valid_email');
         $this->form_validation->set_rules('first_name', 'First Name', 'required');
         $this->form_validation->set_rules('last_name', 'Last Name', 'required');
-    
+
         if ($this->input->post('password')) {
             $this->form_validation->set_rules('password', 'Password', 'required|min_length[8]');
             $this->form_validation->set_rules('confirm_password', 'Confirm Password', 'required|matches[password]');
         }
-    
+
         // Check if the form is submitted and valid
-        if ($this->form_validation->run() === TRUE) {
+        if ($this->form_validation->run() === true) {
             // Prepare user data for update
             $update_data = [
-                'email' => $this->input->post('email'),
+                'email'      => $this->input->post('email'),
                 'first_name' => $this->input->post('first_name'),
-                'last_name' => $this->input->post('last_name'),
+                'last_name'  => $this->input->post('last_name'),
             ];
-    
+
             if ($this->input->post('password')) {
                 $update_data['password'] = password_hash($this->input->post('password'), PASSWORD_BCRYPT);
             }
-    
+
             if ($is_admin_exists) {
                 $update_data['role'] = $this->input->post('role');
             }
-    
+
             // Update user data in the database
             $this->UserModel->update_user($id, $update_data);
-    
+
             // Set success message and redirect to user list
             $this->session->set_flashdata('success', 'User updated successfully');
             redirect('DashboardController/usersTable');
         } else {
             // Pass data to the view
             $data = [
-                'title' => 'Modifier Utilisateur',
-                'view' => 'dashboard/edit_user',
-                'user' => $user,
+                'title'           => 'Modifier Utilisateur',
+                'view'            => 'dashboard/edit_user',
+                'user'            => $user,
                 'is_admin_exists' => $is_admin_exists,
             ];
-    
+
             $this->load->view('dashboard/layouts', $data);
         }
     }
-    
-    
+
+    // rappels count
+
+
 }

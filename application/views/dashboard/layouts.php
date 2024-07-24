@@ -273,12 +273,18 @@
                     <span>Rappels</span>
                 </p>
                 <ul class="navbar-nav flex-fill w-100 mb-2">
+                    <!-- Example navigation item with badge -->
                     <li class="nav-item w-100">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="<?= base_url('rappels') ?>">
                             <i class="fe fe-bell fe-16"></i>
                             <span class="ml-3 item-text">Rappels</span>
+                            <!-- Badge for number of pending rappels -->
+                            <?php if (isset($pending_count) && $pending_count > 0): ?>
+                                <span class="badge badge-success font-weight-bolder px-2 text-white pt-2"><?= $pending_count ?></span>
+                            <?php endif; ?>
                         </a>
                     </li>
+
                     <li class="nav-item w-100">
                         <a class="nav-link"
                            href="<?= base_url('/calendrier') ?>">

@@ -6,13 +6,21 @@ class Calendar extends CI_Controller
     {
         parent::__construct();
         $this->load->model('Event_model');
+        $this->load->model('Rappel_model');
+        $this->load->library('session');
     }
 
     public function index()
     {
+        $user_id         = $this->session->userdata('id');
+        $pending_rappels = $this->Rappel_model->get_rappels_by_user($user_id);
+        $pending_count   = count($pending_rappels);
+
         $data = [
-            'view'  => 'dashboard/calendar',
-            'title' => 'calendrier',
+            'view'          => 'dashboard/calendar',
+            'title'         => 'calendrier',
+            'pending_count' => $pending_count,
+
         ];
         $this->load->view('dashboard/layouts', $data);
     }
