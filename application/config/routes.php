@@ -41,3 +41,8 @@ $route['supprimer-user'] = 'dashboardController/delete_user';
 $route['rappels']                      = 'rappelsController/rappels';
 $route['rappels/create']               = 'rappelsController/create';
 $route['rappels/switch_status/(:num)'] = 'rappelsController/switch_status/$1';
+
+//Prospects à contacter
+
+$route['prospects-contacter']                      = 'ProspectController/active_prospects';
+

@@ -52,7 +52,6 @@ class ProspectController extends CI_Controller
                 redirect('dashboard'); // Replace with your redirect URL
             } else {
                 // Insertion failed, handle error
-                // Example: $data['error'] = 'Failed to insert prospect';
                 $this->load->view('registration_form', $data); // Replace with your view name
             }
         }
@@ -134,12 +133,52 @@ class ProspectController extends CI_Controller
 
     public function delete_prospect($id)
     {
-            if ($this->ProspectModel->delete_user_by_id($id)) {
-                $this->session->set_flashdata('success', 'User deleted successfully.');
-            } else {
-                $this->session->set_flashdata('error', 'Failed to delete user.');
-            }
-            redirect('table-prospects');
+        if ($this->ProspectModel->delete_user_by_id($id)) {
+            $this->session->set_flashdata('success', 'User deleted successfully.');
+        } else {
+            $this->session->set_flashdata('error', 'Failed to delete user.');
         }
+        redirect('dashboard/prospects_table');
+    }
+    
+    public function selectProspects() {
+        // Assuming you have some way to get the current user, possibly from the session
+        $user = $this->session->userdata('user');
+    
+        // Get the number of prospects and status from POST data
+        $numberOfProspects = $this->input->post('number_of_prospects');
+        $status = $this->input->post('status');
+    
+        // Call the model to fetch the prospects based on the criteria
+        $prospects = $this->ProspectModel->fetchProspects($status, $numberOfProspects);
+    
+        // Update the 'active' column for selected prospects
+        $this->ProspectModel->updateActiveProspects($numberOfProspects, $status);
+    
+        // Prepare data for the view
+        $data = [
+            'title' => 'Prospects',
+            'view' => 'dashboard/prospects_table',
+            'user' => $user,
+            'prospects' => $prospects
+        ];
+    
+        // Load the view with the data
+        $this->load->view('dashboard/layouts', $data);
+    }
+
+    public function active_prospects() {
+        $active_prospects = $this->ProspectModel->get_active_prospects();
+
+        $data = [
+            'title' => 'Prospects à  contacter',
+            'view' => 'dashboard/prospects_a_contacter',
+            'active_prospects' => $active_prospects
+        ];
+
+        $this->load->view('dashboard/layouts', $data);
+    }
+
+    
 }
 ?>

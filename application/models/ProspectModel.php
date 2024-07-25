@@ -30,9 +30,32 @@ class ProspectModel extends CI_Model {
     
     public function get_prospect_consult($id) 
     {
-            $query = $this->db->get_where('prospects', array('id' => $id));
-            return $query->row();
+        $query = $this->db->get_where('prospects', array('id' => $id));
+        return $query->row();
     }
 
-}
+    public function fetchProspects($status, $numberOfProspects) {
+        // Fetch the prospects with the given status and limit
+        $this->db->where('status', $status);
+        $this->db->limit($numberOfProspects);
+        $query = $this->db->get('prospects');
+        return $query->result_array();
+    }
 
+    public function updateActiveProspects($numberOfProspects, $status) {
+        // Update the 'active' column based on the conditions
+        $this->db->where('status', $status);
+        $this->db->where('active', 0); // Assuming you want to update only inactive prospects
+        $this->db->limit($numberOfProspects);
+        $this->db->update('prospects', ['active' => 1]);
+    }
+
+    public function get_active_prospects() {
+        $this->db->where('active', 1);
+        $query = $this->db->get('prospects');
+        return $query->result_array();
+    }
+
+    
+}
+?>

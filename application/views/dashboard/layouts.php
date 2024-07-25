@@ -58,6 +58,7 @@
           id="darkTheme" disabled>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
     <style>
         .st0 {
             fill: #32CD32; /* Change fill color to green */
@@ -221,9 +222,7 @@
                                 <span class="ml-3 item-text">Créer prospect</span>
                             </a>
                         </li>
-                    <?php endif; ?>
-
-
+                    <?php endif; ?> 
                     <li class="nav-item w-100">
                         <!-- lien selon le role -->
                         <?php $role = $this->session->userdata('role'); ?>
@@ -241,6 +240,18 @@
                         <span class="ml-3 item-text">Liste des prospects</span>
                         </a>
                     </li>
+
+                    <?php if ($this->session->userdata('role') == 'user'): ?>
+                        <li class="nav-item w-100">
+                            <a class="nav-link"
+                               href="<?= base_url('prospects-contacter') ?>">
+                                <i class="fe fe-phone fe-16"></i>
+                                <span class="ml-3 item-text">Prospects à contacter</span>
+                            </a>
+                        </li>
+                    <?php endif; ?>
+
+                   
                 </ul>
                 <p class="text-muted nav-heading mt-4 mb-1">
                     <span>Rapports et statistiques</span>
