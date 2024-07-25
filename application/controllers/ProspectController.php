@@ -138,7 +138,7 @@ class ProspectController extends CI_Controller
         } else {
             $this->session->set_flashdata('error', 'Failed to delete user.');
         }
-        redirect('dashboard/prospects_table');
+        redirect('table-prospects');
     }
     
     public function selectProspects() {
