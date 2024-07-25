@@ -160,7 +160,7 @@
                         <svg version="1.1" id="logo"
                              class="navbar-brand-img brand-sm"
                              xmlns="http://www.w3.org/2000/svg"
-                             xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+                             x="0px"
                              y="0px" viewBox="0 0 120 120" xml:space="preserve">
         <g>
             <polygon class="st0" points="78,105 15,105 24,87 87,87"/>
@@ -172,7 +172,7 @@
                         <svg version="1.1" id="logo"
                              class="navbar-brand-img brand-sm"
                              xmlns="http://www.w3.org/2000/svg"
-                             xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+                             x="0px"
                              y="0px" viewBox="0 0 120 120" xml:space="preserve">
         <g>
             <polygon class="st1" points="78,105 15,105 24,87 87,87"/>
@@ -273,12 +273,18 @@
                     <span>Rappels</span>
                 </p>
                 <ul class="navbar-nav flex-fill w-100 mb-2">
+                    <!-- Example navigation item with badge -->
                     <li class="nav-item w-100">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="<?= base_url('rappels') ?>">
                             <i class="fe fe-bell fe-16"></i>
                             <span class="ml-3 item-text">Rappels</span>
+                            <!-- Badge for number of pending rappels -->
+                            <?php if (isset($pending_count) && $pending_count > 0): ?>
+                                <span class="badge badge-success font-weight-bolder px-2 text-white pt-2"><?= $pending_count ?></span>
+                            <?php endif; ?>
                         </a>
                     </li>
+
                     <li class="nav-item w-100">
                         <a class="nav-link"
                            href="<?= base_url('/calendrier') ?>">
