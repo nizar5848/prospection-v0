@@ -179,6 +179,35 @@ class ProspectController extends CI_Controller
         $this->load->view('dashboard/layouts', $data);
     }
 
+    public function change_status($id)
+{
+    // Load the model
+    $this->load->model('ProspectModel');
+
+    // Get the status from the form
+    $status = $this->input->post('status');
+
+    // Update the prospect status in the database
+    $this->ProspectModel->update_status($id, $status);
+
+    // Redirect to a success page or back to the prospect details
+    redirect('ProspectController/consult_prospect/'.$id);
+}
+
+public function close_call($id)
+{
+    // Load the model
+    $this->load->model('ProspectModel');
+
+    // Update the prospect's active status to 0
+    $this->ProspectModel->set_active_status($id, 0);
+
+    // Redirect to a success page or back to the prospect details
+    redirect('ProspectController/active_prospects/'.$id);
+}
+
+
+
     
 }
 ?>

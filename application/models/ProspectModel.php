@@ -56,6 +56,28 @@ class ProspectModel extends CI_Model {
         return $query->result_array();
     }
 
+    public function update_status($id, $status)
+{
+    $data = array(
+        'status' => $status
+    );
+
+    $this->db->where('id', $id);
+    $this->db->update('prospects', $data);
+}
+
+public function set_active_status($id, $status)
+{
+    $data = array(
+        'active' => $status
+    );
+
+    $this->db->where('id', $id);
+    $this->db->update('prospects', $data);
+}
+
+
+
     
 }
 ?>

@@ -93,7 +93,7 @@
 
 
 </head>
-<body class="vertical  light  ">
+<body class="vertical  light">
 <div class="wrapper">
     <nav class="topnav navbar navbar-light">
         <button type="button"
@@ -300,7 +300,7 @@
                 </ul>
         </nav>
     </aside>
-    <main role="main" class="main-content">
+    <main role="main" class="main-content ">
         <div class="container-fluid">
             <div class="row justify-content-center">
                 <div class="col-12">
