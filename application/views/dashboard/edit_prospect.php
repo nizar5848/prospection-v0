@@ -1,6 +1,6 @@
 <div class="wrapper vh-98 ">
     <div class="row align-items-center h-100">
-        <form action="<?php echo base_url('DashboardController/edit_prospect/' . $prospects['id']); ?>"
+        <form action="<?php echo base_url('ProspectController/edit_prospect/' . $prospects['id']); ?>"
               method="post"
               class="col-lg-6 col-md-8 col-10 mx-auto needs-validation"
               novalidate>

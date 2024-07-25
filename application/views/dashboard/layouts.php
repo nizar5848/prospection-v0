@@ -56,6 +56,8 @@
           id="lightTheme">
     <link rel="stylesheet" href="<?php echo base_url('css/app-dark.css'); ?>"
           id="darkTheme" disabled>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         .st0 {
             fill: #32CD32; /* Change fill color to green */
@@ -104,15 +106,7 @@
             <!--                    <i class="fe fe-sun fe-16"></i>-->
             <!--                </a>-->
             <!--            </li>-->
-            <li class="nav-item nav-notif">
-                <a class="nav-link text-muted my-2" href="./#"
-                   data-toggle="modal" data-target=".modal-notif"
-                   style="padding-top: 13px; margin-right: 10px;"
-                >
-                    <span class="fe fe-bell fe-24"></span>
-                    <span class="dot dot-md bg-success"></span>
-                </a>
-            </li>
+            
             <li class="nav-item dropdown">
 
                 <a class="nav-link dropdown-toggle text-muted pr-0" href="#"
@@ -160,7 +154,7 @@
                         <svg version="1.1" id="logo"
                              class="navbar-brand-img brand-sm"
                              xmlns="http://www.w3.org/2000/svg"
-                             xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+                             x="0px"
                              y="0px" viewBox="0 0 120 120" xml:space="preserve">
         <g>
             <polygon class="st0" points="78,105 15,105 24,87 87,87"/>
@@ -172,7 +166,7 @@
                         <svg version="1.1" id="logo"
                              class="navbar-brand-img brand-sm"
                              xmlns="http://www.w3.org/2000/svg"
-                             xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+                             x="0px"
                              y="0px" viewBox="0 0 120 120" xml:space="preserve">
         <g>
             <polygon class="st1" points="78,105 15,105 24,87 87,87"/>
@@ -273,12 +267,18 @@
                     <span>Rappels</span>
                 </p>
                 <ul class="navbar-nav flex-fill w-100 mb-2">
+                    <!-- Example navigation item with badge -->
                     <li class="nav-item w-100">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="<?= base_url('rappels') ?>">
                             <i class="fe fe-bell fe-16"></i>
                             <span class="ml-3 item-text">Rappels</span>
+                            <!-- Badge for number of pending rappels -->
+                            <?php if (isset($pending_count) && $pending_count > 0): ?>
+                                <span class="badge badge-success font-weight-bolder px-2 text-white pt-2"><?= $pending_count ?></span>
+                            <?php endif; ?>
                         </a>
                     </li>
+
                     <li class="nav-item w-100">
                         <a class="nav-link"
                            href="<?= base_url('/calendrier') ?>">
@@ -297,48 +297,6 @@
 
                     </div>
 
-
-                    <div class="modal fade modal-notif modal-slide"
-                         tabindex="-1" role="dialog"
-                         aria-labelledby="defaultModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-sm" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title"
-                                        id="defaultModalLabel">
-                                        Notifications</h5>
-                                    <button type="button" class="close"
-                                            data-dismiss="modal"
-                                            aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="list-group list-group-flush my-n3">
-                                        <div class="list-group-item bg-transparent">
-                                            <div class="row align-items-center">
-                                                <div class="col-auto">
-                                                    <span class="fe fe-box fe-24"></span>
-                                                </div>
-                                                <div class="col">
-                                                    <small><strong>Package has
-                                                            uploaded
-                                                            successfull</strong></small>
-                                                    <div class="my-0 text-muted small">
-                                                        Package is zipped and
-                                                        uploaded
-                                                    </div>
-                                                    <small class="badge badge-pill badge-light text-muted">1m
-                                                        ago</small>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Here we can add some content -->
 
                     <?php
                     $this->load->view($view);

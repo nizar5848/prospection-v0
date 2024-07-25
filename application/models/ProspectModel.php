@@ -28,6 +28,11 @@ class ProspectModel extends CI_Model {
         return $this->db->update('prospects', $data);
     }
     
+    public function get_prospect_consult($id) 
+    {
+            $query = $this->db->get_where('prospects', array('id' => $id));
+            return $query->row();
+    }
 
 }
 

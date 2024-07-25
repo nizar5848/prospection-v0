@@ -194,9 +194,9 @@ class DashboardController extends CI_Controller
                     <span class="text-muted sr-only">Action</span>
                 </button>
                 <div class="dropdown-menu dropdown-menu-left">
-                    <a class="dropdown-item" href="' . base_url('DashboardController/consulter_prospect/' . $row['id']) . '">Consulter</a>
-                    <a class="dropdown-item" href="' . base_url('DashboardController/edit_prospect/' . $row['id']) . '">Modifier</a>
-                    <a class="dropdown-item" href="' . base_url('DashboardController/delete_prospect/' . $row['id']) . '">Supprimer</a>
+                    <a class="dropdown-item" href="' . base_url('ProspectController/consult_prospect/' . $row['id']) . '">Consulter</a>
+                    <a class="dropdown-item" href="' . base_url('ProspectController/edit_prospect/' . $row['id']) . '">Modifier</a>
+                    <a class="dropdown-item" href="' . base_url('ProspectController/delete_prospect/' . $row['id']) . '">Supprimer</a>
                 </div>               
             </div>';
 
@@ -306,78 +306,12 @@ class DashboardController extends CI_Controller
     }
 
 
-    public function delete_prospect($id)
-    {
-            if ($this->ProspectModel->delete_user_by_id($id)) {
-                $this->session->set_flashdata('success', 'User deleted successfully.');
-            } else {
-                $this->session->set_flashdata('error', 'Failed to delete user.');
-            }
-            redirect('table-prospects');
-        }
+   
     
 
-        public function edit_prospect($id) {
-            // Validate form input
-            $this->form_validation->set_rules('first_name', 'Prénom', 'required');
-            $this->form_validation->set_rules('last_name', 'Nom', 'required');
-            $this->form_validation->set_rules('email', 'E-mail', 'required|valid_email');
-            $this->form_validation->set_rules('company', 'Entreprise', 'required');
-            $this->form_validation->set_rules('phone_number', 'Numéro téléphone', 'required');
-            $this->form_validation->set_rules('address', 'Adresse', 'required');
         
-            // Load user data (assuming you have a way to get the current user)
-            $user = $this->session->userdata('user'); // Adjust this as per your application
-        
-            if ($this->form_validation->run() === FALSE) {
-                // Form validation failed, load the form again with errors
-                $data = [
-                    'title' => 'Modifier Prospects',
-                    'view' => 'dashboard/edit_prospect',
-                    'user' => $user,
-                    'prospects' => $this->ProspectModel->get_prospect($id)
-                ];
-                $this->load->view('dashboard/layouts', $data);
-            } else {
-                // Form validation succeeded, proceed to update the database
-                $data = array(
-                    'first_name' => $this->input->post('first_name'),
-                    'last_name' => $this->input->post('last_name'),
-                    'email' => $this->input->post('email'),
-                    'company' => $this->input->post('company'),
-                    'phone_number' => $this->input->post('phone_number'),
-                    'address' => $this->input->post('address'),
-                    'status' => 'nouveau', // Update status if needed
-                    'historiqueInteractions' => '' // Update this field as needed
-                );
-        
-                // Call the model to update data
-                if ($this->ProspectModel->update_prospect($id, $data)) {
-                    // Successfully updated
-                    redirect('table-prospects-globale'); // Replace with your redirect URL
-                } else {
-                    // Update failed, handle error
-                    $data = [
-                        'title' => 'Modifier Prospects',
-                        'view' => 'dashboard/edit_prospect',
-                        'user' => $user,
-                        'prospects' => $this->ProspectModel->get_prospect($id),
-                        'error' => 'Failed to update prospect'
-                    ];
-                    $this->load->view('dashboard/layouts', $data);
-                }
-            }
-        }
         
 
-        public function consulter_prospect($id) 
-        {
-            $data = [
-                'title' => 'Consulation des prospects',
-                'view' => 'dashboard/consulter_prospect',
-            ];
-            $this->load->view('dashboard/layouts', $data);
-        }
     
     
 }

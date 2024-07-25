@@ -7,9 +7,9 @@ $route['translate_uri_dashes'] = false;
 // Authentication routes
 $route['auth/layouts'] = 'authController/login';
 
-$route['login']    = 'authController/login';
-$route['logout']   = 'authController/logout';
-$route['register'] = 'authController/register';
+$route['login']         = 'authController/login';
+$route['logout']        = 'authController/logout';
+$route['register']      = 'authController/register';
 $route['register_user'] = 'dashboardController/register';
 
 // Admin routes
@@ -36,3 +36,8 @@ $route['calendar/update_event']  = 'calendar/update_event';
 
 $route['supprimer-user'] = 'dashboardController/delete_user';
 
+// rappels
+
+$route['rappels']                      = 'rappelsController/rappels';
+$route['rappels/create']               = 'rappelsController/create';
+$route['rappels/switch_status/(:num)'] = 'rappelsController/switch_status/$1';
