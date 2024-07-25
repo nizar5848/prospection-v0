@@ -27,6 +27,7 @@ class ProspectModel extends CI_Model {
         $this->db->where('id', $id);
         return $this->db->update('prospects', $data);
     }
+    
 
 }
 

@@ -1,4 +1,4 @@
-<div class="wrapper vh-98 p-5">
+<div class="wrapper vh-98 ">
     <div class="row align-items-center h-100">
         <?php echo form_open('DashboardController/edit_user/' . $user['id'], [
             'class' => 'col-lg-6 col-md-8 col-10 mx-auto needs-validation', 'novalidate' => true,

@@ -194,6 +194,7 @@ class DashboardController extends CI_Controller
                     <span class="text-muted sr-only">Action</span>
                 </button>
                 <div class="dropdown-menu dropdown-menu-left">
+                    <a class="dropdown-item" href="' . base_url('DashboardController/consulter_prospect/' . $row['id']) . '">Consulter</a>
                     <a class="dropdown-item" href="' . base_url('DashboardController/edit_prospect/' . $row['id']) . '">Modifier</a>
                     <a class="dropdown-item" href="' . base_url('DashboardController/delete_prospect/' . $row['id']) . '">Supprimer</a>
                 </div>               
@@ -368,6 +369,15 @@ class DashboardController extends CI_Controller
             }
         }
         
+
+        public function consulter_prospect($id) 
+        {
+            $data = [
+                'title' => 'Consulation des prospects',
+                'view' => 'dashboard/consulter_prospect',
+            ];
+            $this->load->view('dashboard/layouts', $data);
+        }
     
     
 }
