@@ -8,6 +8,8 @@ class ProspectController extends CI_Controller
         parent::__construct();
         $this->load->model('ProspectModel'); // Load the ProspectModel
         $this->load->library('form_validation'); // Load the form_validation library
+        $this->load->library('PHPExcel');
+
     }
 
     public function registerProspect()
@@ -206,7 +208,97 @@ public function close_call($id)
     redirect('ProspectController/active_prospects/'.$id);
 }
 
+public function exportToExcel() {
+    // Fetch prospects data
+    $prospects = $this->ProspectModel->get_all_prospects();
 
+    // Create new PHPExcel object
+    $objPHPExcel = new PHPExcel();
+
+    // Set document properties
+    $objPHPExcel->getProperties()->setCreator("Your Name")
+                                 ->setLastModifiedBy("Your Name")
+                                 ->setTitle("Prospects Export")
+                                 ->setSubject("Prospects Export")
+                                 ->setDescription("Export of prospects data.")
+                                 ->setKeywords("prospects export phpexcel")
+                                 ->setCategory("Export");
+
+    // Add header
+    $objPHPExcel->setActiveSheetIndex(0)
+                ->setCellValue('A1', 'ID')
+                ->setCellValue('B1', 'Nom')
+                ->setCellValue('C1', 'Prénom')
+                ->setCellValue('D1', 'Email')
+                ->setCellValue('E1', 'Entreprise')
+                ->setCellValue('F1', 'Téléphone')
+                ->setCellValue('G1', 'Adresse')
+                ->setCellValue('H1', 'Statut');
+
+    // Add data
+    $row = 2;
+    foreach ($prospects as $prospect) {
+        $objPHPExcel->setActiveSheetIndex(0)
+                    ->setCellValue('A'.$row, $prospect->id)
+                    ->setCellValue('B'.$row, $prospect->last_name)
+                    ->setCellValue('C'.$row, $prospect->first_name)
+                    ->setCellValue('D'.$row, $prospect->email)
+                    ->setCellValue('E'.$row, $prospect->company)
+                    ->setCellValue('F'.$row, $prospect->phone_number)
+                    ->setCellValue('G'.$row, $prospect->address)
+                    ->setCellValue('H'.$row, $prospect->status);
+        $row++;
+    }
+
+    // Rename worksheet
+    $objPHPExcel->getActiveSheet()->setTitle('Prospects');
+
+    // Set active sheet index to the first sheet, so Excel opens this as the first sheet
+    $objPHPExcel->setActiveSheetIndex(0);
+
+    // Redirect output to a client’s web browser (Excel2007)
+    header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    header('Content-Disposition: attachment;filename="prospects.xlsx"');
+    header('Cache-Control: max-age=0');
+
+    $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+    $objWriter->save('php://output');
+    exit;
+}
+
+public function importFromExcel() {
+    if(isset($_FILES['excel_file']['name']) && $_FILES['excel_file']['name'] != '') {
+        $path = $_FILES['excel_file']['tmp_name'];
+        $objPHPExcel = PHPExcel_IOFactory::load($path);
+
+        $sheetData = $objPHPExcel->getActiveSheet()->toArray(null,true,true,true);
+        $data = array();
+        /*$get_last = $this->db->query('SELECT id FROM prospects ORDER BY id DESC')->row(0);
+        var_export( $get_last);*/
+        foreach ($sheetData as $row) {
+            if ($row['A'] != 'ID') { 
+                $data[] = array(
+                   // 'id' => $row['A'],
+                    'last_name' => $row['B'],
+                    'first_name' => $row['C'],
+                    'email' => $row['D'],
+                    'company' => $row['E'],
+                    'phone_number' => $row['F'],
+                    'address' => $row['G'],
+                    'status' => $row['H']
+                );
+            }
+        }
+
+        if(!empty($data)) {
+            $this->ProspectModel->insert_batch($data);
+        }
+
+        redirect('table-prospects');
+    } else {
+        echo "Please upload a file.";
+    }
+}
 
     
 }

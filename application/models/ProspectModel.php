@@ -76,7 +76,14 @@ public function set_active_status($id, $status)
     $this->db->update('prospects', $data);
 }
 
+public function get_all_prospects() {
+    $query = $this->db->get('prospects');
+    return $query->result();
+}
 
+public function insert_batch($data) {
+    $this->db->insert_batch('prospects', $data);
+}
 
     
 }

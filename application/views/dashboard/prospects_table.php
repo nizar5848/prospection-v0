@@ -1,35 +1,45 @@
 <div class="container">
-   <h2>Table de tous les prospects</h2>
+    <h2>Table de tous les prospects</h2>
+
+    <!-- Export to Excel Button -->
+    <form method="post" action="<?php echo base_url('ProspectController/exportToExcel'); ?>">
+        <button type="submit" class="btn btn-success">Exporter vers Excel</button>
+    </form>
+
+    <!-- Import from Excel Button -->
+    <form method="post" enctype="multipart/form-data" action="<?php echo base_url('ProspectController/importFromExcel'); ?>">
+        <input type="file" name="excel_file" />
+        <button type="submit" class="btn btn-primary">Importer depuis Excel</button>
+    </form>
     
     <?php if ($this->session->userdata('role') == 'user'): ?>
-      <form method="post" action="<?php echo base_url('ProspectController/selectProspects'); ?>">
-    <div class="row">
-        <div class="col-md-6">
-            <label for="number_of_prospects">Nombre de prospects:</label>
-            <select id="number_of_prospects" name="number_of_prospects" class="form-control">
-                <option value="" default>Selectionner un nombre</option>
-                <option value="10">10</option>
-                <option value="20">20</option>
-                <option value="30">30</option>
-                <option value="40">40</option>
-                <option value="50">50</option>
-            </select>
+    <form method="post" action="<?php echo base_url('ProspectController/selectProspects'); ?>">
+        <div class="row">
+            <div class="col-md-6">
+                <label for="number_of_prospects">Nombre de prospects:</label>
+                <select id="number_of_prospects" name="number_of_prospects" class="form-control">
+                    <option value="" default>Selectionner un nombre</option>
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                    <option value="40">40</option>
+                    <option value="50">50</option>
+                </select>
+            </div>
+            <div class="col-md-6">
+                <label for="status">Statut:</label>
+                <select id="status" name="status" class="form-control">
+                    <option value="" default>Selectionner un statut</option>
+                    <option value="nouveau">Nouveau</option>
+                    <option value="contacte">Contacté</option>
+                    <option value="en_negociation">En négociation</option>
+                </select>
+            </div>
         </div>
-        <div class="col-md-6">
-            <label for="status">Statut:</label>
-            <select id="status" name="status" class="form-control">
-                <option value="" default>Selectionner un statut</option>
-                <option value="nouveau">Nouveau</option>
-                <option value="contacte">Contacté</option>
-                <option value="en_negociation">En négociation</option>
-            </select>
-        </div>
-    </div>
-    <br>
-    <button type="submit" class="btn btn-primary">Sélectionner</button>
-</form>
+        <br>
+        <button type="submit" class="btn btn-primary">Sélectionner</button>
+    </form>
     <?php endif; ?>
-    
 
     <br><br>
     <table id="example1" class="table border dt-responsive nowrap" style="width:100%">
@@ -50,8 +60,6 @@
         </thead>
     </table>
 </div>
-
-
 
 <!-- Import jQuery -->
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
