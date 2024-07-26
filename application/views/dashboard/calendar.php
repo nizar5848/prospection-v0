@@ -8,7 +8,9 @@
                     Ajouter un événement
                 </button>
             </div>
-            <div id="calendar"></div>
+            <div class="bg-white p-4">
+                <div id="calendar"></div>
+            </div>
         </div>
     </div>
 </div>

@@ -58,7 +58,7 @@
           id="darkTheme" disabled>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    
+
     <style>
         .st0 {
             fill: #32CD32; /* Change fill color to green */
@@ -87,6 +87,12 @@
             .nav-item:hover .nav-link .item-text {
                 color: #32CD32;
             }
+
+            @media (min-width: 1200px) {
+                .container, .container-sm, .container-md, .container-lg, .container-xl {
+                    max-width: 1400px;
+                }
+            }
         </style>
 
     <?php endif; ?>
@@ -107,7 +113,7 @@
             <!--                    <i class="fe fe-sun fe-16"></i>-->
             <!--                </a>-->
             <!--            </li>-->
-            
+
             <li class="nav-item dropdown">
 
                 <a class="nav-link dropdown-toggle text-muted pr-0" href="#"
@@ -222,7 +228,7 @@
                                 <span class="ml-3 item-text">Créer prospect</span>
                             </a>
                         </li>
-                    <?php endif; ?> 
+                    <?php endif; ?>
                     <li class="nav-item w-100">
                         <!-- lien selon le role -->
                         <?php $role = $this->session->userdata('role'); ?>
@@ -251,7 +257,7 @@
                         </li>
                     <?php endif; ?>
 
-                   
+
                 </ul>
                 <p class="text-muted nav-heading mt-4 mb-1">
                     <span>Rapports et statistiques</span>
