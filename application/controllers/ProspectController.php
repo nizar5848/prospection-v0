@@ -278,7 +278,6 @@ public function importFromExcel() {
         foreach ($sheetData as $row) {
             if ($row['A'] != 'ID') { 
                 $data[] = array(
-                   // 'id' => $row['A'],
                     'last_name' => $row['B'],
                     'first_name' => $row['C'],
                     'email' => $row['D'],
