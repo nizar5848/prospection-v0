@@ -102,7 +102,7 @@ public function insert_batch($data) {
 }
 
     
-}
+
     // charts
     public function get_prospects_by_status()
     {
