@@ -114,35 +114,38 @@
             <!--                </a>-->
             <!--            </li>-->
 
-            <li class="nav-item dropdown">
-
-                <a class="nav-link dropdown-toggle text-muted pr-0" href="#"
-                   id="navbarDropdownMenuLink" role="button"
-                   data-toggle="dropdown" aria-haspopup="true"
-                   aria-expanded="false"
-                   style="display: flex; align-items: center; height: fit-content">
-                <span class="avatar avatar-sm mt-2"
-                      style="display: flex; justify-content: center; align-items: center; background-color: <?= $this->session->userdata("role") === "admin" ? 'blue' : '#32CD32' ?>; border-radius: 50%; width: 35px; height: 35px;">
+            <!--dropdown avatar-->
+            <li class="nav-item dropdown" style="position: relative; right: 35px;">
+                <a class="nav-link text-muted pr-0" href="#" id="navbarDropdownMenuLink" role="button"
+                   onclick="toggleDropdown()" aria-haspopup="true" aria-expanded="false"
+                   style="display: flex; align-items: center; height: fit-content; cursor: pointer;">
+              <span class="avatar avatar-sm mt-2"
+                    style="display: flex; justify-content: center; align-items: center; background-color: <?= $this->session->userdata('role') === 'admin' ? 'blue' : '#32CD32' ?>; border-radius: 50%; width: 35px; height: 35px;">
                     <span style="color: white; font-size: 14px; margin-top: 4px; font-weight: bold;">
-                        <?php
-                        $first_name = $this->session->userdata('first_name');
-                        $last_name  = $this->session->userdata('last_name');
-                        $initials   = strtoupper($first_name[0].$last_name[0]);
-                        echo $initials;
-                        ?>
-                    </span>
-                </span>
-                    <i class="fa fa-caret-down ml-2"></i> <!-- Dropdown icon -->
+                <?php
+                $first_name = $this->session->userdata('first_name');
+                $last_name  = $this->session->userdata('last_name');
+                $initials   = strtoupper($first_name[0].$last_name[0]);
+                echo $initials;
+                ?>
+            </span>
+        </span>
                 </a>
-                <div class="dropdown-menu dropdown-menu-right"
-                     aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="#">Profile</a>
-                    <a class="dropdown-item" href="#">Settings</a>
-                    <a class="dropdown-item" href="#">Activities</a>
-                    <a class="dropdown-item"
-                       href="<?= base_url('authController/logout') ?>">Déconnexion</a>
+                <div class="dropdown-menu" id="dropdownMenu"
+                     style="display: none; position: absolute; top: 100%; left: -100px; background-color: white; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15); border-radius: 4px; z-index: 1000; min-width: 160px;">
+                    <a class="dropdown-item" href="#"
+                       style="display: block; padding: 8px 16px; color: black; text-decoration: none;">Profile</a>
+                    <a class="dropdown-item" href="#"
+                       style="display: block; padding: 8px 16px; color: black; text-decoration: none;">Settings</a>
+                    <a class="dropdown-item" href="#"
+                       style="display: block; padding: 8px 16px; color: black; text-decoration: none;">Activities</a>
+                    <a class="dropdown-item" href="<?= base_url('authController/logout') ?>"
+                       style="display: block; padding: 8px 16px; color: black; text-decoration: none;">Déconnexion</a>
                 </div>
             </li>
+
+
+            <!--end of dropdown avatar-->
         </ul>
     </nav>
     <aside class="sidebar-left border-right bg-white shadow" id="leftSidebar"
@@ -365,7 +368,30 @@
   gtag('js', new Date());
   gtag('config', 'UA-56159088-1');
 
+</script>
+<!--dropdown avatar script-->
+<script>
+  function toggleDropdown() {
+    var dropdownMenu = document.getElementById('dropdownMenu');
+    if (dropdownMenu.style.display === 'none' || dropdownMenu.style.display === '') {
+      dropdownMenu.style.display = 'block';
+    } else {
+      dropdownMenu.style.display = 'none';
+    }
+  }
 
+  // Close the dropdown if the user clicks outside of it
+  window.onclick = function(event) {
+    if (!event.target.closest('#navbarDropdownMenuLink')) {
+      var dropdowns = document.getElementsByClassName('dropdown-menu');
+      for (var i = 0; i < dropdowns.length; i++) {
+        var openDropdown = dropdowns[i];
+        if (openDropdown.style.display === 'block') {
+          openDropdown.style.display = 'none';
+        }
+      }
+    }
+  };
 </script>
 </body>
 </html>

@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="d-flex justify-content-between align-items-end mb-3">
-                <h5 class="text-center mx-auto">Calendrier</h5>
+                <h5 class="text-center mx-auto mt-5">Calendrier</h5>
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#event_entry_modal"
                         onclick="showAddEventModal()">
                     Ajouter un événement
