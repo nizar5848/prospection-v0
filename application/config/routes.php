@@ -21,6 +21,7 @@ $route['table-prospects-globale'] = 'dashboardController/prospectsTableAdmin';
 
 // User routes
 $route['dashboard']       = 'DashboardController/userDashboard';
+$route['statistiques']    = 'DashboardController/statistiques';
 $route['table-prospects'] = 'dashboardController/prospectsTableUser';
 
 
@@ -44,5 +45,4 @@ $route['rappels/switch_status/(:num)'] = 'rappelsController/switch_status/$1';
 
 //Prospects à contacter
 
-$route['prospects-contacter']                      = 'ProspectController/active_prospects';
-
+$route['prospects-contacter'] = 'ProspectController/active_prospects';
