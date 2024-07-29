@@ -299,6 +299,22 @@ public function importFromExcel() {
     }
 }
 
+public function selectProspect($id) {
+    // Update the active column to 1 for the given ID
+    $updateStatus = $this->ProspectModel->updateActiveStatus($id, 1);
+    
+    if ($updateStatus) {
+        // Optionally, you can set a success message and redirect
+        $this->session->set_flashdata('success', 'Prospect updated successfully!');
+    } else {
+        // Optionally, you can set an error message and redirect
+        $this->session->set_flashdata('error', 'Failed to update prospect.');
+    }
+    
+    // Redirect to a relevant page, such as the list of prospects
+    redirect('table-prospects');
+}
+
     
 }
 ?>

@@ -152,6 +152,12 @@ public function insert_batch($data) {
             'total'                 => $total,
         ];
     }
+    
+    public function updateActiveStatus($id, $status) {
+        // Update the active column for the specified ID
+        $this->db->where('id', $id);
+        return $this->db->update('prospects', array('active' => $status));
+    }
 
 }
 

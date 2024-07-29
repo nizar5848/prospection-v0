@@ -204,6 +204,7 @@ class DashboardController extends CI_Controller
                 </button>
                 <div class="dropdown-menu dropdown-menu-left">
                     <a class="dropdown-item" href="'.base_url('ProspectController/consult_prospect/'.$row['id']).'">Consulter</a>
+                    <a class="dropdown-item" href="'.base_url('ProspectController/selectProspect/'.$row['id']).'">Ajouter à  contacter</a>
                     <a class="dropdown-item" href="'.base_url('ProspectController/edit_prospect/'.$row['id']).'">Modifier</a>
                     <a class="dropdown-item" href="'.base_url('ProspectController/delete_prospect/'.$row['id']).'">Supprimer</a>
                 </div>               

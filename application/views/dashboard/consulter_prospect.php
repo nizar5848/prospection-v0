@@ -86,11 +86,11 @@
                 <div class="form-group mb-3">
                     <label for="status">Status:</label>
                     <select class="form-control" id="status" name="status">
-                        <option value="nouveau">Nouveau</option>
-                        <option value="contacte">Contacté</option>
-                        <option value="en_negociation">En Négociation</option>
-                        <option value="converti">Converti</option>
-                        <option value="perdu">Perdu</option>
+                    <option value="nouveau" <?= ($prospect->status == 'nouveau') ? 'selected' : '' ?>>Nouveau</option>
+                        <option value="contacte" <?= ($prospect->status == 'contacte') ? 'selected' : '' ?>>Contacté</option>
+                        <option value="en_negociation" <?= ($prospect->status == 'en_negociation') ? 'selected' : '' ?>>En Négociation</option>
+                        <option value="converti" <?= ($prospect->status == 'converti') ? 'selected' : '' ?>>Converti</option>
+                        <option value="perdu" <?= ($prospect->status == 'perdu') ? 'selected' : '' ?>>Perdu</option>
                     </select>
                 </div>
                 <button type="submit" class="btn btn-outline-primary"><i class="fas fa-sync-alt me-1"></i> Mettre à Jour</button>
