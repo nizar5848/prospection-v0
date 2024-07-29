@@ -11,8 +11,9 @@ class Calendar extends CI_Controller
     public function index()
     {
         $data = [
-            'view'  => 'dashboard/calendar',
-            'title' => 'calendrier',
+            'view'          => 'dashboard/calendar',
+            'title'         => 'calendrier',
+            'pending_count' => $this->session->userdata('pending_count'),
         ];
         $this->load->view('dashboard/layouts', $data);
     }

@@ -64,6 +64,7 @@ class DashboardController extends CI_Controller
             "prospects_data"        => $prospects_data,
 //            "conversion_percentage" => $conversion_data['conversion_percentage'],
             "total_conversion"      => $conversion_data['total'],
+            'pending_count'         => $this->session->userdata('pending_count'),
         ];
 
         $this->load->view('dashboard/layouts', $data);
@@ -93,6 +94,7 @@ class DashboardController extends CI_Controller
             "prospects_data"        => $prospects_data,
             "conversion_percentage" => $conversion_data['conversion_percentage'],
             "total_conversion"      => $conversion_data['total'],
+            'pending_count'         => $this->session->userdata('pending_count'),
         ];
 
         $this->load->view('dashboard/layouts', $data);
@@ -112,8 +114,9 @@ class DashboardController extends CI_Controller
     public function calendar()
     {
         $data = [
-            "title" => "Calendrier",
-            "view"  => "dashboard/calendar",
+            "title"         => "Calendrier",
+            "view"          => "dashboard/calendar",
+            'pending_count' => $this->session->userdata('pending_count'),
         ];
 
         $this->load->view('dashboard/layouts', $data);
@@ -122,8 +125,9 @@ class DashboardController extends CI_Controller
     public function prospectsTableUser()
     {
         $data = [
-            "title" => "Liste de tout les prospects.",
-            "view"  => "dashboard/prospects_table",
+            "title"         => "Liste de tout les prospects.",
+            "view"          => "dashboard/prospects_table",
+            'pending_count' => $this->session->userdata('pending_count'),
         ];
 
         $this->load->view("dashboard/layouts", $data);
@@ -132,8 +136,9 @@ class DashboardController extends CI_Controller
     public function usersTable()
     {
         $layout_data = [
-            "title" => "Liste des utilisateurs",
-            "view"  => "dashboard/users_table",
+            "title"         => "Liste des utilisateurs",
+            "view"          => "dashboard/users_table",
+            'pending_count' => $this->session->userdata('pending_count'),
         ];
 
         $this->load->view('dashboard/layouts', $layout_data);

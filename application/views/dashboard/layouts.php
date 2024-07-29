@@ -197,7 +197,7 @@
                     </a>
                 </li>
 
-                </li>
+               
             </ul>
             <?php if ($this->session->userdata('role') == 'admin'): ?>
             <p class="text-muted nav-heading mt-4 mb-1">

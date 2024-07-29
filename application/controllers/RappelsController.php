@@ -15,13 +15,15 @@ class RappelsController extends CI_Controller
         $pending_rappels = $this->Rappel_model->get_rappels_by_user($user_id);
         $pending_count   = count($pending_rappels);
 
+        $this->session->set_userdata('pending_count', $pending_count);
+
         $data = [
             'title'         => 'Rappels',
             'view'          => 'rappels/index',
             'first_name'    => $this->session->userdata('first_name'),
             'id'            => $this->session->userdata('id'),
             'rappels'       => $pending_rappels,
-            'pending_count' => $pending_count,
+            'pending_count' => $this->session->userdata('pending_count'),
         ];
 
         $this->load->view('dashboard/layouts', $data);
