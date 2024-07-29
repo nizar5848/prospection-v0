@@ -1,6 +1,56 @@
 <div class="container">
-<button type="button" class="btn btn-outline-danger ms-2 mb-3" onclick="window.location.href='<?= site_url('ProspectController/close_call/'.$prospect->id) ?>'"><i class="fas fa-phone-slash me-1"></i> Clôturer l'appel
-</button>
+    <button type="button" class="btn btn-outline-danger ms-2 mb-3" onclick="window.location.href='<?= site_url('ProspectController/close_call/'.$prospect->id) ?>'">
+        <i class="fas fa-phone-slash me-1"></i> Clôturer l'appel
+    </button>
+    
+    <!-- Change Status and Notes Cards in the Same Row -->
+    <div class="row mb-4">
+        <!-- Change Status Card -->
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-header bg-secondary text-white">
+                    <h4 class="mb-0 text-white">Changer le Statut</h4>
+                </div>
+                <div class="card-body">
+                    <form action="<?= site_url('ProspectController/change_status/'.$prospect->id) ?>" method="post">
+                        <div class="form-group mb-3">
+                            <label for="status">Status:</label>
+                            <select class="form-control" id="status" name="status">
+                                <option value="nouveau" <?= ($prospect->status == 'nouveau') ? 'selected' : '' ?>>Nouveau</option>
+                                <option value="contacte" <?= ($prospect->status == 'contacte') ? 'selected' : '' ?>>Contacté</option>
+                                <option value="en_negociation" <?= ($prospect->status == 'en_negociation') ? 'selected' : '' ?>>En Négociation</option>
+                                <option value="converti" <?= ($prospect->status == 'converti') ? 'selected' : '' ?>>Converti</option>
+                                <option value="perdu" <?= ($prospect->status == 'perdu') ? 'selected' : '' ?>>Perdu</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-outline-primary">
+                            <i class="fas fa-sync-alt me-1"></i> Mettre à Jour
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Notes Card -->
+        <div class="col-md-8 mb-4">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-header bg-secondary text-white">
+                    <h4 class="mb-0 text-white">Prendre des Notes</h4>
+                </div>
+                <div class="card-body">
+                    <form action="<?= site_url('ProspectController/add_note/'.$prospect->id) ?>" method="post">
+                        <div class="form-group mb-2">
+                            <textarea class="form-control" name="note" rows="4" placeholder="Écrivez vos notes ici..."></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-outline-primary">
+                            <i class="fas fa-save me-1"></i> Sauvegarder
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="row">
         <!-- Main Prospect Details Card -->
         <div class="col-md-4 mb-4">
@@ -20,102 +70,129 @@
                     </div>
                     <div class="list-group">
                         <div class="list-group-item bg-light">
-                            <i class="fas fa-envelope text-success me-2 mr-1"></i>
+                            <i class="fas fa-envelope text-success me-2"></i>
                             <strong>E-mail:</strong> <?= $prospect->email ?>
                         </div>
                         <div class="list-group-item bg-light">
-                            <i class="fas fa-building text-success me-2 mr-1"></i>
+                            <i class="fas fa-building text-success me-2"></i>
                             <strong>Entreprise:</strong> <?= $prospect->company ?>
                         </div>
                         <div class="list-group-item bg-light">
-                            <i class="fas fa-phone text-success me-2 mr-1"></i>
+                            <i class="fas fa-phone text-success me-2"></i>
                             <strong>Numéro téléphone:</strong> <?= $prospect->phone_number ?>
                         </div>
                         <div class="list-group-item bg-light">
-                            <i class="fas fa-map-marker-alt text-success me-2 mr-1"></i>
+                            <i class="fas fa-map-marker-alt text-success me-2"></i>
                             <strong>Adresse:</strong> <?= $prospect->address ?>
                         </div>
                         <div class="list-group-item bg-light">
-                            <i class="fas fa-info-circle text-success me-2 mr-1"></i>
+                            <i class="fas fa-info-circle text-success me-2"></i>
                             <strong>Status:</strong> <?= $prospect->status ?>
                         </div>
                         <div class="list-group-item bg-light">
-                            <i class="fas fa-calendar-alt text-success me-2 mr-1"></i>
+                            <i class="fas fa-calendar-alt text-success me-2"></i>
                             <strong>Date de Création:</strong> <?= date('d-m-Y', strtotime($prospect->created_at)) ?>
                         </div>
                         <div class="list-group-item bg-light">
-                            <i class="fas fa-calendar-check text-success me-2 mr-1"></i>
+                            <i class="fas fa-calendar-check text-success me-2"></i>
                             <strong>Dernière Mise à Jour:</strong> <?= date('d-m-Y', strtotime($prospect->updated_at)) ?>
                         </div>
                     </div>
                 </div>
                 <div class="card-footer text-right">
-                    <a href="<?= site_url('ProspectController/edit_prospect/'.$prospect->id) ?>" class="btn btn-outline-primary me-2"><i class="fas fa-edit me-1"></i>Modifier</a>
-                    <a href="<?= site_url('ProspectController/delete_prospect/'.$prospect->id) ?>" class="btn btn-outline-danger"><i class="fas fa-trash-alt me-1"></i>Supprimer</a>
+                    <a href="<?= site_url('ProspectController/edit_prospect/'.$prospect->id) ?>" class="btn btn-outline-primary me-2">
+                        <i class="fas fa-edit me-1"></i> Modifier
+                    </a>
+                    <a href="<?= site_url('ProspectController/delete_prospect/'.$prospect->id) ?>" class="btn btn-outline-danger">
+                        <i class="fas fa-trash-alt me-1"></i> Supprimer
+                    </a>
                 </div>
             </div>
         </div>
 
         <!-- Historique Interactions Card -->
-        <div class="col-md-8 mb-4">
-            <div class="card shadow-sm border-0">
+        <div class="col-md-8 mb-4 custom-card-container">
+            <div class="card shadow-sm border-0 h-100">
                 <div class="card-header bg-success text-white">
                     <h4 class="mb-0 text-white">Historique Interactions</h4>
                 </div>
-                <div class="card-body">
-                    <div class="bg-light p-3 rounded">
-                        <i class="fas fa-history text-info me-2"></i>
-                        <strong>Historique:</strong> <?= nl2br($prospect->historiqueInteractions) ?>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Change Status and Notes Cards in the Same Row -->
-        <div class="col-md-12 mb-4">
-            <div class="row">
-                <!-- Change Status Card -->
-                <!-- Change Status Card -->
-<div class="col-md-4 mb-4">
-    <div class="card shadow-sm border-0">
-        <div class="card-header bg-secondary text-white">
-            <h4 class="mb-0 text-white">Changer le Statut</h4>
-        </div>
-        <div class="card-body">
-            <form action="<?= site_url('ProspectController/change_status/'.$prospect->id) ?>" method="post">
-                <div class="form-group mb-3">
-                    <label for="status">Status:</label>
-                    <select class="form-control" id="status" name="status">
-                    <option value="nouveau" <?= ($prospect->status == 'nouveau') ? 'selected' : '' ?>>Nouveau</option>
-                        <option value="contacte" <?= ($prospect->status == 'contacte') ? 'selected' : '' ?>>Contacté</option>
-                        <option value="en_negociation" <?= ($prospect->status == 'en_negociation') ? 'selected' : '' ?>>En Négociation</option>
-                        <option value="converti" <?= ($prospect->status == 'converti') ? 'selected' : '' ?>>Converti</option>
-                        <option value="perdu" <?= ($prospect->status == 'perdu') ? 'selected' : '' ?>>Perdu</option>
-                    </select>
-                </div>
-                <button type="submit" class="btn btn-outline-primary"><i class="fas fa-sync-alt me-1"></i> Mettre à Jour</button>
-            </form>
-        </div>
-    </div>
-</div>
-
-                <!-- Notes Card -->
-                <div class="col-md-8 mb-4">
-                    <div class="card shadow-sm border-0 ">
-                        <div class="card-header bg-secondary text-white">
-                            <h4 class="mb-0 text-white">Prendre des Notes</h4>
-                        </div>
-                        <div class="card-body">
-                            <form action="<?= site_url('ProspectController/add_note/'.$prospect->id) ?>" method="post">
-                                <div class="form-group mb-2">
-                                    <textarea class="form-control" name="note" rows="4" placeholder="Écrivez vos notes ici..."></textarea>
+                <div class="card-body historique-interactions">
+                    <?php
+                    if (!empty($notes)):
+                        $currentDate = '';
+                        foreach ($notes as $note):
+                            $noteDate = format_french_date($note['created_at']);
+                            if ($noteDate !== $currentDate):
+                                if ($currentDate !== ''):
+                                    echo '</div></div>'; // Close the previous card for date
+                                endif;
+                                $currentDate = $noteDate;
+                    ?>
+                        <div class="mb-4">
+                            <div class="card shadow-sm border-0">
+                                <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <i class="fas fa-history text-info me-2"></i>
+                                        <strong>Date: </strong><?php echo $noteDate; ?>
+                                    </div>
                                 </div>
-                                <button type="submit" class="btn btn-outline-primary"><i class="fas fa-save me-1"></i> Sauvegarder</button>
-                            </form>
+                                <div class="card-body">
+                    <?php
+                            endif;
+                    ?>
+                                <div class="card mb-3">
+                                    <div class="card-body d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <strong>Note: </strong><?php echo nl2br($note['text']); ?>
+                                        </div>
+                                        <button type="button" class="custom-close-btn" onclick="window.location.href='<?= site_url('ProspectController/delete_note/'.$note['id']) ?>'"><span>&times;</span></button>
+                                    </div>
+                                </div>
+                    <?php
+                        endforeach;
+                        echo '</div></div>'; // Close the last date card
+                    else:
+                    ?>
+                        <div class="bg-light p-3 rounded mb-3">
+                            <i class="fas fa-history text-info me-2"></i>
+                            <strong>Aucune note disponible</strong>
                         </div>
-                    </div>
+                    <?php
+                    endif;
+                    ?>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<style>
+    .custom-card-container {
+        max-height: 528px; /* Set the maximum height for the container */
+        display: flex;
+        flex-direction: column;
+        overflow: hidden; /* Prevent overflow from expanding the container */
+    }
+
+    .historique-interactions {
+        flex: 1; /* Take up remaining space */
+        overflow-y: auto; /* Enable vertical scrolling if content overflows */
+    }
+
+    .h-100 {
+        height: 100%;
+    }
+
+    .custom-close-btn {
+        background-color: transparent;
+        border: none;
+        font-size: 1.5rem;
+        color: #454545;
+        cursor: pointer;
+        outline: none;
+    }
+
+    .custom-close-btn:hover {
+        color: #ff1a1a;
+    }
+</style>

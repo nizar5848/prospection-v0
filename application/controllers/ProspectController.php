@@ -9,6 +9,8 @@ class ProspectController extends CI_Controller
         $this->load->model('ProspectModel'); // Load the ProspectModel
         $this->load->library('form_validation'); // Load the form_validation library
         $this->load->library('PHPExcel');
+        $this->load->model('NoteModel');
+        $this->load->helper('date'); // Load the date helper
 
     }
 
@@ -114,24 +116,30 @@ class ProspectController extends CI_Controller
     public function consult_prospect($id) {
         // Load prospect data
         $prospect = $this->ProspectModel->get_prospect_consult($id);
-
+    
         // Check if prospect exists
         if (empty($prospect)) {
             show_404();
         }
-
+    
         // Load user data (if needed)
         $user = $this->session->userdata('user'); // Adjust this as per your application
-
+    
+        // Get notes for the prospect
+        $notes = $this->NoteModel->get_notes_by_prospect($id);
+    
         // Pass data to the view
         $data = [
             'title' => 'Consulter Prospect',
             'view' => 'dashboard/consulter_prospect',
             'user' => $user,
-            'prospect' => $prospect
+            'prospect' => $prospect,
+            'notes' => $notes // Pass notes to the view
         ];
+    
         $this->load->view('dashboard/layouts', $data);
     }
+    
 
     public function delete_prospect($id)
     {
@@ -314,6 +322,39 @@ public function selectProspect($id) {
     // Redirect to a relevant page, such as the list of prospects
     redirect('table-prospects');
 }
+
+public function add_note($prospect_id) {
+    // Assuming you have user session data
+    $user_id = $this->session->userdata('id');
+    $note_text = $this->input->post('note');
+
+    $data = array(
+        'user_id' => $user_id,
+        'prospect_id' => $prospect_id,
+        'text' => $note_text,
+        'created_at' => date('Y-m-d H:i:s')
+    );
+
+    $this->NoteModel->insert_note($data);
+
+    // Redirect back to the prospect detail page
+    redirect('ProspectController/consult_prospect/'.$prospect_id);
+}
+
+public function delete_note($note_id) {
+    // Load the model
+    $this->load->model('NoteModel');
+    
+    // Retrieve the prospect ID associated with the note
+    $prospect_id = $this->NoteModel->get_prospect_id_by_note_id($note_id);
+    
+    // Delete the note
+    $this->NoteModel->delete_note_by_id($note_id);
+    
+    // Redirect to the appropriate page (e.g., back to the prospect's page)
+    redirect('ProspectController/consult_prospect/'.$prospect_id);
+}
+
 
     
 }
