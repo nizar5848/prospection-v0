@@ -1,4 +1,6 @@
 <div class="container">
+    <!-- Check if the source is 'contact' to display the status and notes cards -->
+    <?php if (isset($_GET['source']) && $_GET['source'] === 'contact'): ?>
     <button type="button" class="btn btn-outline-danger ms-2 mb-3" onclick="window.location.href='<?= site_url('ProspectController/close_call/'.$prospect->id) ?>'">
         <i class="fas fa-phone-slash me-1"></i> Clôturer l'appel
     </button>
@@ -50,7 +52,9 @@
             </div>
         </div>
     </div>
+    <?php endif; ?>
 
+    <!-- Main Prospect Details and other content -->
     <div class="row">
         <!-- Main Prospect Details Card -->
         <div class="col-md-4 mb-4">
@@ -61,7 +65,7 @@
                 <div class="card-body">
                     <div class="d-flex align-items-center mb-3">
                         <div class="me-3">
-                            <i class="fas fa-user-circle fa-3x text-success"></i>
+                            <i class="fas fa-user-circle fa-3x text-success mr-2"></i>
                         </div>
                         <div>
                             <h5 class="card-title mb-0"><?= $prospect->first_name ?> <?= $prospect->last_name ?></h5>
@@ -70,31 +74,31 @@
                     </div>
                     <div class="list-group">
                         <div class="list-group-item bg-light">
-                            <i class="fas fa-envelope text-success me-2"></i>
+                            <i class="fas fa-envelope text-success me-2 mr-2"></i>
                             <strong>E-mail:</strong> <?= $prospect->email ?>
                         </div>
                         <div class="list-group-item bg-light">
-                            <i class="fas fa-building text-success me-2"></i>
+                            <i class="fas fa-building text-success me-2 mr-2"></i>
                             <strong>Entreprise:</strong> <?= $prospect->company ?>
                         </div>
                         <div class="list-group-item bg-light">
-                            <i class="fas fa-phone text-success me-2"></i>
+                            <i class="fas fa-phone text-success me-2 mr-2"></i>
                             <strong>Numéro téléphone:</strong> <?= $prospect->phone_number ?>
                         </div>
                         <div class="list-group-item bg-light">
-                            <i class="fas fa-map-marker-alt text-success me-2"></i>
+                            <i class="fas fa-map-marker-alt text-success me-2 mr-2"></i>
                             <strong>Adresse:</strong> <?= $prospect->address ?>
                         </div>
                         <div class="list-group-item bg-light">
-                            <i class="fas fa-info-circle text-success me-2"></i>
+                            <i class="fas fa-info-circle text-success me-2 mr-2"></i>
                             <strong>Status:</strong> <?= $prospect->status ?>
                         </div>
                         <div class="list-group-item bg-light">
-                            <i class="fas fa-calendar-alt text-success me-2"></i>
+                            <i class="fas fa-calendar-alt text-success me-2 mr-2"></i>
                             <strong>Date de Création:</strong> <?= date('d-m-Y', strtotime($prospect->created_at)) ?>
                         </div>
                         <div class="list-group-item bg-light">
-                            <i class="fas fa-calendar-check text-success me-2"></i>
+                            <i class="fas fa-calendar-check text-success me-2 mr-2"></i>
                             <strong>Dernière Mise à Jour:</strong> <?= date('d-m-Y', strtotime($prospect->updated_at)) ?>
                         </div>
                     </div>
@@ -145,7 +149,9 @@
                                         <div>
                                             <strong>Note: </strong><?php echo nl2br($note['text']); ?>
                                         </div>
+                                        <?php if (isset($_GET['source']) && $_GET['source'] === 'contact'): ?>
                                         <button type="button" class="custom-close-btn" onclick="window.location.href='<?= site_url('ProspectController/delete_note/'.$note['id']) ?>'"><span>&times;</span></button>
+                                        <?php endif; ?>
                                     </div>
                                 </div>
                     <?php

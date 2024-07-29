@@ -23,8 +23,8 @@
                                 <p class="card-text"><i class="fas fa-phone"></i> <?php echo $prospect['phone_number']; ?></p>
                                 <p class="card-text"><i class="fas fa-map-marker-alt"></i> <?php echo $prospect['address']; ?></p>
                                 <p class="card-text"><i class="fas fa-info-circle"></i> <?php echo ucfirst($prospect['status']); ?></p>
-                                <a href="<?php echo base_url('ProspectController/consult_prospect/' . $prospect['id']); ?>" class="btn btn-outline-primary btn-block">Contacter prospect</a>
-                            </div>
+                                <a href="<?php echo base_url('ProspectController/consult_prospect/' . $prospect['id'] . '?source=contact'); ?>" class="btn btn-outline-primary btn-block">Contacter prospect</a>
+                                </div>
                         </div>
                     </div>
                 <?php endif; ?>
