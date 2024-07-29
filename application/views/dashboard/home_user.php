@@ -1,3 +1,165 @@
+<main role="main" class="main-content mx-auto">
+    <div class="container-fluid">
+        <div class="header-body">
+            <div class="row">
+                <!-- Total Prospects Card -->
+                <div class="col-xl-4 col-lg-6 mb-4">
+                    <div class="card card-stats shadow bg-white">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <h5 class="card-title text-uppercase text-muted mb-0">Total des Prospects</h5>
+                                    <span class="h2 font-weight-bold mb-0"><?php echo number_format($total_prospects); ?></span>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="icon icon-shape bg-danger text-white rounded-circle shadow"
+                                         style="width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;">
+                                        <i class="fas fa-users" style="font-size: 24px;"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--                            <p class="mt-3 mb-0 text-muted text-sm">-->
+                            <!--                                <span class="text-success mr-2"><i-->
+                            <!--                                            class="fa fa-arrow-up"></i> -->
+                            <?php //echo $prospects_change_percentage; ?><!--%</span>-->
+                            <!--                                <span class="text-nowrap">Depuis le mois dernier</span>-->
+                            <!--                            </p>-->
+                        </div>
+                    </div>
+                </div>
+                <!-- Total Events Card -->
+                <div class="col-xl-4 col-lg-6 mb-4">
+                    <div class="card card-stats shadow bg-white">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <h5 class="card-title text-uppercase text-muted mb-0">Total des Événements</h5>
+                                    <span class="h2 font-weight-bold mb-0"><?php echo number_format($total_events); ?></span>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="icon icon-shape bg-info text-white rounded-circle shadow"
+                                         style="width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;">
+                                        <i class="fas fa-calendar-alt" style="font-size: 24px;"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--                            <p class="mt-3 mb-0 text-muted text-sm">-->
+                            <!--                                <span class="text-success mr-2"><i-->
+                            <!--                                            class="fas fa-arrow-up"></i> -->
+                            <?php //echo $events_change_percentage; ?><!--%</span>-->
+                            <!--                                <span class="text-nowrap">Depuis le mois dernier</span>-->
+                            <!--                            </p>-->
+                        </div>
+                    </div>
+                </div>
+                <!-- Total Reminders Card -->
+                <div class="col-xl-4 col-lg-6 mb-4">
+                    <div class="card card-stats shadow bg-white">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <h5 class="card-title text-uppercase text-muted mb-0">Total des Rappels</h5>
+                                    <span class="h2 font-weight-bold mb-0"><?php echo number_format($total_reminders); ?></span>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="icon icon-shape bg-warning text-white rounded-circle shadow"
+                                         style="width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;">
+                                        <i class="fas fa-bell" style="font-size: 24px;"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Conversion Rate Card -->
+                <div class="col-xl-4 col-lg-6 mb-4">
+                    <div class="card card-stats shadow bg-white">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <h5 class="card-title text-uppercase text-muted mb-0">Taux de Conversion</h5>
+                                    <span class="h2 font-weight-bold mb-0"><?php echo number_format($conversion_percentage,
+                                            2); ?>%</span>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="icon icon-shape bg-warning-light text-white rounded-circle shadow"
+                                         style="width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;">
+                                        <i class="fas fa-percent" style="font-size: 24px;"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Active Prospects Card -->
+                <div class="col-xl-4 col-lg-6 mb-4">
+                    <div class="card card-stats shadow bg-white">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <h5 class="card-title text-uppercase text-muted mb-0">Prospects à Contacter</h5>
+                                    <span class="h2 font-weight-bold mb-0"><?php echo number_format($active_prospects); ?></span>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="icon icon-shape bg-success text-white rounded-circle shadow"
+                                         style="width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;">
+                                        <i class="fas fa-phone" style="font-size: 24px;"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- New Prospects Card -->
+                <div class="col-xl-4 col-lg-6 mb-4">
+                    <div class="card card-stats shadow bg-white">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <h5 class="card-title text-uppercase text-muted mb-0">Nouveaux Prospects</h5>
+                                    <span class="h2 font-weight-bold mb-0"><?php echo number_format($new_prospects); ?></span>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="icon icon-shape bg-primary text-white rounded-circle shadow"
+                                         style="width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;">
+                                        <i class="fas fa-user-plus" style="font-size: 24px;"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- end row -->
+
+            <div class="row mt-4">
+                <!-- Prospects Created Over Time Chart -->
+                <div class="col-md-6 mb-4">
+                    <div class="card bg-white pb-5">
+                        <div class="card-header">
+                            Prospects Créés au Fil du Temps
+                        </div>
+                        <div class="card-body chart-container p-5">
+                            <canvas id="prospectsOverTimeChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <!-- Prospects by Status Chart -->
+                <div class="col-md-6 mb-4">
+                    <div class="card bg-white pb-5">
+                        <div class="card-header">
+                            Répartition des Prospects par Statut
+                            <span>(Total : <?php echo isset($total_prospects) ? $total_prospects : 0; ?> prospects)</span>
+                        </div>
+                        <div class="card-body chart-container p-5">
+                            <canvas id="prospectsByStatusChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
 <style>
     .chart-container {
         position: relative;
@@ -11,79 +173,28 @@
     }
 </style>
 
-<div class="container mt-4">
-    <div class="row">
-        <!-- Events Timeline Chart -->
-        <div class="col-md-6 mb-4">
-            <div class="card bg-white pb-4">
-                <div class="card-header">
-                    Nombre d'Événements
-                </div>
-                <div class="card-body chart-container">
-                    <canvas id="eventsTimelineChart"></canvas>
-                </div>
-            </div>
-        </div>
-        <!-- Prospects by Status Chart -->
-        <div class="col-md-6 mb-4">
-            <div class="card bg-white pb-4">
-                <div class="card-header">
-                    Répartition des Prospects par Statut
-                    <span>(Total : <?php echo isset($total_prospects) ? $total_prospects : 0; ?> prospects)</span>
-                </div>
-                <div class="card-body chart-container">
-                    <canvas id="prospectsByStatusChart"></canvas>
-                </div>
-            </div>
-        </div>
-        <!-- Prospects Created Over Time Chart -->
-        <div class="col-md-6 mb-4">
-            <div class="card bg-white pb-4">
-                <div class="card-header">
-                    Prospects Créés au Fil du Temps
-                </div>
-                <div class="card-body chart-container">
-                    <canvas id="prospectsOverTimeChart"></canvas>
-                </div>
-            </div>
-        </div>
-        <!-- Conversion Percentage Chart -->
-        <div class="col-md-6 mb-4">
-            <div class="card bg-white pb-4">
-                <div class="card-header">
-                    Pourcentage de Conversion <span
-                            class="font-weight-bold"> <?php echo number_format($conversion_percentage, 2); ?>%</span>
-                </div>
-                <div class="card-body chart-container">
-                    <canvas id="conversionPercentageChart"></canvas>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    // Events Timeline Chart
-    var ctx1 = document.getElementById('eventsTimelineChart').getContext('2d');
-    var eventsTimelineChart = new Chart(ctx1, {
+    // Prospects Created Over Time Chart
+    var ctx1 = document.getElementById('prospectsOverTimeChart').getContext('2d');
+    var prospectsOverTimeChart = new Chart(ctx1, {
       type: 'line',
       data: {
         labels: [
-            <?php if (isset($events_data)) {
-            foreach ($events_data as $event) {
-                echo '"'.date('Y-m', mktime(0, 0, 0, $event['month'], 1)).'",';
+            <?php if (isset($prospects_data)) {
+            foreach ($prospects_data as $prospect) {
+                echo '"'.date('Y-m-d', strtotime($prospect['day'])).'",';
             }
         } ?>
         ],
         datasets: [
           {
-            label: 'Nombre d\'Événements',
+            label: 'Nombre de Prospects',
             data: [
-                <?php if (isset($events_data)) {
-                foreach ($events_data as $event) {
-                    echo $event['event_count'].',';
+                <?php if (isset($prospects_data)) {
+                foreach ($prospects_data as $prospect) {
+                    echo $prospect['prospect_count'].',';
                 }
             } ?>
             ],
@@ -98,13 +209,13 @@
             beginAtZero: true,
             title: {
               display: true,
-              text: 'Nombre d\'Événements',
+              text: 'Nombre de Prospects',
             },
           },
           x: {
             title: {
               display: true,
-              text: 'Mois',
+              text: 'Jours',
             },
           },
         },
@@ -180,97 +291,6 @@
                 var label = tooltipItem.label || '';
                 if (label) {
                   label += ': ' + tooltipItem.raw + ' prospects';
-                }
-                return label;
-              },
-            },
-          },
-        },
-      },
-    });
-
-    // Prospects Created Over Time Chart
-    var ctx3 = document.getElementById('prospectsOverTimeChart').getContext('2d');
-    var prospectsOverTimeChart = new Chart(ctx3, {
-      type: 'line',
-      data: {
-        labels: [
-            <?php if (isset($prospects_data)) {
-            foreach ($prospects_data as $prospect) {
-                echo '"'.date('Y-m-d', strtotime($prospect['day'])).'",';
-            }
-        } ?>
-        ],
-        datasets: [
-          {
-            label: 'Nombre de Prospects',
-            data: [
-                <?php if (isset($prospects_data)) {
-                foreach ($prospects_data as $prospect) {
-                    echo $prospect['prospect_count'].',';
-                }
-            } ?>
-            ],
-            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-            borderColor: 'rgba(75, 192, 192, 1)',
-            borderWidth: 1,
-          }],
-      },
-      options: {
-        scales: {
-          y: {
-            beginAtZero: true,
-            title: {
-              display: true,
-              text: 'Nombre de Prospects',
-            },
-          },
-          x: {
-            title: {
-              display: true,
-              text: 'Jours',
-            },
-          },
-        },
-      },
-    });
-
-    // Conversion Percentage Chart
-    var ctx4 = document.getElementById('conversionPercentageChart').getContext('2d');
-    var conversionPercentageChart = new Chart(ctx4, {
-      type: 'doughnut',
-      data: {
-        labels: ['Converti', 'Non Converti'],
-        datasets: [
-          {
-            label: 'Pourcentage de Conversion',
-            data: [
-                <?php echo isset($conversion_percentage) ? $conversion_percentage : 0; ?>,
-                <?php echo 100 - (isset($conversion_percentage) ? $conversion_percentage : 0); ?>
-            ],
-            backgroundColor: [
-              'rgba(75, 192, 192, 0.2)',
-              'rgba(255, 99, 132, 0.2)',
-            ],
-            borderColor: [
-              'rgba(75, 192, 192, 1)',
-              'rgba(255, 99, 132, 1)',
-            ],
-            borderWidth: 1,
-          }],
-      },
-      options: {
-        responsive: true,
-        plugins: {
-          legend: {
-            position: 'top',
-          },
-          tooltip: {
-            callbacks: {
-              label: function(tooltipItem) {
-                var label = tooltipItem.label || '';
-                if (label) {
-                  label += ': ' + tooltipItem.raw.toFixed(2) + '%';
                 }
                 return label;
               },

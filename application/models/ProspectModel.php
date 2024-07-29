@@ -92,16 +92,18 @@ class ProspectModel extends CI_Model
         $this->db->update('prospects', $data);
     }
 
-public function get_all_prospects() {
-    $query = $this->db->get('prospects');
-    return $query->result();
-}
+    public function get_all_prospects()
+    {
+        $query = $this->db->get('prospects');
 
-public function insert_batch($data) {
-    $this->db->insert_batch('prospects', $data);
-}
+        return $query->result();
+    }
 
-    
+    public function insert_batch($data)
+    {
+        $this->db->insert_batch('prospects', $data);
+    }
+
 
     // charts
     public function get_prospects_by_status()
@@ -156,10 +158,54 @@ public function insert_batch($data) {
     public function updateActiveStatus($id, $status) {
         // Update the active column for the specified ID
         $this->db->where('id', $id);
+
         return $this->db->update('prospects', array('active' => $status));
     }
 
-    
+    // dashboard cards
+    // Get total number of prospects
+//    public function get_total_prospects()
+//    {
+//        return $this->db->count_all('prospects');
+//    }
+
+
+// Get total number of reminders
+    public function get_total_reminders()
+    {
+        return $this->db->count_all('rappels'); // Assuming you have a 'reminders' table
+    }
+
+// Get conversion percentage
+//    public function get_conversion_percentage()
+//    {
+//        $total_prospects     = $this->get_total_prospects();
+//        $converted_prospects = $this->db->where('status', 'converti')->count_all_results('prospects');
+//
+//        $conversion_percentage = ($total_prospects > 0) ? ($converted_prospects / $total_prospects) * 100 : 0;
+//
+//        return [
+//            'conversion_percentage' => number_format($conversion_percentage, 2),
+//            'total'                 => $converted_prospects,
+//        ];
+//    }
+
+// Get number of active prospects
+    public function get_active_prospects_count()
+    {
+        $this->db->where('active', 1);
+
+        return $this->db->count_all_results('prospects');
+    }
+
+// Get number of new prospects
+    public function get_new_prospects()
+    {
+        $this->db->where('status', 'nouveau');
+
+        return $this->db->count_all_results('prospects');
+    }
+
 
 }
 

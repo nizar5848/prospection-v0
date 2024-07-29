@@ -42,4 +42,11 @@ class Event_model extends CI_Model
 
         return $query->result_array();
     }
+
+    // dashboard cards
+    // Get total number of events
+    public function get_total_events()
+    {
+        return $this->db->count_all('events'); // Assuming you have an 'events' table
+    }
 }

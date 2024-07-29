@@ -21,6 +21,7 @@ $route['table-prospects-globale'] = 'dashboardController/prospectsTableAdmin';
 
 // User routes
 $route['dashboard']       = 'DashboardController/userDashboard';
+$route['statistiques']    = 'DashboardController/statistiques';
 $route['table-prospects'] = 'dashboardController/prospectsTableUser';
 
 

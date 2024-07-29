@@ -36,6 +36,45 @@ class DashboardController extends CI_Controller
         $this->load->model('Event_model');
         $this->load->model('ProspectModel');
 
+        // Fetch data from the models
+        $total_prospects       = $this->ProspectModel->get_total_prospects();
+        $total_events          = $this->Event_model->get_total_events();
+        $total_reminders       = $this->ProspectModel->get_total_reminders();
+        $conversion_data       = $this->ProspectModel->get_conversion_percentage();
+        $active_prospects      = $this->ProspectModel->get_active_prospects_count();
+        $new_prospects         = $this->ProspectModel->get_new_prospects();
+        $prospects_status_data = $this->ProspectModel->get_prospects_by_status();
+        $prospects_data        = $this->ProspectModel->get_prospects_over_time();
+
+
+        $data = [
+            "title"                 => 'User Dashboard',
+            'view'                  => 'dashboard/home_user',
+            "firstname"             => $this->session->userdata('first_name'),
+            "lastname"              => $this->session->userdata('last_name'),
+            "role"                  => $this->session->userdata('role'),
+//            "total_prospects"       => $total_prospects,
+            "total_events"          => $total_events,
+            "total_reminders"       => $total_reminders,
+            "conversion_percentage" => $conversion_data['conversion_percentage'],
+            "active_prospects"      => $active_prospects,
+            "new_prospects"         => $new_prospects,
+            "prospects_status_data" => $prospects_status_data,
+            "total_prospects"       => $total_prospects,
+            "prospects_data"        => $prospects_data,
+//            "conversion_percentage" => $conversion_data['conversion_percentage'],
+            "total_conversion"      => $conversion_data['total'],
+        ];
+
+        $this->load->view('dashboard/layouts', $data);
+    }
+
+
+    public function statistiques()
+    {
+        $this->load->model('Event_model');
+        $this->load->model('ProspectModel');
+
         $events_data           = $this->Event_model->get_events_over_time();
         $prospects_status_data = $this->ProspectModel->get_prospects_by_status();
         $total_prospects       = $this->ProspectModel->get_total_prospects();
@@ -43,8 +82,8 @@ class DashboardController extends CI_Controller
         $conversion_data       = $this->ProspectModel->get_conversion_percentage();
 
         $data = [
-            "title"                 => 'User Dashboard',
-            'view'                  => 'dashboard/home_user',
+            "title"                 => 'Statistiques',
+            'view'                  => 'dashboard/statistiques',
             "firstname"             => $this->session->userdata('first_name'),
             "lastname"              => $this->session->userdata('last_name'),
             "role"                  => $this->session->userdata('role'),
