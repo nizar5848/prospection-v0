@@ -351,6 +351,9 @@ class DashboardController extends CI_Controller
                 'view'            => 'dashboard/edit_user',
                 'user'            => $user,
                 'is_admin_exists' => $is_admin_exists,
+                'pending_count'   => $this->session->userdata('pending_count'),
+
+
             ];
 
             $this->load->view('dashboard/layouts', $data);
@@ -394,9 +397,11 @@ class DashboardController extends CI_Controller
 
         // Pass data to the view
         $data = [
-            'title' => 'Profile',
-            'view'  => 'dashboard/profile',
-            'user'  => $user,
+            'title'         => 'Profile',
+            'view'          => 'dashboard/profile',
+            'user'          => $user,
+            'pending_count' => $this->session->userdata('pending_count'),
+
         ];
 
         $this->load->view('dashboard/layouts', $data);
