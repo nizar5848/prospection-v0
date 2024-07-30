@@ -19,12 +19,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <!--                            <p class="mt-3 mb-0 text-muted text-sm">-->
-                            <!--                                <span class="text-success mr-2"><i-->
-                            <!--                                            class="fa fa-arrow-up"></i> -->
-                            <?php //echo $prospects_change_percentage; ?><!--%</span>-->
-                            <!--                                <span class="text-nowrap">Depuis le mois dernier</span>-->
-                            <!--                            </p>-->
+
                         </div>
                     </div>
                 </div>
@@ -44,12 +39,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <!--                            <p class="mt-3 mb-0 text-muted text-sm">-->
-                            <!--                                <span class="text-success mr-2"><i-->
-                            <!--                                            class="fas fa-arrow-up"></i> -->
-                            <?php //echo $events_change_percentage; ?><!--%</span>-->
-                            <!--                                <span class="text-nowrap">Depuis le mois dernier</span>-->
-                            <!--                            </p>-->
                         </div>
                     </div>
                 </div>
@@ -59,8 +48,9 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col">
-                                    <h5 class="card-title text-uppercase text-muted mb-0">Total des Rappels</h5>
-                                    <span class="h2 font-weight-bold mb-0"><?php echo number_format($total_reminders); ?></span>
+                                    <h5 class="card-title text-uppercase text-muted mb-0">Mes Rappels</h5>
+
+                                    <span class="h2 font-weight-bold mb-0"><?php echo number_format($pending_count); ?></span>
                                 </div>
                                 <div class="col-auto">
                                     <div class="icon icon-shape bg-warning text-white rounded-circle shadow"

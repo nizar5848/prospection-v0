@@ -111,7 +111,13 @@
                 <label for="confirm_password">Confirm Password</label>
                 <input type="password" class="form-control" id="confirm_password" name="confirm_password">
             </div>
+<<<<<<< HEAD
             <button type="submit" class="btn btn-primary <?= $user['role'] == 'user' ? 'user' : 'default' ?>">Update Profile</button>
+=======
+            <button type="submit" class="btn btn-primary <?= $user['role'] == 'user' ? 'user' : 'default' ?>">Update
+                Profile
+            </button>
+>>>>>>> 195837881a1ba19e28de5a519d5ce41eb014e2cc
         </form>
     </div>
 </div>
