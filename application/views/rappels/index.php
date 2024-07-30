@@ -1,7 +1,8 @@
 <div class="container">
-    <h1>Index des rappels</h1>
-
-    <a href="<?= site_url('rappels/create') ?>" class="btn btn-primary mb-4">Créer un nouveau rappel</a>
+    <div class="d-flex justify-content-between align-items-center mb-5 mx-auto">
+        <h3>Index des rappels</h3>
+        <a href="<?= site_url('rappels/create') ?>" class="btn btn-primary">Créer un nouveau rappel</a>
+    </div>
 
     <div class="row">
         <?php foreach ($rappels as $rappel): ?>

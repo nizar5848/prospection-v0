@@ -3,10 +3,12 @@
         <?php echo form_open('DashboardController/register', [
             'class' => 'col-lg-6 col-md-8 col-10 mx-auto needs-validation', 'novalidate' => true,
         ]); ?>
-        
+
         <div class="mx-auto text-center mt-3 flex">
             <a class="navbar-brand mx-auto mt-2 flex-fill text-center" href="../index.html">
-                <svg version="1.1" id="logo" class="navbar-brand-img brand-md " xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 120 120" xml:space="preserve">
+                <svg version="1.1" id="logo" class="navbar-brand-img brand-md " xmlns="http://www.w3.org/2000/svg"
+                     xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 120 120"
+                     xml:space="preserve">
                     <g>
                         <polygon class="st1" points="78,105 15,105 24,87 87,87 	"/>
                         <polygon class="st1" points="96,69 33,69 42,51 105,51 	"/>
@@ -14,12 +16,13 @@
                     </g>
                 </svg>
             </a>
-            <h2 class="my-2"><?php echo $is_admin_exists ? 'Créer Utilisateur' : 'Inscription'; ?></h2>
+            <h3 class="my-2"><?php echo $is_admin_exists ? 'Créer Utilisateur' : 'Inscription'; ?></h3>
         </div>
 
         <div class="form-group">
             <label for="inputEmail4">E-mail</label>
-            <input type="email" class="form-control" name="email" id="inputEmail4" value="<?php echo set_value('email'); ?>" required>
+            <input type="email" class="form-control" name="email" id="inputEmail4"
+                   value="<?php echo set_value('email'); ?>" required>
             <div class="invalid-feedback text-left"> Please use a valid email.</div>
         </div>
 
@@ -49,7 +52,8 @@
             </div>
             <div class="col-md-6">
                 <p class="mb-2">Exigences du mot de passe</p>
-                <p class="small text-muted mb-2">Pour créer un nouveau mot de passe, vous devez remplir toutes les conditions suivantes :</p>
+                <p class="small text-muted mb-2">Pour créer un nouveau mot de passe, vous devez remplir toutes les
+                    conditions suivantes :</p>
                 <ul class="small text-muted pl-4 mb-0">
                     <li>Minimum 8 caractères</li>
                     <li>Au moins un caractère spécial</li>
@@ -63,12 +67,14 @@
                 <label for="role">Rôle</label>
                 <div>
                     <label class="radio-inline mr-5"><input type="radio" name="role" value="admin"> Admin</label>
-                    <label class="radio-inline"><input type="radio" name="role" value="user" checked> Gestionnaire</label>
+                    <label class="radio-inline"><input type="radio" name="role" value="user" checked>
+                        Gestionnaire</label>
                 </div>
             </div>
         <?php endif; ?>
 
-        <button class="btn btn-lg btn-primary btn-block" type="submit"><?php echo $is_admin_exists ? 'Créer utilisateur' : 'S\'inscrire'; ?></button>
+        <button class="btn btn-lg btn-primary btn-block"
+                type="submit"><?php echo $is_admin_exists ? 'Créer utilisateur' : 'S\'inscrire'; ?></button>
         <p class="mt-4 mb-3 text-muted text-center">© 2024</p>
 
         <?php echo form_close(); ?>

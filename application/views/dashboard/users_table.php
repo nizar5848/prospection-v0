@@ -1,6 +1,6 @@
 <div class="container">
-<h2>Liste des utilisateurs:</h2>
-<br><br>
+    <h3>Liste des utilisateurs:</h3>
+    <br><br>
     <table id="example1" class="table border dt-responsive nowrap"
            style="width:100%">
         <thead>
@@ -11,7 +11,7 @@
             <th class="text-dark">E-mail</th>
             <th class="text-dark">Rôle</th>
             <th class="text-dark">Actions</th>
-            </tr>
+        </tr>
         </thead>
         <tbody>
         </tbody>

@@ -12,7 +12,7 @@
 </style>
 
 <div class="container mt-4">
-    <h2 class="mb-4">Statistiques</h2>
+    <h3 class="mb-4">Statistiques</h3>
     <div class="row">
         <!-- Events Timeline Chart -->
         <div class="col-md-6 mb-4">

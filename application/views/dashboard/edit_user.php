@@ -1,12 +1,12 @@
 <div class="wrapper vh-98 ">
     <div class="row align-items-center h-100">
-        <?php echo form_open('DashboardController/edit_user/' . $user['id'], [
+        <?php echo form_open('DashboardController/edit_user/'.$user['id'], [
             'class' => 'col-lg-6 col-md-8 col-10 mx-auto mt-5 needs-validation', 'novalidate' => true,
         ]); ?>
-        
+
         <div class="mx-auto text-center mt-3 flex">
-            <h2><i class="fas fa-user-edit"></i></h2>
-            <h2 class="my-2">Modifier Utilisateur</h2>
+            <h3><i class="fas fa-user-edit"></i></h3>
+            <h3 class="my-2">Modifier Utilisateur</h3>
         </div>
 
         <?php if (validation_errors()): ?>
@@ -17,18 +17,21 @@
 
         <div class="form-group">
             <label for="inputEmail4">E-mail</label>
-            <input type="email" class="form-control" name="email" id="inputEmail4" value="<?php echo set_value('email', $user['email']); ?>" required>
+            <input type="email" class="form-control" name="email" id="inputEmail4"
+                   value="<?php echo set_value('email', $user['email']); ?>" required>
             <div class="invalid-feedback text-left">Please use a valid email.</div>
         </div>
 
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="firstname">Prénom</label>
-                <input type="text" id="firstname" name="first_name" class="form-control" value="<?php echo set_value('first_name', $user['first_name']); ?>" required>
+                <input type="text" id="firstname" name="first_name" class="form-control"
+                       value="<?php echo set_value('first_name', $user['first_name']); ?>" required>
             </div>
             <div class="form-group col-md-6">
                 <label for="lastname">Nom</label>
-                <input type="text" id="lastname" name="last_name" class="form-control" value="<?php echo set_value('last_name', $user['last_name']); ?>" required>
+                <input type="text" id="lastname" name="last_name" class="form-control"
+                       value="<?php echo set_value('last_name', $user['last_name']); ?>" required>
             </div>
         </div>
 
@@ -47,7 +50,8 @@
             </div>
             <div class="col-md-6">
                 <p class="mb-2">Exigences du mot de passe</p>
-                <p class="small text-muted mb-2">Pour créer un nouveau mot de passe, vous devez remplir toutes les conditions suivantes :</p>
+                <p class="small text-muted mb-2">Pour créer un nouveau mot de passe, vous devez remplir toutes les
+                    conditions suivantes :</p>
                 <ul class="small text-muted pl-4 mb-0">
                     <li>Minimum 8 caractères</li>
                     <li>Au moins un caractère spécial</li>
@@ -61,10 +65,12 @@
                 <label for="role">Rôle</label>
                 <div>
                     <label class="radio-inline mr-5">
-                        <input type="radio" name="role" value="admin" <?php echo $user['role'] == 'admin' ? 'checked' : ''; ?>> Admin
+                        <input type="radio" name="role"
+                               value="admin" <?php echo $user['role'] == 'admin' ? 'checked' : ''; ?>> Admin
                     </label>
                     <label class="radio-inline">
-                        <input type="radio" name="role" value="user" <?php echo $user['role'] == 'user' ? 'checked' : ''; ?>> Gestionnaire
+                        <input type="radio" name="role"
+                               value="user" <?php echo $user['role'] == 'user' ? 'checked' : ''; ?>> Gestionnaire
                     </label>
                 </div>
             </div>

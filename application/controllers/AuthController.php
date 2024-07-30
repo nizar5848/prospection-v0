@@ -71,57 +71,51 @@ class AuthController extends CI_Controller
 
 
     public function login()
-{
-    $is_admin_exists = $this->UserModel->count_admins() > 0;
+    {
+        $is_admin_exists = $this->UserModel->count_admins() > 0;
 
-    // Form validation rules
-    $this->form_validation->set_rules('email', 'Email', 'required|valid_email');
-    $this->form_validation->set_rules('password', 'Password', 'required');
+        // Form validation rules
+        $this->form_validation->set_rules('email', 'Email', 'required|valid_email');
+        $this->form_validation->set_rules('password', 'Password', 'required');
 
-    if ($this->form_validation->run() === false) {
-        $data = [
-            "title"           => 'Connexion',
-            "view"            => "auth/login",
-            "is_admin_exists" => $is_admin_exists,
-        ];
-        $this->load->view("auth/layout", $data);
-    } else {
-        $email    = $this->input->post('email');
-        $password = $this->input->post('password');
-        $user     = $this->UserModel->get_user_by_email($email);
+        if ($this->form_validation->run() === false) {
+            $data = [
+                "title"           => 'Connexion',
+                "view"            => "auth/login",
+                "is_admin_exists" => $is_admin_exists,
+            ];
+            $this->load->view("auth/layout", $data);
+        } else {
+            $email    = $this->input->post('email');
+            $password = $this->input->post('password');
+            $user     = $this->UserModel->get_user_by_email($email);
 
-        if ($user) {
-            if ($user['suspended'] == 1) {
-                // Check if the user is suspended
-                $this->session->set_flashdata('error', 'Votre compte est suspendu.');
-                redirect('authController/login');
-            } elseif (password_verify($password, $user['password'])) {
-                $this->session->set_userdata([
-                    'id'         => $user['id'],
-                    'email'      => $user['email'],
-                    'first_name' => $user['first_name'],
-                    'last_name'  => $user['last_name'],
-                    'role'       => $user['role'],
-                    'is_admin'   => $user['role'] == 'admin',
-                    'auth'       => true,
-                ]);
-
-                if ($user['role'] == 'admin') {
-                    redirect('dashboard-admin');
-                } else {
+            if ($user) {
+                if ($user['suspended'] == 1) {
+                    // Check if the user is suspended
+                    $this->session->set_flashdata('error', 'Votre compte est suspendu.');
+                    redirect('authController/login');
+                } elseif (password_verify($password, $user['password'])) {
+                    $this->session->set_userdata([
+                        'id'         => $user['id'],
+                        'email'      => $user['email'],
+                        'first_name' => $user['first_name'],
+                        'last_name'  => $user['last_name'],
+                        'role'       => $user['role'],
+                        'is_admin'   => $user['role'] == 'admin',
+                        'auth'       => true,
+                    ]);
                     redirect('dashboard');
+                } else {
+                    $this->session->set_flashdata('error', 'Invalid email or password');
+                    redirect('authController/login');
                 }
             } else {
                 $this->session->set_flashdata('error', 'Invalid email or password');
                 redirect('authController/login');
             }
-        } else {
-            $this->session->set_flashdata('error', 'Invalid email or password');
-            redirect('authController/login');
         }
     }
-}
-
 
 
     public function logout()

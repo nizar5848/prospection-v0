@@ -8,7 +8,7 @@
 
             <div class="mx-auto text-center mt-5 flex">
 
-                <h2 class="my-3">Créer un nouveau prospect</h2>
+                <h3 class="my-3">Créer un nouveau prospect</h3>
             </div>
 
 

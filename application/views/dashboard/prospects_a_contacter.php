@@ -1,5 +1,5 @@
 <div class="container my-5">
-    <h2 class="mb-4 ">Prospects à contacter</h2>
+    <h3 class="mb-4 ">Prospects à contacter</h3>
     <div class="row">
         <?php if ( ! empty($active_prospects)): ?>
             <?php foreach ($active_prospects as $prospect): ?>

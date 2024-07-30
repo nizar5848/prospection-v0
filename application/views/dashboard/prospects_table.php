@@ -1,5 +1,5 @@
 <div class="container">
-    <h2 class="mb-4">Table de tous les prospects</h2>
+    <h3 class="mb-4">Table de tous les prospects</h3>
 
     <div class="row">
         <!-- Left card: Selection fields (shown only if role is admin) -->

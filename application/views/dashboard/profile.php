@@ -86,7 +86,7 @@
         <div class="card-icon <?= $user['role'] == 'user' ? 'user' : 'default' ?>">
             <i class="fas fa-user-circle"></i>
         </div>
-        <h2>Profile</h2>
+        <h3>Profile</h3>
         <form action="<?= base_url('DashboardController/update_profile') ?>" method="post">
             <div class="form-group">
                 <label for="first_name">First Name</label>
@@ -111,13 +111,15 @@
                 <label for="confirm_password">Confirm Password</label>
                 <input type="password" class="form-control" id="confirm_password" name="confirm_password">
             </div>
-<<<<<<< HEAD
-            <button type="submit" class="btn btn-primary <?= $user['role'] == 'user' ? 'user' : 'default' ?>">Update Profile</button>
-=======
+            <<<<<<< HEAD
             <button type="submit" class="btn btn-primary <?= $user['role'] == 'user' ? 'user' : 'default' ?>">Update
                 Profile
             </button>
->>>>>>> 195837881a1ba19e28de5a519d5ce41eb014e2cc
+            =======
+            <button type="submit" class="btn btn-primary <?= $user['role'] == 'user' ? 'user' : 'default' ?>">Update
+                Profile
+            </button>
+            >>>>>>> 195837881a1ba19e28de5a519d5ce41eb014e2cc
         </form>
     </div>
 </div>

@@ -79,20 +79,18 @@ class ProspectController extends CI_Controller
         if ($this->form_validation->run() === false) {
             // Form validation failed, load the form again with errors
             $data = [
-<<<<<<< HEAD
-                'title'     => 'Modifier Prospects',
-                'view'      => 'dashboard/edit_prospect',
-                'user'      => $user,
-                'prospects' => $this->ProspectModel->get_prospect($id),
-                'pending_count'         => $this->session->userdata('pending_count'),
-=======
+
+                'title'         => 'Modifier Prospects',
+                'view'          => 'dashboard/edit_prospect',
+                'user'          => $user,
+                'prospects'     => $this->ProspectModel->get_prospect($id),
+                'pending_count' => $this->session->userdata('pending_count'),
                 'title'         => 'Modifier Prospects',
                 'view'          => 'dashboard/edit_prospect',
                 'user'          => $user,
                 'prospects'     => $this->ProspectModel->get_prospect($id),
                 'pending_count' => $this->session->userdata('pending_count'),
 
->>>>>>> 195837881a1ba19e28de5a519d5ce41eb014e2cc
 
             ];
             $this->load->view('dashboard/layouts', $data);

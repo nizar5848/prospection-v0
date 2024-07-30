@@ -1,5 +1,5 @@
 <div class="container">
-    <h1>Créer un rappel</h1>
+    <h3 class="mb-3">Créer un rappel</h3>
 
     <?= form_open('rappels/create', ['class' => 'form-horizontal']) ?>
 
