@@ -232,9 +232,10 @@ class DashboardController extends CI_Controller
 
                     $row['actions'] = '
                     <div class="d-flex justify-content-center align-items-center">
-                        <button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span class="text-muted sr-only">Action</span>
-                        </button>
+                              <button class="btn btn-sm  " type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-chevron-down"></i>
+
+  </button>
                         <div class="dropdown-menu dropdown-menu-left">
                             <a class="dropdown-item" href="'.base_url('DashboardController/delete_user/'.$row['id']).'">Supprimer</a>
                             <a class="dropdown-item" href="'.base_url('DashboardController/edit_user/'.$row['id']).'">Modifier</a>'
@@ -262,9 +263,10 @@ class DashboardController extends CI_Controller
         $formattedData = array_map(function ($row) {
             $row['actions'] = '
             <div class="d-flex justify-content-center align-items-center">
-                <button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span class="text-muted sr-only">Action</span>
-                </button>
+                      <button class="btn btn-sm  " type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-chevron-down"></i>
+
+  </button>
                 <div class="dropdown-menu dropdown-menu-left">
                     <a class="dropdown-item" href="'.base_url('ProspectController/consult_prospect/'.$row['id']).'">Consulter</a>
                     <a class="dropdown-item" href="'.base_url('ProspectController/selectProspect/'.$row['id']).'">Ajouter à  contacter</a>

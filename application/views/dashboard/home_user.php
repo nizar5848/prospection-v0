@@ -1,6 +1,6 @@
 <main role="main" class="main-content mx-auto">
     <div class="container-fluid">
-        <h1 class="mb-5">Bienvenue, <?= $lastname." ".$firstname ?></h1>
+        <h1 class="mb-5">Bienvenue, <?= $firstname." ".$lastname ?></h1>
         <div class="header-body">
             <div class="row">
                 <!-- Total Prospects Card -->
