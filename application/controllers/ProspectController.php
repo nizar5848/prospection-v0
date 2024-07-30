@@ -83,6 +83,8 @@ class ProspectController extends CI_Controller
                 'view'      => 'dashboard/edit_prospect',
                 'user'      => $user,
                 'prospects' => $this->ProspectModel->get_prospect($id),
+                'pending_count'         => $this->session->userdata('pending_count'),
+
             ];
             $this->load->view('dashboard/layouts', $data);
         } else {
