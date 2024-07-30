@@ -232,10 +232,10 @@ class DashboardController extends CI_Controller
 
                     $row['actions'] = '
                     <div class="d-flex justify-content-center align-items-center">
-                              <button class="btn btn-sm  " type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-chevron-down"></i>
+                              <button class="btn btn-sm" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-chevron-down"></i>
 
-  </button>
+                                  </button>
                         <div class="dropdown-menu dropdown-menu-left">
                             <a class="dropdown-item" href="'.base_url('DashboardController/delete_user/'.$row['id']).'">Supprimer</a>
                             <a class="dropdown-item" href="'.base_url('DashboardController/edit_user/'.$row['id']).'">Modifier</a>'
