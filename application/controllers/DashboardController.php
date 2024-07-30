@@ -12,6 +12,7 @@ class DashboardController extends CI_Controller
         $this->load->model('UserModel');
         $this->load->library('form_validation');
         $this->load->model('ProspectModel');
+        $this->load->model('Rappel_model');
 
         if ( ! $this->session->userdata('auth')) {
             redirect('authController/login');
@@ -20,12 +21,19 @@ class DashboardController extends CI_Controller
 
     public function adminDashboard()
     {
+        $user_id         = $this->session->userdata('id');
+        $pending_rappels = $this->Rappel_model->get_rappels_by_user($user_id);
+        $pending_count   = count($pending_rappels);
+
+        $this->session->set_userdata('pending_count', $pending_count);
         $data = [
-            "title"     => 'Admin Dashboard',
-            'view'      => 'dashboard/home',
-            "firstname" => $this->session->userdata('first_name'),
-            "lastname"  => $this->session->userdata('last_name'),
-            "role"      => $this->session->userdata('role'),
+            "title"         => 'Admin Dashboard',
+            'view'          => 'dashboard/home',
+            "firstname"     => $this->session->userdata('first_name'),
+            "lastname"      => $this->session->userdata('last_name'),
+            "role"          => $this->session->userdata('role'),
+            'pending_count' => $this->session->userdata('pending_count'),
+
         ];
 
         $this->load->view('dashboard/layouts', $data);
@@ -46,6 +54,13 @@ class DashboardController extends CI_Controller
         $prospects_status_data = $this->ProspectModel->get_prospects_by_status();
         $prospects_data        = $this->ProspectModel->get_prospects_over_time();
 
+
+        // rappels count
+        $user_id         = $this->session->userdata('id');
+        $pending_rappels = $this->Rappel_model->get_rappels_by_user($user_id);
+        $pending_count   = count($pending_rappels);
+
+        $this->session->set_userdata('pending_count', $pending_count);
 
         $data = [
             "title"                 => 'User Dashboard',
@@ -104,8 +119,10 @@ class DashboardController extends CI_Controller
     public function prospectsTableAdmin()
     {
         $data = [
-            "title" => "Liste de tout les prospects.",
-            "view"  => "dashboard/prospects_table",
+            "title"         => "Liste de tout les prospects.",
+            "view"          => "dashboard/prospects_table",
+            'pending_count' => $this->session->userdata('pending_count'),
+
         ];
 
         $this->load->view("dashboard/layouts", $data);
@@ -173,6 +190,8 @@ class DashboardController extends CI_Controller
                 "title"           => 'Inscription',
                 "view"            => "dashboard/register_user",
                 "is_admin_exists" => $is_admin_exists,
+                'pending_count'   => $this->session->userdata('pending_count'),
+
             ];
             $this->load->view("dashboard/layouts", $data);
         } else {
@@ -362,80 +381,79 @@ class DashboardController extends CI_Controller
     }
 
     public function profile()
-{
-    $current_user_id = $this->session->userdata('id');
+    {
+        $current_user_id = $this->session->userdata('id');
 
-    // Fetch user data from the database
-    $this->load->model('UserModel');
-    $user = $this->UserModel->get_user_by_id($current_user_id);
+        // Fetch user data from the database
+        $this->load->model('UserModel');
+        $user = $this->UserModel->get_user_by_id($current_user_id);
 
-    if (!$user) {
-        show_404();
-    }
-
-    // Pass data to the view
-    $data = [
-        'title' => 'Profile',
-        'view' => 'dashboard/profile',
-        'user' => $user,
-    ];
-
-    $this->load->view('dashboard/layouts', $data);
-}
-
-public function update_profile()
-{
-    $current_user_id = $this->session->userdata('id');
-
-    // Fetch user data from the database
-    $this->load->model('UserModel');
-    $user = $this->UserModel->get_user_by_id($current_user_id);
-
-    if (!$user) {
-        show_404();
-    }
-
-    // Form validation rules
-    $this->form_validation->set_rules('email', 'Email', 'required|valid_email');
-    $this->form_validation->set_rules('first_name', 'First Name', 'required');
-    $this->form_validation->set_rules('last_name', 'Last Name', 'required');
-
-    if ($this->input->post('password')) {
-        $this->form_validation->set_rules('password', 'Password', 'required|min_length[8]');
-        $this->form_validation->set_rules('confirm_password', 'Confirm Password', 'required|matches[password]');
-    }
-
-    // Check if the form is submitted and valid
-    if ($this->form_validation->run() === true) {
-        // Prepare user data for update
-        $update_data = [
-            'email' => $this->input->post('email'),
-            'first_name' => $this->input->post('first_name'),
-            'last_name' => $this->input->post('last_name'),
-        ];
-
-        if ($this->input->post('password')) {
-            $update_data['password'] = password_hash($this->input->post('password'), PASSWORD_BCRYPT);
+        if ( ! $user) {
+            show_404();
         }
 
-        // Update user data in the database
-        $this->UserModel->update_user($current_user_id, $update_data);
-
-        // Set success message and redirect to profile page
-        $this->session->set_flashdata('success', 'Profile updated successfully');
-        redirect('DashboardController/profile');
-    } else {
         // Pass data to the view
         $data = [
             'title' => 'Profile',
-            'view' => 'dashboard/profile',
-            'user' => $user,
+            'view'  => 'dashboard/profile',
+            'user'  => $user,
         ];
 
         $this->load->view('dashboard/layouts', $data);
     }
-}
 
+    public function update_profile()
+    {
+        $current_user_id = $this->session->userdata('id');
+
+        // Fetch user data from the database
+        $this->load->model('UserModel');
+        $user = $this->UserModel->get_user_by_id($current_user_id);
+
+        if ( ! $user) {
+            show_404();
+        }
+
+        // Form validation rules
+        $this->form_validation->set_rules('email', 'Email', 'required|valid_email');
+        $this->form_validation->set_rules('first_name', 'First Name', 'required');
+        $this->form_validation->set_rules('last_name', 'Last Name', 'required');
+
+        if ($this->input->post('password')) {
+            $this->form_validation->set_rules('password', 'Password', 'required|min_length[8]');
+            $this->form_validation->set_rules('confirm_password', 'Confirm Password', 'required|matches[password]');
+        }
+
+        // Check if the form is submitted and valid
+        if ($this->form_validation->run() === true) {
+            // Prepare user data for update
+            $update_data = [
+                'email'      => $this->input->post('email'),
+                'first_name' => $this->input->post('first_name'),
+                'last_name'  => $this->input->post('last_name'),
+            ];
+
+            if ($this->input->post('password')) {
+                $update_data['password'] = password_hash($this->input->post('password'), PASSWORD_BCRYPT);
+            }
+
+            // Update user data in the database
+            $this->UserModel->update_user($current_user_id, $update_data);
+
+            // Set success message and redirect to profile page
+            $this->session->set_flashdata('success', 'Profile updated successfully');
+            redirect('DashboardController/profile');
+        } else {
+            // Pass data to the view
+            $data = [
+                'title' => 'Profile',
+                'view'  => 'dashboard/profile',
+                'user'  => $user,
+            ];
+
+            $this->load->view('dashboard/layouts', $data);
+        }
+    }
 
 
 }

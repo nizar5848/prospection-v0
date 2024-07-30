@@ -133,11 +133,13 @@ class ProspectController extends CI_Controller
         $notes = $this->NoteModel->get_notes_by_prospect($id);
 
         $data = [
-            'title'    => 'Consulter Prospect',
-            'view'     => 'dashboard/consulter_prospect',
-            'user'     => $user,
-            'prospect' => $prospect,
-            'notes'    => $notes,
+            'title'         => 'Consulter Prospect',
+            'view'          => 'dashboard/consulter_prospect',
+            'user'          => $user,
+            'prospect'      => $prospect,
+            'notes'         => $notes,
+            'pending_count' => $this->session->userdata('pending_count'),
+
         ];
 
         $this->load->view('dashboard/layouts', $data);
