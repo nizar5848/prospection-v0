@@ -132,16 +132,13 @@
         </span>
                 </a>
                 <div class="dropdown-menu" id="dropdownMenu"
-                     style="display: none; position: absolute; top: 100%; left: -100px; background-color: white; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15); border-radius: 4px; z-index: 1000; min-width: 160px;">
-                    <a class="dropdown-item" href="#"
-                       style="display: block; padding: 8px 16px; color: black; text-decoration: none;">Profile</a>
-                    <a class="dropdown-item" href="#"
-                       style="display: block; padding: 8px 16px; color: black; text-decoration: none;">Settings</a>
-                    <a class="dropdown-item" href="#"
-                       style="display: block; padding: 8px 16px; color: black; text-decoration: none;">Activities</a>
-                    <a class="dropdown-item" href="<?= base_url('authController/logout') ?>"
-                       style="display: block; padding: 8px 16px; color: black; text-decoration: none;">Déconnexion</a>
-                </div>
+    style="display: none; position: absolute; top: 100%; left: -100px; background-color: white; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15); border-radius: 4px; z-index: 1000; min-width: 160px;">
+    <a class="dropdown-item" href="<?= base_url('DashboardController/profile') ?>"
+       style="display: block; padding: 8px 16px; color: black; text-decoration: none;">Profile</a>
+    <a class="dropdown-item" href="<?= base_url('authController/logout') ?>"
+       style="display: block; padding: 8px 16px; color: black; text-decoration: none;">Déconnexion</a>
+</div>
+
             </li>
 
 
