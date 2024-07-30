@@ -132,12 +132,12 @@
         </span>
                 </a>
                 <div class="dropdown-menu" id="dropdownMenu"
-    style="display: none; position: absolute; top: 100%; left: -100px; background-color: white; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15); border-radius: 4px; z-index: 1000; min-width: 160px;">
-    <a class="dropdown-item" href="<?= base_url('DashboardController/profile') ?>"
-       style="display: block; padding: 8px 16px; color: black; text-decoration: none;">Profile</a>
-    <a class="dropdown-item" href="<?= base_url('authController/logout') ?>"
-       style="display: block; padding: 8px 16px; color: black; text-decoration: none;">Déconnexion</a>
-</div>
+                     style="display: none; position: absolute; top: 100%; left: -100px; background-color: white; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15); border-radius: 4px; z-index: 1000; min-width: 160px;">
+                    <a class="dropdown-item" href="<?= base_url('DashboardController/profile') ?>"
+                       style="display: block; padding: 8px 16px; color: black; text-decoration: none;">Profile</a>
+                    <a class="dropdown-item" href="<?= base_url('authController/logout') ?>"
+                       style="display: block; padding: 8px 16px; color: black; text-decoration: none;">Déconnexion</a>
+                </div>
 
             </li>
 
@@ -194,7 +194,7 @@
                     </a>
                 </li>
 
-               
+
             </ul>
             <?php if ($this->session->userdata('role') == 'admin'): ?>
             <p class="text-muted nav-heading mt-4 mb-1">
@@ -291,10 +291,11 @@
                             <span class="ml-3 item-text">Rappels</span>
                             <!-- Badge for number of pending rappels -->
                             <?php if (isset($pending_count) && $pending_count > 0): ?>
-                                <span class="badge badge-success font-weight-bolder px-2 text-white pt-2"><?= $pending_count ?></span>
+                                <span class="badge <?= $this->session->userdata('role') === 'admin' ? 'badge-primary' : 'badge-success' ?> font-weight-bolder px-2 text-white pt-2"><?= $pending_count ?></span>
                             <?php endif; ?>
                         </a>
                     </li>
+
 
                     <li class="nav-item w-100">
                         <a class="nav-link"
