@@ -1,5 +1,4 @@
 <style>
-
     .profile-card {
         max-width: 600px;
         margin: 50px auto;
@@ -34,17 +33,10 @@
     }
 
     .btn-primary {
-        background-color: #007bff;
-        border-color: #007bff;
         border-radius: 0.25rem;
         width: 100%;
         padding: 10px;
         font-size: 16px;
-    }
-
-    .btn-primary:hover {
-        background-color: #0056b3;
-        border-color: #0056b3;
     }
 
     .form-text {
@@ -54,14 +46,44 @@
 
     .card-icon {
         font-size: 50px;
-        color: #007bff;
         text-align: center;
         margin-bottom: 15px;
     }
+
+    /* Default colors */
+    .card-icon.default {
+        color: #007bff;
+    }
+
+    .btn-primary.default {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+
+    .btn-primary.default:hover {
+        background-color: #0056b3;
+        border-color: #0056b3;
+    }
+
+    /* User colors */
+    .card-icon.user {
+        color: #32CD32;
+    }
+
+    .btn-primary.user {
+        background-color: #32CD32;
+        border-color: #32CD32;
+    }
+
+    .btn-primary.user:hover {
+        background-color: #228B22;
+        border-color: #228B22;
+    }
 </style>
+
 <div class="container">
     <div class="card profile-card">
-        <div class="card-icon">
+        <div class="card-icon <?= $user['role'] == 'user' ? 'user' : 'default' ?>">
             <i class="fas fa-user-circle"></i>
         </div>
         <h2>Profile</h2>
@@ -89,7 +111,9 @@
                 <label for="confirm_password">Confirm Password</label>
                 <input type="password" class="form-control" id="confirm_password" name="confirm_password">
             </div>
-            <button type="submit" class="btn btn-primary">Update Profile</button>
+            <button type="submit" class="btn btn-primary <?= $user['role'] == 'user' ? 'user' : 'default' ?>">Update
+                Profile
+            </button>
         </form>
     </div>
 </div>

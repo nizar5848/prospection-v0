@@ -79,10 +79,13 @@ class ProspectController extends CI_Controller
         if ($this->form_validation->run() === false) {
             // Form validation failed, load the form again with errors
             $data = [
-                'title'     => 'Modifier Prospects',
-                'view'      => 'dashboard/edit_prospect',
-                'user'      => $user,
-                'prospects' => $this->ProspectModel->get_prospect($id),
+                'title'         => 'Modifier Prospects',
+                'view'          => 'dashboard/edit_prospect',
+                'user'          => $user,
+                'prospects'     => $this->ProspectModel->get_prospect($id),
+                'pending_count' => $this->session->userdata('pending_count'),
+
+
             ];
             $this->load->view('dashboard/layouts', $data);
         } else {
@@ -96,6 +99,7 @@ class ProspectController extends CI_Controller
                 'address'                => $this->input->post('address'),
                 'status'                 => 'nouveau', // Update status if needed
                 'historiqueInteractions' => '', // Update this field as needed
+
             );
 
             // Call the model to update data
@@ -110,6 +114,7 @@ class ProspectController extends CI_Controller
                     'user'      => $user,
                     'prospects' => $this->ProspectModel->get_prospect($id),
                     'error'     => 'Failed to update prospect',
+
                 ];
                 $this->load->view('dashboard/layouts', $data);
             }
