@@ -86,37 +86,31 @@
         <div class="card-icon <?= $user['role'] == 'user' ? 'user' : 'default' ?>">
             <i class="fas fa-user-circle"></i>
         </div>
-        <h3>Profile</h3>
+        <h2>Profil</h2>
         <form action="<?= base_url('DashboardController/update_profile') ?>" method="post">
             <div class="form-group">
-                <label for="first_name">First Name</label>
-                <input type="text" class="form-control" id="first_name" name="first_name"
-                       value="<?= $user['first_name'] ?>" required>
+                <label for="first_name">Prénom</label>
+                <input type="text" class="form-control" id="first_name" name="first_name" value="<?= $user['first_name'] ?>" required>
             </div>
             <div class="form-group">
-                <label for="last_name">Last Name</label>
-                <input type="text" class="form-control" id="last_name" name="last_name"
-                       value="<?= $user['last_name'] ?>" required>
+                <label for="last_name">Nom</label>
+                <input type="text" class="form-control" id="last_name" name="last_name" value="<?= $user['last_name'] ?>" required>
             </div>
             <div class="form-group">
                 <label for="email">Email</label>
                 <input type="email" class="form-control" id="email" name="email" value="<?= $user['email'] ?>" required>
             </div>
             <div class="form-group">
-                <label for="password">Password</label>
+                <label for="password">Mot de passe</label>
                 <input type="password" class="form-control" id="password" name="password">
-                <small class="form-text">Leave blank to keep current password.</small>
+                <small class="form-text">Laissez vide pour garder le mot de passe actuel.</small>
             </div>
             <div class="form-group">
-                <label for="confirm_password">Confirm Password</label>
+                <label for="confirm_password">Confirmer le mot de passe</label>
                 <input type="password" class="form-control" id="confirm_password" name="confirm_password">
             </div>
 
-            <button type="submit" class="btn btn-primary <?= $user['role'] == 'user' ? 'user' : 'default' ?>">Update
-                Profile
-            </button>
-
-
+            <button type="submit" class="btn btn-primary <?= $user['role'] == 'user' ? 'user' : 'default' ?>">Mettre à jour le profil</button>
         </form>
     </div>
 </div>
