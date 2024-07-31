@@ -163,53 +163,74 @@ class DashboardController extends CI_Controller
 
     public function register()
     {
+        // Charger le modèle UserModel
         $this->load->model('UserModel');
-
+    
+        // Vérifier si un administrateur existe déjà
         $is_admin_exists = $this->UserModel->count_admins() > 0;
-        $is_admin        = ! $is_admin_exists;
-
-        $this->form_validation->set_rules('email', 'Email', 'required|valid_email|is_unique[users.email]');
-        $this->form_validation->set_rules('password', 'Password', [
+        $is_admin = !$is_admin_exists;
+    
+        // Règles de validation du formulaire
+        $this->form_validation->set_rules('email', 'E-mail', 'required|valid_email|is_unique[users.email]', [
+            'is_unique' => 'Cette adresse e-mail est déjà enregistrée.'
+        ]);
+        $this->form_validation->set_rules('password', 'Mot de passe', [
             'required',
             'min_length[8]',
             'regex_match[/[0-9]/]',
             'regex_match[/[^a-zA-Z0-9]/]',
         ], [
-            'regex_match' => 'The {field} must contain at least one digit and one special character.',
+            'required' => 'Le champ Mot de passe est obligatoire.',
+            'min_length' => 'Le champ Mot de passe doit comporter au moins 8 caractères.',
+            'regex_match' => 'Le mot de passe doit contenir au moins un chiffre et un caractère spécial.',
         ]);
-        $this->form_validation->set_rules('confirm_password', 'Confirm Password', 'required|matches[password]');
-        $this->form_validation->set_rules('first_name', 'First Name', 'required');
-        $this->form_validation->set_rules('last_name', 'Last Name', 'required');
-
+        $this->form_validation->set_rules('confirm_password', 'Confirmez le mot de passe', 'required|matches[password]', [
+            'matches' => 'Le champ de confirmation du mot de passe ne correspond pas au champ Mot de passe.'
+        ]);
+        $this->form_validation->set_rules('first_name', 'Prénom', 'required', [
+            'required' => 'Le champ Prénom est obligatoire.'
+        ]);
+        $this->form_validation->set_rules('last_name', 'Nom', 'required', [
+            'required' => 'Le champ Nom est obligatoire.'
+        ]);
+    
         if ($is_admin_exists) {
-            $this->form_validation->set_rules('role', 'Role', 'required');
+            $this->form_validation->set_rules('role', 'Rôle', 'required', [
+                'required' => 'Le champ Rôle est obligatoire.'
+            ]);
         }
-
+    
         if ($this->form_validation->run() === false) {
             $data = [
-                "title"           => 'Inscription',
-                "view"            => "dashboard/register_user",
+                "title" => 'Inscription',
+                "view" => "dashboard/register_user",
                 "is_admin_exists" => $is_admin_exists,
-                'pending_count'   => $this->session->userdata('pending_count'),
-
+                'validation_errors' => validation_errors(), // Pass validation errors
             ];
             $this->load->view("dashboard/layouts", $data);
         } else {
-            $role = $is_admin ? 'admin' : $this->input->post('role');
-            $data = [
-                'email'      => $this->input->post('email'),
-                'password'   => password_hash($this->input->post('password'), PASSWORD_BCRYPT),
+            $role = $is_admin ? 'admin' : ($this->input->post('role') ?? 'user');
+    
+            $user_data = [
+                'email' => $this->input->post('email'),
+                'password' => password_hash($this->input->post('password'), PASSWORD_BCRYPT),
                 'first_name' => $this->input->post('first_name'),
-                'last_name'  => $this->input->post('last_name'),
-                'role'       => $role,
+                'last_name' => $this->input->post('last_name'),
+                'role' => $role,
             ];
-
-            $this->UserModel->create_user($data);
-
+    
+            if ($this->UserModel->create_user($user_data)) {
+                $this->session->set_flashdata('success', 'Inscription réussie. Vous pouvez maintenant vous connecter.');
+            } else {
+                $this->session->set_flashdata('error', 'Un problème est survenu lors de la création de votre compte. Veuillez réessayer.');
+            }
+    
             $redirect_url = $is_admin ? 'authController/login' : 'dashboard';
             redirect($redirect_url);
         }
     }
+    
+    
 
     public function fetchDatafromDatabase()
     {

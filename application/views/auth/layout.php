@@ -29,6 +29,9 @@
     <link rel="stylesheet"
           href="<?php echo base_url('css/app-dark.css'); ?>"
           id="darkTheme" disabled>
+       
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
 
     <!--   <- Retour style -->
     <style>

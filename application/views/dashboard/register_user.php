@@ -1,4 +1,30 @@
-<div class="wrapper vh-98 p-5">
+ <style>
+        .alert-card {
+            position: fixed;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            width: 500px;
+            opacity: 0;
+            animation: swingInOut 7s forwards;
+            transform-origin: top center;
+            margin-left: 140px;
+        }
+
+        @keyframes swingInOut {
+            0% { opacity: 0; transform: translateX(-50%) rotateX(-90deg); }
+            10% { opacity: 1; transform: translateX(-50%) rotateX(0deg); }
+            90% { opacity: 1; transform: translateX(-50%) rotateX(0deg); }
+            100% { opacity: 0; transform: translateX(-50%) rotateX(-90deg); }
+        }
+    </style>
+<div class="wrapper vh-98 p-5 mt-5">
+    <?php if ($this->session->flashdata('error')): ?>
+        <div id="errorAlert" class="alert alert-danger alert-dismissible fade show alert-card" role="alert">
+            <?php echo $this->session->flashdata('error'); ?>
+        </div>
+    <?php endif; ?>
     <div class="row align-items-center h-100">
         <?php echo form_open('DashboardController/register', [
             'class' => 'col-lg-6 col-md-8 col-10 mx-auto needs-validation', 'novalidate' => true,
@@ -19,6 +45,13 @@
             <h3 class="my-2"><?php echo $is_admin_exists ? 'Créer Utilisateur' : 'Inscription'; ?></h3>
         </div>
 
+        <!-- Display validation errors -->
+        <?php if (isset($validation_errors) && !empty($validation_errors)): ?>
+            <div class="alert alert-danger alert-dismissible fade show alert-card" role="alert">
+                <?php echo $validation_errors; ?>
+            </div>
+        <?php endif; ?>
+
         <div class="form-group">
             <label for="inputEmail4">E-mail</label>
             <input type="email" class="form-control" name="email" id="inputEmail4"
@@ -29,11 +62,11 @@
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="firstname">Prénom</label>
-                <input type="text" id="firstname" name="first_name" class="form-control" required>
+                <input type="text" id="firstname" name="first_name" class="form-control" value="<?php echo set_value('first_name'); ?>" required>
             </div>
             <div class="form-group col-md-6">
                 <label for="lastname">Nom</label>
-                <input type="text" id="lastname" name="last_name" class="form-control" required>
+                <input type="text" id="lastname" name="last_name" class="form-control" value="<?php echo set_value('last_name'); ?>" required>
             </div>
         </div>
 
@@ -80,3 +113,32 @@
         <?php echo form_close(); ?>
     </div>
 </div>
+
+<script>
+    // Bootstrap validation styles
+    (function () {
+        'use strict';
+        window.addEventListener('load', function () {
+            var forms = document.getElementsByClassName('needs-validation');
+            var validation = Array.prototype.filter.call(forms, function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (form.checkValidity() === false) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        }, false);
+    })();
+
+    // Alert dismissal
+    setTimeout(function() {
+        const alertElement = document.getElementById('errorAlert');
+        if (alertElement) {
+            alertElement.style.opacity = '0';
+            alertElement.style.transition = 'opacity 0.5s ease-out';
+        }
+    }, 7000); // 7000 milliseconds = 7 seconds
+</script>
+
