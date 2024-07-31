@@ -162,73 +162,74 @@ class DashboardController extends CI_Controller
     }
 
     public function register()
-    {
-        // Charger le modèle UserModel
-        $this->load->model('UserModel');
-    
-        // Vérifier si un administrateur existe déjà
-        $is_admin_exists = $this->UserModel->count_admins() > 0;
-        $is_admin = !$is_admin_exists;
-    
-        // Règles de validation du formulaire
-        $this->form_validation->set_rules('email', 'E-mail', 'required|valid_email|is_unique[users.email]', [
-            'is_unique' => 'Cette adresse e-mail est déjà enregistrée.'
+{
+    // Charger le modèle UserModel
+    $this->load->model('UserModel');
+
+    // Vérifier si un administrateur existe déjà
+    $is_admin_exists = $this->UserModel->count_admins() > 0;
+    $is_admin = !$is_admin_exists;
+
+    // Règles de validation du formulaire
+    $this->form_validation->set_rules('email', 'E-mail', 'required|valid_email|is_unique[users.email]', [
+        'is_unique' => 'Cette adresse e-mail est déjà enregistrée.'
+    ]);
+    $this->form_validation->set_rules('password', 'Mot de passe', [
+        'required',
+        'min_length[8]',
+        'regex_match[/[0-9]/]',
+        'regex_match[/[^a-zA-Z0-9]/]',
+    ], [
+        'required' => 'Le mot de passe ne respecte pas les exigences requises.',
+        'min_length' => 'Le mot de passe ne respecte pas les exigences requises.',
+        'regex_match' => 'Le mot de passe ne respecte pas les exigences requises.',
+    ]);
+    $this->form_validation->set_rules('confirm_password', 'Confirmez le mot de passe', 'required|matches[password]', [
+        'matches' => 'Le champ de confirmation du mot de passe ne correspond pas au champ Mot de passe.'
+    ]);
+    $this->form_validation->set_rules('first_name', 'Prénom', 'required', [
+        'required' => 'Le champ Prénom est obligatoire.'
+    ]);
+    $this->form_validation->set_rules('last_name', 'Nom', 'required', [
+        'required' => 'Le champ Nom est obligatoire.'
+    ]);
+
+    if ($is_admin_exists) {
+        $this->form_validation->set_rules('role', 'Rôle', 'required', [
+            'required' => 'Le champ Rôle est obligatoire.'
         ]);
-        $this->form_validation->set_rules('password', 'Mot de passe', [
-            'required',
-            'min_length[8]',
-            'regex_match[/[0-9]/]',
-            'regex_match[/[^a-zA-Z0-9]/]',
-        ], [
-            'required' => 'Le champ Mot de passe est obligatoire.',
-            'min_length' => 'Le champ Mot de passe doit comporter au moins 8 caractères.',
-            'regex_match' => 'Le mot de passe doit contenir au moins un chiffre et un caractère spécial.',
-        ]);
-        $this->form_validation->set_rules('confirm_password', 'Confirmez le mot de passe', 'required|matches[password]', [
-            'matches' => 'Le champ de confirmation du mot de passe ne correspond pas au champ Mot de passe.'
-        ]);
-        $this->form_validation->set_rules('first_name', 'Prénom', 'required', [
-            'required' => 'Le champ Prénom est obligatoire.'
-        ]);
-        $this->form_validation->set_rules('last_name', 'Nom', 'required', [
-            'required' => 'Le champ Nom est obligatoire.'
-        ]);
-    
-        if ($is_admin_exists) {
-            $this->form_validation->set_rules('role', 'Rôle', 'required', [
-                'required' => 'Le champ Rôle est obligatoire.'
-            ]);
-        }
-    
-        if ($this->form_validation->run() === false) {
-            $data = [
-                "title" => 'Inscription',
-                "view" => "dashboard/register_user",
-                "is_admin_exists" => $is_admin_exists,
-                'validation_errors' => validation_errors(), // Pass validation errors
-            ];
-            $this->load->view("dashboard/layouts", $data);
-        } else {
-            $role = $is_admin ? 'admin' : ($this->input->post('role') ?? 'user');
-    
-            $user_data = [
-                'email' => $this->input->post('email'),
-                'password' => password_hash($this->input->post('password'), PASSWORD_BCRYPT),
-                'first_name' => $this->input->post('first_name'),
-                'last_name' => $this->input->post('last_name'),
-                'role' => $role,
-            ];
-    
-            if ($this->UserModel->create_user($user_data)) {
-                $this->session->set_flashdata('success', 'Inscription réussie. Vous pouvez maintenant vous connecter.');
-            } else {
-                $this->session->set_flashdata('error', 'Un problème est survenu lors de la création de votre compte. Veuillez réessayer.');
-            }
-    
-            $redirect_url = $is_admin ? 'authController/login' : 'dashboard';
-            redirect($redirect_url);
-        }
     }
+
+    if ($this->form_validation->run() === false) {
+        $data = [
+            "title" => 'Inscription',
+            "view" => "dashboard/register_user",
+            "is_admin_exists" => $is_admin_exists,
+            'validation_errors' => validation_errors(), // Passer les erreurs de validation
+        ];
+        $this->load->view("dashboard/layouts", $data);
+    } else {
+        $role = $is_admin ? 'admin' : ($this->input->post('role') ?? 'user');
+
+        $user_data = [
+            'email' => $this->input->post('email'),
+            'password' => password_hash($this->input->post('password'), PASSWORD_BCRYPT),
+            'first_name' => $this->input->post('first_name'),
+            'last_name' => $this->input->post('last_name'),
+            'role' => $role,
+        ];
+
+        if ($this->UserModel->create_user($user_data)) {
+            $this->session->set_flashdata('success', 'Utilisateur ajouté avec succès.');
+        } else {
+            $this->session->set_flashdata('error', 'Un problème est survenu lors de la création du compte. Veuillez réessayer.');
+        }
+
+        $redirect_url = $is_admin ? 'register_user' : 'register_user';
+        redirect($redirect_url);
+    }
+}
+
     
     
 
@@ -307,14 +308,14 @@ class DashboardController extends CI_Controller
         $current_user_id = $this->session->userdata('id');
 
         if ($id == 1) {
-            $this->session->set_flashdata('error', 'You cannot delete the first user.');
+            $this->session->set_flashdata('error', 'Vous ne pouvez pas supprimer l\'admin supérieur.');
             redirect('table-utilisateurs');
         } elseif ($id == $current_user_id) {
-            $this->session->set_flashdata('error', 'You cannot delete yourself.');
+            $this->session->set_flashdata('error', 'Vous ne puvez pas supprimer votre compte.');
             redirect('table-utilisateurs');
         } else {
             if ($this->UserModel->delete_user_by_id($id)) {
-                $this->session->set_flashdata('success', 'User deleted successfully.');
+                $this->session->set_flashdata('success', 'Utilisateur supprimé avec succès.');
             } else {
                 $this->session->set_flashdata('error', 'Failed to delete user.');
             }
@@ -326,24 +327,28 @@ class DashboardController extends CI_Controller
     {
         // Fetch user data from the database
         $user = $this->UserModel->get_user_by_id($id);
-
-        if ( ! $user) {
+        if (!$user) {
             show_404();
         }
-
+    
         // Check if the current user is an admin
         $is_admin_exists = $this->session->userdata('role') === 'admin';
-
+    
         // Form validation rules
         $this->form_validation->set_rules('email', 'Email', 'required|valid_email');
-        $this->form_validation->set_rules('first_name', 'First Name', 'required');
-        $this->form_validation->set_rules('last_name', 'Last Name', 'required');
-
+        $this->form_validation->set_rules('first_name', 'Prénom', 'required');
+        $this->form_validation->set_rules('last_name', 'Nom de famille', 'required');
+    
         if ($this->input->post('password')) {
-            $this->form_validation->set_rules('password', 'Password', 'required|min_length[8]');
-            $this->form_validation->set_rules('confirm_password', 'Confirm Password', 'required|matches[password]');
+            $this->form_validation->set_rules('password', 'Mot de passe', 'required|min_length[8]');
+            $this->form_validation->set_rules('confirm_password', 'Confirmation du mot de passe', 'required|matches[password]');
+            
+            // Set custom error messages
+            $this->form_validation->set_message('required', 'Le %s est requis.');
+            $this->form_validation->set_message('matches', 'Le mot de passe et la confirmation ne correspondent pas.');
+            $this->form_validation->set_message('min_length', 'Le mot de passe doit comporter au moins 8 caractères.');
         }
-
+    
         // Check if the form is submitted and valid
         if ($this->form_validation->run() === true) {
             // Prepare user data for update
@@ -352,22 +357,31 @@ class DashboardController extends CI_Controller
                 'first_name' => $this->input->post('first_name'),
                 'last_name'  => $this->input->post('last_name'),
             ];
-
+    
             if ($this->input->post('password')) {
                 $update_data['password'] = password_hash($this->input->post('password'), PASSWORD_BCRYPT);
             }
-
+    
             if ($is_admin_exists) {
-                $update_data['role'] = $this->input->post('role');
+                // Update role only if it's present in the form submission
+                if ($this->input->post('role')) {
+                    $update_data['role'] = $this->input->post('role');
+                }
+            } else {
+                // Preserve existing role if current user is not an admin
+                $update_data['role'] = $user['role'];
             }
-
+    
             // Update user data in the database
             $this->UserModel->update_user($id, $update_data);
-
+    
             // Set success message and redirect to user list
-            $this->session->set_flashdata('success', 'User updated successfully');
+            $this->session->set_flashdata('success', 'Utilisateur modifié avec succès');
             redirect('DashboardController/usersTable');
         } else {
+            // Get current user ID
+            $currentUserId = $this->session->userdata('id');
+    
             // Pass data to the view
             $data = [
                 'title'           => 'Modifier Utilisateur',
@@ -375,13 +389,14 @@ class DashboardController extends CI_Controller
                 'user'            => $user,
                 'is_admin_exists' => $is_admin_exists,
                 'pending_count'   => $this->session->userdata('pending_count'),
-
-
+                'currentUserId'   => $currentUserId,
             ];
-
+    
             $this->load->view('dashboard/layouts', $data);
         }
     }
+    
+
 
     public function suspendre_user($id)
     {
@@ -402,7 +417,7 @@ class DashboardController extends CI_Controller
         $this->UserModel->update_suspended_status($id, $new_status);
 
         // Set success message and redirect to user list
-        $this->session->set_flashdata('success', 'User '.($new_status ? 'suspended' : 'unsuspended').' successfully');
+        $this->session->set_flashdata('success', 'Utilisateur '.($new_status ? 'suspender' : 'désuspender').' avec succès');
         redirect('DashboardController/usersTable');
     }
 
