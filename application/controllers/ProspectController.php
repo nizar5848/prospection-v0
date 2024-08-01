@@ -18,7 +18,7 @@ class ProspectController extends CI_Controller
     public function registerProspect()
     {
         $data = [
-            "title"         => "Liste des utilisateurs",
+            "title"         => "Créer un prospect",
             "view"          => "dashboard/register_prospect",
             'pending_count' => $this->session->userdata('pending_count'),
         ];
@@ -26,42 +26,69 @@ class ProspectController extends CI_Controller
         $this->load->view('dashboard/layouts', $data);
     }
 
-    public function register()
-    {
-        // Validate form input
-        $this->form_validation->set_rules('first_name', 'Prénom', 'required');
-        $this->form_validation->set_rules('last_name', 'Nom', 'required');
-        $this->form_validation->set_rules('email', 'E-mail', 'required|valid_email');
-        $this->form_validation->set_rules('company', 'Entreprise', 'required');
-        $this->form_validation->set_rules('phone_number', 'Numéro téléphone', 'required');
-        $this->form_validation->set_rules('address', 'Adresse', 'required');
+    public function register() {
+        // Load the model that checks for the existence of an admin, if needed
+        $this->load->model('UserModel');
+        $is_admin_exists = $this->UserModel->count_admins() > 0;
+
+        // Set form validation rules
+        $this->form_validation->set_rules('first_name', 'Prénom', 'required', [
+            'required' => 'Le champ Prénom est obligatoire.'
+        ]);
+        $this->form_validation->set_rules('last_name', 'Nom', 'required', [
+            'required' => 'Le champ Nom est obligatoire.'
+        ]);
+        $this->form_validation->set_rules('email', 'E-mail', 'required|valid_email', [
+            'required' => 'Le champ E-mail est obligatoire.',
+            'valid_email' => 'Veuillez fournir une adresse e-mail valide.'
+        ]);
+        $this->form_validation->set_rules('company', 'Entreprise', 'required', [
+            'required' => 'Le champ Entreprise est obligatoire.'
+        ]);
+        $this->form_validation->set_rules('phone_number', 'Numéro téléphone', 'required', [
+            'required' => 'Le champ Numéro téléphone est obligatoire.'
+        ]);
+        $this->form_validation->set_rules('address', 'Adresse', 'required', [
+            'required' => 'Le champ Adresse est obligatoire.'
+        ]);
 
         if ($this->form_validation->run() === false) {
-            // Form validation failed, show errors or handle accordingly
-            $this->load->view('registration_form'); // Replace with your view name
+            // Form validation failed, pass validation errors and other data to the view
+            $data = [
+                'title' => 'Créer un nouveau prospect',
+                'is_admin_exists' => $is_admin_exists,
+                'validation_errors' => validation_errors(),
+            ];
+            $this->load->view('dashboard/register_prospect', $data);
         } else {
-            // Form validation succeeded, proceed to insert into database
-            $data = array(
-                'first_name'             => $this->input->post('first_name'),
-                'last_name'              => $this->input->post('last_name'),
-                'email'                  => $this->input->post('email'),
-                'company'                => $this->input->post('company'),
-                'phone_number'           => $this->input->post('phone_number'),
-                'address'                => $this->input->post('address'),
-                'status'                 => 'nouveau', // Default status as per your enum
-                'historiqueInteractions' => '', // You may handle this field as needed
-            );
+            // Form validation succeeded, insert data into the database
+            $prospect_data = [
+                'first_name' => $this->input->post('first_name'),
+                'last_name' => $this->input->post('last_name'),
+                'email' => $this->input->post('email'),
+                'company' => $this->input->post('company'),
+                'phone_number' => $this->input->post('phone_number'),
+                'address' => $this->input->post('address'),
+                'status' => 'nouveau', // Default status
+            ];
 
-            // Call the model to insert data
-            if ($this->ProspectModel->insert_prospect($data)) {
+            if ($this->ProspectModel->insert_prospect($prospect_data)) {
                 // Successfully inserted
-                redirect('dashboard'); // Replace with your redirect URL
+                $this->session->set_flashdata('success', 'Le prospect a été ajouté avec succès.');
+                redirect('register-prospect'); // Redirect to the dashboard or any appropriate page
             } else {
-                // Insertion failed, handle error
-                $this->load->view('registration_form', $data); // Replace with your view name
+                // Insertion failed, set flashdata for error
+                $this->session->set_flashdata('error', 'Un problème est survenu lors de l\'ajout du prospect. Veuillez réessayer.');
+                $data = [
+                    'title' => 'Créer un nouveau prospect',
+                    'is_admin_exists' => $is_admin_exists,
+                    'validation_errors' => validation_errors(),
+                ];
+                $this->load->view('dashboard/register_prospect', $data);
             }
         }
     }
+
 
     public function edit_prospect($id)
     {

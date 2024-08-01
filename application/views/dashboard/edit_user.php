@@ -50,7 +50,7 @@
     border: 1px solid #e0e0e0;
     overflow: hidden; /* Ensure border-radius affects all corners */
     position: relative; /* Ensure card is the container for absolute positioning */
-    margin-top: -10px; /* Move the card up by 10px */
+    margin-top: 90px; /* Move the card up by 10px */
 }
 
 

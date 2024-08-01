@@ -120,11 +120,11 @@ class AuthController extends CI_Controller
                     ]);
                     redirect('dashboard');
                 } else {
-                    $this->session->set_flashdata('error', 'Invalid email or password');
+                    $this->session->set_flashdata('error', 'E-mail ou mot de passe invalide');
                     redirect('authController/login');
                 }
             } else {
-                $this->session->set_flashdata('error', 'Invalid email or password');
+                $this->session->set_flashdata('error', 'E-mail ou mot de passe invalide');
                 redirect('authController/login');
             }
         }

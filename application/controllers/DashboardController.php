@@ -417,7 +417,7 @@ class DashboardController extends CI_Controller
         $this->UserModel->update_suspended_status($id, $new_status);
 
         // Set success message and redirect to user list
-        $this->session->set_flashdata('success', 'Utilisateur '.($new_status ? 'suspender' : 'désuspender').' avec succès');
+        $this->session->set_flashdata('success', 'Utilisateur '.($new_status ? 'suspendé' : 'désuspendé').' avec succès');
         redirect('DashboardController/usersTable');
     }
 
