@@ -336,11 +336,10 @@ class ProspectController extends CI_Controller
         if (isset($_FILES['excel_file']['name']) && $_FILES['excel_file']['name'] != '') {
             $path        = $_FILES['excel_file']['tmp_name'];
             $objPHPExcel = PHPExcel_IOFactory::load($path);
-
+    
             $sheetData = $objPHPExcel->getActiveSheet()->toArray(null, true, true, true);
             $data      = array();
-            /*$get_last = $this->db->query('SELECT id FROM prospects ORDER BY id DESC')->row(0);
-            var_export( $get_last);*/
+    
             foreach ($sheetData as $row) {
                 if ($row['A'] != 'ID') {
                     $data[] = array(
@@ -354,16 +353,21 @@ class ProspectController extends CI_Controller
                     );
                 }
             }
-
-            if ( ! empty($data)) {
+    
+            if (!empty($data)) {
                 $this->ProspectModel->insert_batch($data);
+                $this->session->set_flashdata('success', 'La table excel est importé avec succès!');
+            } else {
+                $this->session->set_flashdata('warning', 'Pas de fichier excel selectioné.');
             }
-
+    
             redirect('table-prospects');
         } else {
-            echo "Please upload a file.";
+            $this->session->set_flashdata('error', 'Veuillez choisir un fichier excel.');
+            redirect('table-prospects');
         }
     }
+    
 
     public function selectProspect($id)
 {

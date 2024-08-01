@@ -2,7 +2,7 @@
         .alert {
             position: fixed;
             top: 10px;
-            left: 55%;
+            left: 50%;
             transform: translateX(-50%);
             z-index: 1050; /* Ensure it appears on top */
             width: 20%; /* Adjust width as needed */
@@ -26,7 +26,7 @@
             color: #856404;
         }
     </style>
-    <div class="container">
+    <div class="container mt-4">
         <!-- Alerts positioned at the top center -->
         <?php if ($this->session->flashdata('success')): ?>
             <div id="alert-success" class="alert alert-success" role="alert">
@@ -87,32 +87,24 @@
                         <?php if ($this->session->userdata('role') !== 'admin'): ?>
                             <form method="post" enctype="multipart/form-data"
                                   action="<?php echo base_url('ProspectController/importFromExcel'); ?>" class="mb-3">
-                                <label for="number_of_prospects">Importer depuis Excel:</label>
+                                <label class="mt-1" for="excel_file">Importer depuis Excel:</label>
                                 <div class="d-flex align-items-center mt-3">
                                     <div class="form-group mb-2 mr-2">
-                                        <input type="file" name="excel_file" class="form-control-file"/>
+                                    <input type="file" name="excel_file" class="form-control-file" accept=".xls,.xlsx" />
                                     </div>
                                     <button type="submit" class="btn btn-primary mb-2">Importer</button>
                                 </div>
-                                <br>
                             </form>
                         <?php endif; ?>
 
                         <!-- Export form (always shown) -->
-                        <?php if ($this->session->userdata('role') === 'admin'): ?>
-                            <form method="post" action="<?php echo base_url('ProspectController/exportToExcel'); ?>">
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <label for="number_of_prospects" class="mr-5 mb-0">Exporter la table vers Excel:</label>
-                                    <button type="submit" class="btn btn-success">Exporter</button>
-                                </div>
-                            </form>
-                        <?php else: ?>
-                            <form method="post" action="<?php echo base_url('ProspectController/exportToExcel'); ?>">
-                                <label for="number_of_prospects">Exporter la table vers Excel:</label>
-                                <br>
-                                <button type="submit" class="btn btn-success mt-3">Exporter</button>
-                            </form>
-                        <?php endif; ?>
+                        <form method="post" action="<?php echo base_url('ProspectController/exportToExcel'); ?>">
+    <div class="d-flex flex-column align-items-start">
+        <label for="number_of_prospects" class="mb-2 mt-2">Exporter la table vers Excel:</label>
+        <button type="submit" class="btn btn-success mt-4">Exporter</button>
+    </div>
+</form>
+
                     </div>
                 </div>
             </div>
@@ -192,3 +184,4 @@
         <?php endif; ?>
       });
     </script>
+
