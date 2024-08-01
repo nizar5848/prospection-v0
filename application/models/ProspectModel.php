@@ -221,6 +221,19 @@ class ProspectModel extends CI_Model
     }
 }
 
+public function delete_notes_by_prospect_id($id)
+{
+    return $this->db->delete('notes', array('prospect_id' => $id));
+}
+
+public function has_related_notes($id)
+{
+    $this->db->where('prospect_id', $id);
+    $query = $this->db->get('notes');
+    return $query->num_rows() > 0;
+}
+
+
 
 }
 

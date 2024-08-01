@@ -176,13 +176,19 @@ class ProspectController extends CI_Controller
 
     public function delete_prospect($id)
     {
-        if ($this->ProspectModel->delete_user_by_id($id)) {
-            $this->session->set_flashdata('success', 'Utilisateur supprimé avec succès.');
+        // Delete related notes first
+        if ($this->ProspectModel->delete_notes_by_prospect_id($id)) {
+            if ($this->ProspectModel->delete_user_by_id($id)) {
+                $this->session->set_flashdata('success', 'Utilisateur supprimé avec succès.');
+            } else {
+                $this->session->set_flashdata('error', 'Impossible de supprimer utilisateur.');
+            }
         } else {
-            $this->session->set_flashdata('error', 'Impossible de supprimer utilisateur.');
+            $this->session->set_flashdata('error', 'Impossible de supprimer les notes associées.');
         }
         redirect('table-prospects');
     }
+    
 
     public function selectProspects()
 {
@@ -243,6 +249,7 @@ class ProspectController extends CI_Controller
         ];
 
         $this->load->view('dashboard/layouts', $data);
+        
     }
 
     public function change_status($id)
@@ -264,13 +271,17 @@ class ProspectController extends CI_Controller
     {
         // Load the model
         $this->load->model('ProspectModel');
-
+    
         // Update the prospect's active status to 0
         $this->ProspectModel->set_active_status($id, 0);
-
+    
+        // Set a session flashdata to indicate the call has ended
+        $this->session->set_flashdata('call_ended', 'L\'appel a été clôturé avec succès.');
+    
         // Redirect to a success page or back to the prospect details
-        redirect('ProspectController/active_prospects/'.$id);
+        redirect('ProspectController/active_prospects/'.$id);  
     }
+    
 
     public function exportToExcel()
     {
