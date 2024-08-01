@@ -207,6 +207,21 @@ class ProspectModel extends CI_Model
     }
 
 
+    public function getProspectStatus($id)
+{
+    $this->db->select('active');
+    $this->db->from('prospects');
+    $this->db->where('id', $id);
+    $query = $this->db->get();
+    
+    if ($query->num_rows() > 0) {
+        return $query->row()->active;
+    } else {
+        return null; // or handle it as needed
+    }
+}
+
+
 }
 
 ?>
