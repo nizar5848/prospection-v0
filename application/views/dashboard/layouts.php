@@ -156,7 +156,7 @@
             <!-- nav bar -->
             <div class="w-100 mb-4 d-flex">
                 <a class="navbar-brand mx-auto mt-2 flex-fill text-center"
-                   href="./index.html">
+                   href="<?= base_url('dashboard') ?>">
                     <?php if ($this->session->userdata('role') == 'user'): ?>
                         <svg version="1.1" id="logo"
                              class="navbar-brand-img brand-sm"
@@ -260,17 +260,18 @@
 
                 </ul>
                 <p class="text-muted nav-heading mt-4 mb-1">
-                    <span>Rapports et statistiques</span>
+                    <!--                    <span>Rapports et statistiques</span>-->
+                    <span>statistiques</span>
                 </p>
                 <?php
                 if ($this->session->userdata('role')) ?>
                 <ul class="navbar-nav flex-fill w-100 mb-2">
-                    <li class="nav-item w-100">
-                        <a class="nav-link" href="#">
-                            <i class="fe fe-paperclip fe-16"></i>
-                            <span class="ml-3 item-text">Rapports</span>
-                        </a>
-                    </li>
+                    <!--                    <li class="nav-item w-100">-->
+                    <!--                        <a class="nav-link" href="#">-->
+                    <!--                            <i class="fe fe-paperclip fe-16"></i>-->
+                    <!--                            <span class="ml-3 item-text">Rapports</span>-->
+                    <!--                        </a>-->
+                    <!--                    </li>-->
                     <li class="nav-item w-100">
                         <a class="nav-link" href="<?= base_url('statistiques') ?>">
                             <i class="fe fe-pie-chart fe-16"></i>
