@@ -346,9 +346,6 @@ class DashboardController extends CI_Controller
         $formattedData = array_map(function ($row) {
             $row['actions'] = '
         <div class="d-flex justify-content-center align-items-center">
-            <a class="btn btn-info btn-sm mr-1" href="'.base_url('ProspectController/consult_prospect/'.$row['id']).'" title="Consulter">
-                <i class="fas fa-eye"></i>
-            </a>
             <a class="btn btn-success btn-sm mr-1" href="'.base_url('ProspectController/selectProspect/'.$row['id']).'" title="Ajouter à contacter">
                 <i class="fas fa-plus text-white mt-1"></i>
             </a>
