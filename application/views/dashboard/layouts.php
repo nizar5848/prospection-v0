@@ -274,189 +274,216 @@
            data-toggle="toggle">
             <i class="fe fe-x"><span class="sr-only"></span></i>
         </a>
+        <?php
+        // Get the current URL segment
+        $current_url = uri_string();
+        if ($this->session->userdata('role') === 'admin') {
+            $sidebar_active_color = 'blue';
+        } else {
+            $sidebar_active_color = '#32CD32';
+        }
+        ?>
+
         <nav class="vertnav navbar navbar-light">
             <!-- nav bar -->
             <div class="w-100 mb-4 d-flex">
-                <a class="navbar-brand mx-auto mt-2 flex-fill text-center"
-                   href="<?= base_url('dashboard') ?>">
+                <a class="navbar-brand mx-auto mt-2 flex-fill text-center" href="<?= base_url('dashboard') ?>">
                     <?php if ($this->session->userdata('role') == 'user'): ?>
-                        <svg version="1.1" id="logo"
-                             class="navbar-brand-img brand-sm"
-                             xmlns="http://www.w3.org/2000/svg"
-                             x="0px"
-                             y="0px" viewBox="0 0 120 120" xml:space="preserve">
-        <g>
-            <polygon class="st0" points="78,105 15,105 24,87 87,87"/>
-            <polygon class="st0" points="96,69 33,69 42,51 105,51"/>
-            <polygon class="st0" points="78,33 15,33 24,15 87,15"/>
-        </g>
-    </svg>
+                        <svg version="1.1" id="logo" class="navbar-brand-img brand-sm"
+                             xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 120 120"
+                             xml:space="preserve">
+                    <g>
+                        <polygon class="st0" points="78,105 15,105 24,87 87,87"/>
+                        <polygon class="st0" points="96,69 33,69 42,51 105,51"/>
+                        <polygon class="st0" points="78,33 15,33 24,15 87,15"/>
+                    </g>
+                </svg>
                     <?php elseif ($this->session->userdata('role') == 'admin'): ?>
-                        <svg version="1.1" id="logo"
-                             class="navbar-brand-img brand-sm"
-                             xmlns="http://www.w3.org/2000/svg"
-                             x="0px"
-                             y="0px" viewBox="0 0 120 120" xml:space="preserve">
-        <g>
-            <polygon class="st1" points="78,105 15,105 24,87 87,87"/>
-            <polygon class="st1" points="96,69 33,69 42,51 105,51"/>
-            <polygon class="st1" points="78,33 15,33 24,15 87,15"/>
-        </g>
-    </svg>
+                        <svg version="1.1" id="logo" class="navbar-brand-img brand-sm"
+                             xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 120 120"
+                             xml:space="preserve">
+                    <g>
+                        <polygon class="st1" points="78,105 15,105 24,87 87,87"/>
+                        <polygon class="st1" points="96,69 33,69 42,51 105,51"/>
+                        <polygon class="st1" points="78,33 15,33 24,15 87,15"/>
+                    </g>
+                </svg>
                     <?php endif; ?>
-
                 </a>
             </div>
+
             <ul class="navbar-nav flex-fill w-100 mb-2">
                 <li class="nav-item w-100">
                     <a class="nav-link"
-                       href="<?= base_url('dashboard') ?>">
+                       href="<?= base_url('dashboard') ?>"
+                       style="color: <?= ($current_url === 'dashboard') ? $sidebar_active_color : 'inherit'; ?>;
+                               background: <?= ($current_url === 'dashboard') ? 'whitesmoke' : 'inherit'; ?>;">
                         <i class="fe fe-home fe-16"></i>
                         <span class="ml-3 item-text">Dashboard</span>
                     </a>
                 </li>
 
-
-            </ul>
-            <?php if ($this->session->userdata('role') == 'admin'): ?>
-            <p class="text-muted nav-heading mt-4 mb-1">
-                <span>Gestion des utilisateurs</span>
-            </p>
-            <ul class="navbar-nav flex-fill w-100 mb-2">
-                <li class="nav-item w-100">
-                    <a class="nav-link" href="<?= base_url('register_user') ?>">
-                        <i class="fe fe-user-plus fe-16"></i>
-                        <span class="ml-3 item-text">Créer utilisateur</span>
-                    </a>
-                </li>
-                <li class="nav-item w-100">
-                    <a class="nav-link" href="<?= base_url('table-utilisateurs') ?>">
-                        <i class="fe fe-list"></i>
-                        <span class="ml-3 item-text">Liste des utilisateurs</span>
-                    </a>
-                </li>
-                <?php endif; ?>
+                <?php if ($this->session->userdata('role') == 'admin'): ?>
                 <p class="text-muted nav-heading mt-4 mb-1">
-                    <span>Gestion des prospections</span>
-                </p>
-
-                <ul class="navbar-nav flex-fill w-100 mb-2">
-
-                    <?php if ($this->session->userdata('role') == 'user'): ?>
-                        <li class="nav-item w-100">
-                            <a class="nav-link"
-                               href="<?= base_url('register-prospect') ?>">
-                                <i class="fe fe-user-plus fe-16"></i>
-                                <span class="ml-3 item-text">Créer prospect</span>
-                            </a>
-                        </li>
-                    <?php endif; ?>
-                    <li class="nav-item w-100">
-                        <?php $role = $this->session->userdata('role'); ?>
-                        <?php if (isset($role) && $role === 'admin'): ?>
-                            <a class="nav-link" href="<?php echo base_url('table-prospects-globale'); ?>">
-                                <i class="fe fe-list"></i>
-                                <span class="ml-3 item-text">Liste globale prospects</span>
-                            </a>
-                        <?php else: ?>
-                            <a class="nav-link" href="<?php echo base_url('table-prospects'); ?>">
-                                <i class="fe fe-list"></i>
-                                <span class="ml-3 item-text">Tous les prospects</span>
-                            </a>
-                        <?php endif; ?>
-                    </li>
-                    <li class="nav-item w-100">
-                        <a class="nav-link" href="<?php echo base_url('table-prospects-nouveau'); ?>">
-                            <i class="fe fe-user-plus"></i>
-                            <span class="ml-3 item-text">Nouveaux prospects</span>
-                        </a>
-                    </li>
-                    <li class="nav-item w-100">
-                        <a class="nav-link" href="<?php echo base_url('table-prospects-contacte'); ?>">
-                            <i class="fe fe-phone"></i>
-                            <span class="ml-3 item-text">Prospects contactés</span>
-                        </a>
-                    </li>
-                    <li class="nav-item w-100">
-                        <a class="nav-link" href="<?php echo base_url('table-prospects-en_negociation'); ?>">
-                            <i class="fe fe-shuffle"></i>
-                            <span class="ml-3 item-text">Prospects en négociation</span>
-                        </a>
-                    </li>
-                    <li class="nav-item w-100">
-                        <a class="nav-link" href="<?php echo base_url('table-prospects-converti'); ?>">
-                            <i class="fe fe-check"></i>
-                            <span class="ml-3 item-text">Prospects convertis</span>
-                        </a>
-                    </li>
-                    <li class="nav-item w-100">
-                        <a class="nav-link" href="<?php echo base_url('table-prospects-perdu'); ?>">
-                            <i class="fe fe-x"></i>
-                            <span class="ml-3 item-text">Prospects perdus</span>
-                        </a>
-                    </li>
-
-
-                    <?php if ($this->session->userdata('role') == 'user'): ?>
-                        <li class="nav-item w-100">
-                            <a class="nav-link"
-                               href="<?= base_url('prospects-contacter') ?>">
-                                <i class="fe fe-phone fe-16"></i>
-                                <span class="ml-3 item-text">Prospects à contacter</span>
-                            </a>
-                        </li>
-                    <?php endif; ?>
-
-
-                </ul>
-                <p class="text-muted nav-heading mt-4 mb-1">
-                    <!--                    <span>Rapports et statistiques</span>-->
-                    <span>statistiques</span>
-                </p>
-                <?php
-                if ($this->session->userdata('role')) ?>
-                <ul class="navbar-nav flex-fill w-100 mb-2">
-                    <!--                    <li class="nav-item w-100">-->
-                    <!--                        <a class="nav-link" href="#">-->
-                    <!--                            <i class="fe fe-paperclip fe-16"></i>-->
-                    <!--                            <span class="ml-3 item-text">Rapports</span>-->
-                    <!--                        </a>-->
-                    <!--                    </li>-->
-                    <li class="nav-item w-100">
-                        <a class="nav-link" href="<?= base_url('statistiques') ?>">
-                            <i class="fe fe-pie-chart fe-16"></i>
-                            <span class="ml-3 item-text">Statistiques</span>
-                        </a>
-                    </li>
-                </ul>
-
-
-                <p class="text-muted nav-heading mt-4 mb-1">
-                    <span>Rappels</span>
+                    <span>Gestion des utilisateurs</span>
                 </p>
                 <ul class="navbar-nav flex-fill w-100 mb-2">
-                    <!-- Example navigation item with badge -->
-                    <li class="nav-item w-100">
-                        <a class="nav-link" href="<?= base_url('rappels') ?>">
-                            <i class="fe fe-bell fe-16"></i>
-                            <span class="ml-3 item-text">Rappels</span>
-                            <!-- Badge for number of pending rappels -->
-                            <?php if (isset($pending_count) && $pending_count > 0): ?>
-                                <span class="badge <?= $this->session->userdata('role') === 'admin' ? 'badge-primary' : 'badge-success' ?> font-weight-bolder px-2 text-white pt-2"><?= $pending_count ?></span>
-                            <?php endif; ?>
-                        </a>
-                    </li>
-
-
                     <li class="nav-item w-100">
                         <a class="nav-link"
-                           href="<?= base_url('/calendrier') ?>">
-                            <i class="fe fe-calendar fe-16"></i>
-                            <span class="ml-3 item-text">Calendrier</span>
+                           href="<?= base_url('register_user') ?>"
+                           style="color: <?= ($current_url === 'register_user') ? $sidebar_active_color : 'inherit'; ?>;
+                                   background: <?= ($current_url === 'register_user') ? 'whitesmoke' : 'inherit'; ?>;">
+                            <i class="fe fe-user-plus fe-16"></i>
+                            <span class="ml-3 item-text">Créer utilisateur</span>
                         </a>
                     </li>
-                </ul>
+                    <li class="nav-item w-100">
+                        <a class="nav-link"
+                           href="<?= base_url('table-utilisateurs') ?>"
+                           style="color: <?= ($current_url === 'table-utilisateurs') ? $sidebar_active_color : 'inherit'; ?>;
+                                   background: <?= ($current_url === 'table-utilisateurs') ? 'whitesmoke' : 'inherit'; ?>;">
+                            <i class="fe fe-list"></i>
+                            <span class="ml-3 item-text">Liste des utilisateurs</span>
+                        </a>
+                    </li>
+                    <?php endif; ?>
+
+                    <p class="text-muted nav-heading mt-4 mb-1">
+                        <span>Gestion des prospections</span>
+                    </p>
+                    <ul class="navbar-nav flex-fill w-100 mb-2">
+                        <?php if ($this->session->userdata('role') == 'user'): ?>
+                            <li class="nav-item w-100">
+                                <a class="nav-link"
+                                   href="<?= base_url('register-prospect') ?>"
+                                   style="color: <?= ($current_url === 'register-prospect') ? $sidebar_active_color : 'inherit'; ?>;
+                                           background: <?= ($current_url === 'register-prospect') ? 'whitesmoke' : 'inherit'; ?>;">
+                                    <i class="fe fe-user-plus fe-16"></i>
+                                    <span class="ml-3 item-text">Créer prospect</span>
+                                </a>
+                            </li>
+                        <?php endif; ?>
+                        <li class="nav-item w-100">
+                            <?php if ($this->session->userdata('role') === 'admin'): ?>
+                                <a class="nav-link"
+                                   href="<?php echo base_url('table-prospects-globale'); ?>"
+                                   style="color: <?= ($current_url === 'table-prospects-globale') ? $sidebar_active_color : 'inherit'; ?>;
+                                           background: <?= ($current_url === 'table-prospects-globale') ? 'whitesmoke' : 'inherit'; ?>;">
+                                    <i class="fe fe-list"></i>
+                                    <span class="ml-3 item-text">Liste globale prospects</span>
+                                </a>
+                            <?php else: ?>
+                                <a class="nav-link"
+                                   href="<?php echo base_url('table-prospects'); ?>"
+                                   style="color: <?= ($current_url === 'table-prospects') ? $sidebar_active_color : 'inherit'; ?>;
+                                           background: <?= ($current_url === 'table-prospects') ? 'whitesmoke' : 'inherit'; ?>;">
+                                    <i class="fe fe-list"></i>
+                                    <span class="ml-3 item-text">Tous les prospects</span>
+                                </a>
+                            <?php endif; ?>
+                        </li>
+                        <li class="nav-item w-100">
+                            <a class="nav-link"
+                               href="<?php echo base_url('table-prospects-nouveau'); ?>"
+                               style="color: <?= ($current_url === 'table-prospects-nouveau') ? $sidebar_active_color : 'inherit'; ?>;
+                                       background: <?= ($current_url === 'table-prospects-nouveau') ? 'whitesmoke' : 'inherit'; ?>;">
+                                <i class="fe fe-user-plus"></i>
+                                <span class="ml-3 item-text">Nouveaux prospects</span>
+                            </a>
+                        </li>
+                        <li class="nav-item w-100">
+                            <a class="nav-link"
+                               href="<?php echo base_url('table-prospects-contacte'); ?>"
+                               style="color: <?= ($current_url === 'table-prospects-contacte') ? $sidebar_active_color : 'inherit'; ?>;
+                                       background: <?= ($current_url === 'table-prospects-contacte') ? 'whitesmoke' : 'inherit'; ?>;">
+                                <i class="fe fe-phone"></i>
+                                <span class="ml-3 item-text">Prospects contactés</span>
+                            </a>
+                        </li>
+                        <li class="nav-item w-100">
+                            <a class="nav-link"
+                               href="<?php echo base_url('table-prospects-en_negociation'); ?>"
+                               style="color: <?= ($current_url === 'table-prospects-en_negociation') ? $sidebar_active_color : 'inherit'; ?>;
+                                       background: <?= ($current_url === 'table-prospects-en_negociation') ? 'whitesmoke' : 'inherit'; ?>;">
+                                <i class="fe fe-shuffle"></i>
+                                <span class="ml-3 item-text">Prospects en négociation</span>
+                            </a>
+                        </li>
+                        <li class="nav-item w-100">
+                            <a class="nav-link"
+                               href="<?php echo base_url('table-prospects-converti'); ?>"
+                               style="color: <?= ($current_url === 'table-prospects-converti') ? $sidebar_active_color : 'inherit'; ?>;
+                                       background: <?= ($current_url === 'table-prospects-converti') ? 'whitesmoke' : 'inherit'; ?>;">
+                                <i class="fe fe-check"></i>
+                                <span class="ml-3 item-text">Prospects convertis</span>
+                            </a>
+                        </li>
+                        <li class="nav-item w-100">
+                            <a class="nav-link"
+                               href="<?php echo base_url('table-prospects-perdu'); ?>"
+                               style="color: <?= ($current_url === 'table-prospects-perdu') ? $sidebar_active_color : 'inherit'; ?>;
+                                       background: <?= ($current_url === 'table-prospects-perdu') ? 'whitesmoke' : 'inherit'; ?>;">
+                                <i class="fe fe-x"></i>
+                                <span class="ml-3 item-text">Prospects perdus</span>
+                            </a>
+                        </li>
+
+                        <?php if ($this->session->userdata('role') == 'user'): ?>
+                            <li class="nav-item w-100">
+                                <a class="nav-link"
+                                   href="<?= base_url('prospects-contacter') ?>"
+                                   style="color: <?= ($current_url === 'prospects-contacter') ? $sidebar_active_color : 'inherit'; ?>;
+                                           background: <?= ($current_url === 'prospects-contacter') ? 'whitesmoke' : 'inherit'; ?>;">
+                                    <i class="fe fe-phone fe-16"></i>
+                                    <span class="ml-3 item-text">Prospects à contacter</span>
+                                </a>
+                            </li>
+                        <?php endif; ?>
+                    </ul>
+
+                    <p class="text-muted nav-heading mt-4 mb-1">
+                        <span>Statistiques</span>
+                    </p>
+                    <ul class="navbar-nav flex-fill w-100 mb-2">
+                        <li class="nav-item w-100">
+                            <a class="nav-link"
+                               href="<?= base_url('statistiques') ?>"
+                               style="color: <?= ($current_url === 'statistiques') ? $sidebar_active_color : 'inherit'; ?>;
+                                       background: <?= ($current_url === 'statistiques') ? 'whitesmoke' : 'inherit'; ?>;">
+                                <i class="fe fe-pie-chart fe-16"></i>
+                                <span class="ml-3 item-text">Statistiques</span>
+                            </a>
+                        </li>
+                    </ul>
+
+                    <p class="text-muted nav-heading mt-4 mb-1">
+                        <span>Rappels</span>
+                    </p>
+                    <ul class="navbar-nav flex-fill w-100 mb-2">
+                        <li class="nav-item w-100">
+                            <a class="nav-link"
+                               href="<?= base_url('rappels') ?>"
+                               style="color: <?= ($current_url === 'rappels') ? $sidebar_active_color : 'inherit'; ?>;
+                                       background: <?= ($current_url === 'rappels') ? 'whitesmoke' : 'inherit'; ?>;">
+                                <i class="fe fe-bell fe-16"></i>
+                                <span class="ml-3 item-text">Rappels</span>
+                                <?php if (isset($pending_count) && $pending_count > 0): ?>
+                                    <span class="badge <?= $this->session->userdata('role') === 'admin' ? 'badge-primary' : 'badge-success' ?> font-weight-bolder px-2 text-white pt-2"><?= $pending_count ?></span>
+                                <?php endif; ?>
+                            </a>
+                        </li>
+                        <li class="nav-item w-100">
+                            <a class="nav-link"
+                               href="<?= base_url('/calendrier') ?>"
+                               style="color: <?= ($current_url === 'calendrier') ? $sidebar_active_color : 'inherit'; ?>;
+                                       background: <?= ($current_url === 'calendrier') ? 'whitesmoke' : 'inherit'; ?>;">
+                                <i class="fe fe-calendar fe-16"></i>
+                                <span class="ml-3 item-text">Calendrier</span>
+                            </a>
+                        </li>
+                    </ul>
         </nav>
+
     </aside>
     <main role="main" class="main-content" style="margin-top: -30px">
         <div class="container-fluid">
