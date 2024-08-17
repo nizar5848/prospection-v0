@@ -234,26 +234,35 @@
                         <?php if (isset($role) && $role === 'admin'): ?>
                             <a class="nav-link" href="<?php echo base_url('table-prospects-globale'); ?>">
                                 <i class="fe fe-list"></i>
-                                <span class="ml-3 item-text">Liste de tout les prospects</span>
+                                <span class="ml-3 item-text">Liste de tous les prospects</span>
                             </a>
                         <?php endif; ?>
-
+                    </li>
+                    <li class="nav-item w-100">
                         <a class="nav-link" href="<?php echo base_url('table-prospects-nouveau'); ?>">
                             <i class="fe fe-user-plus"></i>
                             <span class="ml-3 item-text">Prospects Nouveau</span>
                         </a>
+                    </li>
+                    <li class="nav-item w-100">
                         <a class="nav-link" href="<?php echo base_url('table-prospects-contacte'); ?>">
                             <i class="fe fe-phone"></i>
                             <span class="ml-3 item-text">Prospects Contacté</span>
                         </a>
+                    </li>
+                    <li class="nav-item w-100">
                         <a class="nav-link" href="<?php echo base_url('table-prospects-en_negociation'); ?>">
                             <i class="fe fe-shuffle"></i>
                             <span class="ml-3 item-text">Prospects en Négociation</span>
                         </a>
+                    </li>
+                    <li class="nav-item w-100">
                         <a class="nav-link" href="<?php echo base_url('table-prospects-converti'); ?>">
                             <i class="fe fe-check"></i>
                             <span class="ml-3 item-text">Prospects Converti</span>
                         </a>
+                    </li>
+                    <li class="nav-item w-100">
                         <a class="nav-link" href="<?php echo base_url('table-prospects-perdu'); ?>">
                             <i class="fe fe-x"></i>
                             <span class="ml-3 item-text">Prospects Perdu</span>
