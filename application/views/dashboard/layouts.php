@@ -368,31 +368,31 @@
                     <li class="nav-item w-100">
                         <a class="nav-link" href="<?php echo base_url('table-prospects-nouveau'); ?>">
                             <i class="fe fe-user-plus"></i>
-                            <span class="ml-3 item-text">Prospects Nouveau</span>
+                            <span class="ml-3 item-text">Nouveaux prospects</span>
                         </a>
                     </li>
                     <li class="nav-item w-100">
                         <a class="nav-link" href="<?php echo base_url('table-prospects-contacte'); ?>">
                             <i class="fe fe-phone"></i>
-                            <span class="ml-3 item-text">Prospects Contacté</span>
+                            <span class="ml-3 item-text">Prospects contactés</span>
                         </a>
                     </li>
                     <li class="nav-item w-100">
                         <a class="nav-link" href="<?php echo base_url('table-prospects-en_negociation'); ?>">
                             <i class="fe fe-shuffle"></i>
-                            <span class="ml-3 item-text">Prospects en Négociation</span>
+                            <span class="ml-3 item-text">Prospects en négociation</span>
                         </a>
                     </li>
                     <li class="nav-item w-100">
                         <a class="nav-link" href="<?php echo base_url('table-prospects-converti'); ?>">
                             <i class="fe fe-check"></i>
-                            <span class="ml-3 item-text">Prospects Converti</span>
+                            <span class="ml-3 item-text">Prospects convertis</span>
                         </a>
                     </li>
                     <li class="nav-item w-100">
                         <a class="nav-link" href="<?php echo base_url('table-prospects-perdu'); ?>">
                             <i class="fe fe-x"></i>
-                            <span class="ml-3 item-text">Prospects Perdu</span>
+                            <span class="ml-3 item-text">Prospects perdus</span>
                         </a>
                     </li>
 

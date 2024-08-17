@@ -153,7 +153,7 @@ class DashboardController extends CI_Controller
     public function prospectsTableUserNouveau()
     {
         $data = [
-            "title"         => "Liste de tout les prospects.",
+            "title"         => "Nouveaux prospects",
             "view"          => "dashboard/prospects_table_nouveau",
             'pending_count' => $this->session->userdata('pending_count'),
         ];
@@ -164,7 +164,7 @@ class DashboardController extends CI_Controller
     public function prospectsTableUserContacte()
     {
         $data = [
-            "title"         => "Liste de tout les prospects.",
+            "title"         => "Prospects contactés",
             "view"          => "dashboard/prospects_table_contacte",
             'pending_count' => $this->session->userdata('pending_count'),
         ];
@@ -175,7 +175,7 @@ class DashboardController extends CI_Controller
     public function prospectsTableUserEnNegociation()
     {
         $data = [
-            "title"         => "Liste de tout les prospects.",
+            "title"         => "Prospects en cours de négociation",
             "view"          => "dashboard/prospects_table_en_negociation",
             'pending_count' => $this->session->userdata('pending_count'),
         ];
@@ -186,7 +186,7 @@ class DashboardController extends CI_Controller
     public function prospectsTableUserConverti()
     {
         $data = [
-            "title"         => "Liste de tout les prospects.",
+            "title"         => "Prospects convertis",
             "view"          => "dashboard/prospects_table_converti",
             'pending_count' => $this->session->userdata('pending_count'),
         ];
@@ -197,7 +197,7 @@ class DashboardController extends CI_Controller
     public function prospectsTableUserPerdu()
     {
         $data = [
-            "title"         => "Liste de tout les prospects.",
+            "title"         => "Prospects perdus",
             "view"          => "dashboard/prospects_table_perdu",
             'pending_count' => $this->session->userdata('pending_count'),
         ];

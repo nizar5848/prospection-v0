@@ -25,6 +25,27 @@
         background-color: #fff3cd;
         color: #856404;
     }
+
+    /* Make table rows look clickable */
+    .clickable-row {
+        cursor: pointer;
+    }
+
+    .row-card {
+        margin-bottom: 20px; /* Space between cards */
+    }
+
+    .row-card .card-body {
+        padding: 1.25rem; /* Adjust padding for compact view */
+    }
+
+    .form-group {
+        margin-bottom: 1rem; /* Reduce space between form elements */
+    }
+
+    .btn {
+        margin-top: 0.5rem; /* Reduce margin-top for buttons */
+    }
 </style>
 <div class="container mt-4">
     <!-- Alerts positioned at the top center -->
@@ -43,74 +64,94 @@
     <?php endif; ?>
 
     <!-- Your view content here -->
-    <h3 class="mb-4">Table des prospects nouveaux</h3>
+    <h3 class="mb-1">Table des prospects en cours de négociation</h3>
 
     <div class="row">
         <!-- Left card: Selection fields (shown only if role is user) -->
         <?php if ($this->session->userdata('role') == 'user'): ?>
-            <div class="col-md-6">
+            <div class="col-md-6 row-card">
                 <div class="card">
-                    <div class="card-body">
-                        <form method="post" action="<?php echo base_url('ProspectController/selectProspects'); ?>">
-                            <div class="form-group">
-                                <label for="number_of_prospects">Nombre de prospects:</label>
-                                <select id="number_of_prospects" name="number_of_prospects" class="form-control">
-                                    <option value="" default>Selectionner un nombre</option>
-                                    <option value="10">10</option>
-                                    <option value="20">20</option>
-                                    <option value="30">30</option>
-                                    <option value="40">40</option>
-                                    <option value="50">50</option>
-                                </select>
+                    <div class="card-body" style="height: 115px">
+                        <form method="post" action="<?php echo base_url('ProspectController/selectProspects'); ?>"
+                              class="row">
+                            <!-- Nombre de prospects -->
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <label for="number_of_prospects">Nombre de prospects à contacter:</label>
+                                    <select id="number_of_prospects" name="number_of_prospects" class="form-control">
+                                        <option value="" selected>Selectionner un nombre</option>
+                                        <option value="10">10</option>
+                                        <option value="20">20</option>
+                                        <option value="30">30</option>
+                                        <option value="40">40</option>
+                                        <option value="50">50</option>
+                                    </select>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label for="status">Statut:</label>
-                                <select id="status" name="status" class="form-control">
-                                    <option value="" default>Selectionner un statut</option>
-                                    <option value="nouveau">Nouveau</option>
-                                    <option value="contacte">Contacté</option>
-                                    <option value="en_negociation">En négociation</option>
-                                </select>
+
+                            <!-- Statut -->
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="status">Statut:</label>
+                                    <select id="status" name="status" class="form-control">
+                                        <option value="" selected>Selectionner un statut</option>
+                                        <option value="nouveau">Nouveau</option>
+                                        <option value="contacte">Contacté</option>
+                                        <option value="en_negociation">En négociation</option>
+                                    </select>
+                                </div>
                             </div>
-                            <button type="submit" class="btn btn-primary mt-1">Sélectionner</button>
+
+                            <!-- Submit Button -->
+                            <div class="col-md-3 mt-4">
+                                <button type="submit" class="btn btn-primary btn-block">Sélectionner</button>
+                            </div>
                         </form>
                     </div>
                 </div>
             </div>
+
+
         <?php endif; ?>
 
         <!-- Right card: Import and Export buttons -->
-        <div class="col-md-6">
+        <div class="col-md-6 row-card">
             <div class="card">
-                <div class="card-body">
-                    <!-- Import form (only shown for non-admins) -->
-                    <?php if ($this->session->userdata('role') !== 'admin'): ?>
-                        <form method="post" enctype="multipart/form-data"
-                              action="<?php echo base_url('ProspectController/importFromExcel'); ?>" class="mb-3">
-                            <label class="mt-1" for="excel_file">Importer depuis Excel:</label>
-                            <div class="d-flex align-items-center mt-3">
-                                <div class="form-group mb-2 mr-2">
-                                    <input type="file" name="excel_file" class="form-control-file" accept=".xls,.xlsx"/>
-                                </div>
-                                <button type="submit" class="btn btn-primary mb-2">Importer</button>
-                            </div>
-                        </form>
-                    <?php endif; ?>
+                <div class="card-body" style="height: 115px">
+                    <div class="row">
+                        <!-- Import form (only shown for non-admins) -->
+                        <?php if ($this->session->userdata('role') !== 'admin'): ?>
+                            <div class="col-md-8">
+                                <form method="post" enctype="multipart/form-data"
+                                      action="<?php echo base_url('ProspectController/importFromExcel'); ?>">
+                                    <label for="excel_file">Importer depuis Excel:</label>
+                                    <div class="d-flex align-items-center pr-5">
+                                        <input type="file" name="excel_file" class="form-control-file mt-2"
+                                               accept=".xls,.xlsx"/>
+                                        <button type="submit" class="btn btn-primary ml-2">Importer
+                                        </button>
+                                    </div>
 
-                    <!-- Export form (always shown) -->
-                    <form method="post" action="<?php echo base_url('ProspectController/exportToExcel'); ?>">
-                        <div class="d-flex flex-column align-items-start">
-                            <label for="number_of_prospects" class="mb-2 mt-2">Exporter la table vers Excel:</label>
-                            <button type="submit" class="btn btn-success mt-4">Exporter</button>
+                                </form>
+                            </div>
+                        <?php endif; ?>
+
+                        <!-- Export form (always shown) -->
+                        <div class="col-md-4">
+                            <form method="post" action="<?php echo base_url('ProspectController/exportToExcel'); ?>">
+                                <label class="d-block" for="number_of_prospects">Exporter la table vers Excel:</label>
+                                <button type="submit" class="btn btn-success mt-2" style="color: white">Exporter
+                                </button>
+                            </form>
                         </div>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="bg-white mt-5 px-5 border">
-        <table id="example1" class="table border dt-responsive nowrap mt-3" style="width:100%">
+    <div class="bg-white mt-2 px-5 border">
+        <table id="example1" class="table border dt-responsive nowrap mt-3 clickable-row" style="width:100%">
             <thead>
             <tr>
                 <th>ID</th>
@@ -157,15 +198,12 @@
     columns.push({data: 'actions', orderable: false, searchable: false});
       <?php endif; ?>
 
-    $('#example1').DataTable({
+    var table = $('#example1').DataTable({
       language: {
         url: 'https://cdn.datatables.net/plug-ins/1.10.21/i18n/French.json',
       },
       ajax: {
         url: "<?php echo base_url('DashboardController/fetchProspects/en_negociation'); ?>",
-        data: function(d) {
-          d.status = 'nouveau'; // Filter for 'nouveau' status
-        },
         dataSrc: function(json) {
           console.log('data shows here:');
           console.log(json);
@@ -185,5 +223,13 @@
       <?php elseif ($this->session->flashdata('warning')): ?>
     $('#alert-warning').fadeIn().delay(3000).fadeOut();
       <?php endif; ?>
+
+    // Make table rows clickable
+    $('#example1 tbody').on('click', 'tr', function() {
+      var data = table.row(this).data();
+      if (data) {
+        window.location.href = "<?php echo base_url('ProspectController/consult_prospect/'); ?>" + data.id;
+      }
+    });
   });
 </script>
