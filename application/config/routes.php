@@ -20,9 +20,14 @@ $route['table-prospects-globale'] = 'dashboardController/prospectsTableAdmin';
 
 
 // User routes
-$route['dashboard']       = 'DashboardController/userDashboard';
-$route['statistiques']    = 'DashboardController/statistiques';
-$route['table-prospects'] = 'dashboardController/prospectsTableUser';
+$route['dashboard']                      = 'DashboardController/userDashboard';
+$route['statistiques']                   = 'DashboardController/statistiques';
+$route['table-prospects']                = 'dashboardController/prospectsTableUser';
+$route['table-prospects-nouveau']        = 'dashboardController/prospectsTableUserNouveau';
+$route['table-prospects-contacte']       = 'dashboardController/prospectsTableUserContacte';
+$route['table-prospects-en_negociation'] = 'dashboardController/prospectsTableUserEnNegociation';
+$route['table-prospects-converti']       = 'dashboardController/prospectsTableUserConverti';
+$route['table-prospects-perdu']          = 'dashboardController/prospectsTableUserPerdu';
 
 
 $route['register-prospect'] = "ProspectController/registerProspect";
@@ -45,7 +50,4 @@ $route['rappels/switch_status/(:num)'] = 'rappelsController/switch_status/$1';
 
 //Prospects à contacter
 
-$route['prospects-contacter']                      = 'ProspectController/active_prospects';
-
-
-
+$route['prospects-contacter'] = 'ProspectController/active_prospects';

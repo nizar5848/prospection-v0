@@ -150,6 +150,62 @@ class DashboardController extends CI_Controller
         $this->load->view("dashboard/layouts", $data);
     }
 
+    public function prospectsTableUserNouveau()
+    {
+        $data = [
+            "title"         => "Liste de tout les prospects.",
+            "view"          => "dashboard/prospects_table_nouveau",
+            'pending_count' => $this->session->userdata('pending_count'),
+        ];
+
+        $this->load->view("dashboard/layouts", $data);
+    }
+
+    public function prospectsTableUserContacte()
+    {
+        $data = [
+            "title"         => "Liste de tout les prospects.",
+            "view"          => "dashboard/prospects_table_contacte",
+            'pending_count' => $this->session->userdata('pending_count'),
+        ];
+
+        $this->load->view("dashboard/layouts", $data);
+    }
+
+    public function prospectsTableUserEnNegociation()
+    {
+        $data = [
+            "title"         => "Liste de tout les prospects.",
+            "view"          => "dashboard/prospects_table_en_negociation",
+            'pending_count' => $this->session->userdata('pending_count'),
+        ];
+
+        $this->load->view("dashboard/layouts", $data);
+    }
+
+    public function prospectsTableUserConverti()
+    {
+        $data = [
+            "title"         => "Liste de tout les prospects.",
+            "view"          => "dashboard/prospects_table_converti",
+            'pending_count' => $this->session->userdata('pending_count'),
+        ];
+
+        $this->load->view("dashboard/layouts", $data);
+    }
+
+    public function prospectsTableUserPerdu()
+    {
+        $data = [
+            "title"         => "Liste de tout les prospects.",
+            "view"          => "dashboard/prospects_table_perdu",
+            'pending_count' => $this->session->userdata('pending_count'),
+        ];
+
+        $this->load->view("dashboard/layouts", $data);
+    }
+
+
     public function usersTable()
     {
         $layout_data = [
@@ -162,76 +218,76 @@ class DashboardController extends CI_Controller
     }
 
     public function register()
-{
-    // Charger le modèle UserModel
-    $this->load->model('UserModel');
+    {
+        // Charger le modèle UserModel
+        $this->load->model('UserModel');
 
-    // Vérifier si un administrateur existe déjà
-    $is_admin_exists = $this->UserModel->count_admins() > 0;
-    $is_admin = !$is_admin_exists;
+        // Vérifier si un administrateur existe déjà
+        $is_admin_exists = $this->UserModel->count_admins() > 0;
+        $is_admin        = ! $is_admin_exists;
 
-    // Règles de validation du formulaire
-    $this->form_validation->set_rules('email', 'E-mail', 'required|valid_email|is_unique[users.email]', [
-        'is_unique' => 'Cette adresse e-mail est déjà enregistrée.'
-    ]);
-    $this->form_validation->set_rules('password', 'Mot de passe', [
-        'required',
-        'min_length[8]',
-        'regex_match[/[0-9]/]',
-        'regex_match[/[^a-zA-Z0-9]/]',
-    ], [
-        'required' => 'Le mot de passe ne respecte pas les exigences requises.',
-        'min_length' => 'Le mot de passe ne respecte pas les exigences requises.',
-        'regex_match' => 'Le mot de passe ne respecte pas les exigences requises.',
-    ]);
-    $this->form_validation->set_rules('confirm_password', 'Confirmez le mot de passe', 'required|matches[password]', [
-        'matches' => 'Le champ de confirmation du mot de passe ne correspond pas au champ Mot de passe.'
-    ]);
-    $this->form_validation->set_rules('first_name', 'Prénom', 'required', [
-        'required' => 'Le champ Prénom est obligatoire.'
-    ]);
-    $this->form_validation->set_rules('last_name', 'Nom', 'required', [
-        'required' => 'Le champ Nom est obligatoire.'
-    ]);
-
-    if ($is_admin_exists) {
-        $this->form_validation->set_rules('role', 'Rôle', 'required', [
-            'required' => 'Le champ Rôle est obligatoire.'
+        // Règles de validation du formulaire
+        $this->form_validation->set_rules('email', 'E-mail', 'required|valid_email|is_unique[users.email]', [
+            'is_unique' => 'Cette adresse e-mail est déjà enregistrée.',
         ]);
-    }
+        $this->form_validation->set_rules('password', 'Mot de passe', [
+            'required',
+            'min_length[8]',
+            'regex_match[/[0-9]/]',
+            'regex_match[/[^a-zA-Z0-9]/]',
+        ], [
+            'required'    => 'Le mot de passe ne respecte pas les exigences requises.',
+            'min_length'  => 'Le mot de passe ne respecte pas les exigences requises.',
+            'regex_match' => 'Le mot de passe ne respecte pas les exigences requises.',
+        ]);
+        $this->form_validation->set_rules('confirm_password', 'Confirmez le mot de passe', 'required|matches[password]',
+            [
+                'matches' => 'Le champ de confirmation du mot de passe ne correspond pas au champ Mot de passe.',
+            ]);
+        $this->form_validation->set_rules('first_name', 'Prénom', 'required', [
+            'required' => 'Le champ Prénom est obligatoire.',
+        ]);
+        $this->form_validation->set_rules('last_name', 'Nom', 'required', [
+            'required' => 'Le champ Nom est obligatoire.',
+        ]);
 
-    if ($this->form_validation->run() === false) {
-        $data = [
-            "title" => 'Inscription',
-            "view" => "dashboard/register_user",
-            "is_admin_exists" => $is_admin_exists,
-            'validation_errors' => validation_errors(), // Passer les erreurs de validation
-        ];
-        $this->load->view("dashboard/layouts", $data);
-    } else {
-        $role = $is_admin ? 'admin' : ($this->input->post('role') ?? 'user');
-
-        $user_data = [
-            'email' => $this->input->post('email'),
-            'password' => password_hash($this->input->post('password'), PASSWORD_BCRYPT),
-            'first_name' => $this->input->post('first_name'),
-            'last_name' => $this->input->post('last_name'),
-            'role' => $role,
-        ];
-
-        if ($this->UserModel->create_user($user_data)) {
-            $this->session->set_flashdata('success', 'Utilisateur ajouté avec succès.');
-        } else {
-            $this->session->set_flashdata('error', 'Un problème est survenu lors de la création du compte. Veuillez réessayer.');
+        if ($is_admin_exists) {
+            $this->form_validation->set_rules('role', 'Rôle', 'required', [
+                'required' => 'Le champ Rôle est obligatoire.',
+            ]);
         }
 
-        $redirect_url = $is_admin ? 'register_user' : 'register_user';
-        redirect($redirect_url);
-    }
-}
+        if ($this->form_validation->run() === false) {
+            $data = [
+                "title"             => 'Inscription',
+                "view"              => "dashboard/register_user",
+                "is_admin_exists"   => $is_admin_exists,
+                'validation_errors' => validation_errors(), // Passer les erreurs de validation
+            ];
+            $this->load->view("dashboard/layouts", $data);
+        } else {
+            $role = $is_admin ? 'admin' : ($this->input->post('role') ?? 'user');
 
-    
-    
+            $user_data = [
+                'email'      => $this->input->post('email'),
+                'password'   => password_hash($this->input->post('password'), PASSWORD_BCRYPT),
+                'first_name' => $this->input->post('first_name'),
+                'last_name'  => $this->input->post('last_name'),
+                'role'       => $role,
+            ];
+
+            if ($this->UserModel->create_user($user_data)) {
+                $this->session->set_flashdata('success', 'Utilisateur ajouté avec succès.');
+            } else {
+                $this->session->set_flashdata('error',
+                    'Un problème est survenu lors de la création du compte. Veuillez réessayer.');
+            }
+
+            $redirect_url = $is_admin ? 'register_user' : 'register_user';
+            redirect($redirect_url);
+        }
+    }
+
 
     public function fetchDatafromDatabase()
     {
@@ -277,31 +333,34 @@ class DashboardController extends CI_Controller
         echo json_encode(['data' => $formattedData]);
     }
 
-    public function fetchProspects()
+    public function fetchProspects($status = null)
     {
+        if ($status) {
+            $this->db->where('status', $status);
+        }
         $query = $this->db->get('prospects');
         $data  = $query->result_array();
 
         $formattedData = array_map(function ($row) {
             $row['actions'] = '
-            <div class="d-flex justify-content-center align-items-center">
-                      <button class="btn btn-sm  " type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-chevron-down"></i>
-
-  </button>
-                <div class="dropdown-menu dropdown-menu-left">
-                    <a class="dropdown-item" href="'.base_url('ProspectController/consult_prospect/'.$row['id']).'">Consulter</a>
-                    <a class="dropdown-item" href="'.base_url('ProspectController/selectProspect/'.$row['id']).'">Ajouter à  contacter</a>
-                    <a class="dropdown-item" href="'.base_url('ProspectController/edit_prospect/'.$row['id']).'">Modifier</a>
-                    <a class="dropdown-item" href="'.base_url('ProspectController/delete_prospect/'.$row['id']).'">Supprimer</a>
-                </div>               
-            </div>';
+        <div class="d-flex justify-content-center align-items-center">
+            <button class="btn btn-sm" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="dropdown-menu dropdown-menu-left">
+                <a class="dropdown-item" href="'.base_url('ProspectController/consult_prospect/'.$row['id']).'">Consulter</a>
+                <a class="dropdown-item" href="'.base_url('ProspectController/selectProspect/'.$row['id']).'">Ajouter à contacter</a>
+                <a class="dropdown-item" href="'.base_url('ProspectController/edit_prospect/'.$row['id']).'">Modifier</a>
+                <a class="dropdown-item" href="'.base_url('ProspectController/delete_prospect/'.$row['id']).'">Supprimer</a>
+            </div>
+        </div>';
 
             return $row;
         }, $data);
 
         echo json_encode(['data' => $formattedData]);
     }
+
 
     public function delete_user($id)
     {
@@ -327,28 +386,29 @@ class DashboardController extends CI_Controller
     {
         // Fetch user data from the database
         $user = $this->UserModel->get_user_by_id($id);
-        if (!$user) {
+        if ( ! $user) {
             show_404();
         }
-    
+
         // Check if the current user is an admin
         $is_admin_exists = $this->session->userdata('role') === 'admin';
-    
+
         // Form validation rules
         $this->form_validation->set_rules('email', 'Email', 'required|valid_email');
         $this->form_validation->set_rules('first_name', 'Prénom', 'required');
         $this->form_validation->set_rules('last_name', 'Nom de famille', 'required');
-    
+
         if ($this->input->post('password')) {
             $this->form_validation->set_rules('password', 'Mot de passe', 'required|min_length[8]');
-            $this->form_validation->set_rules('confirm_password', 'Confirmation du mot de passe', 'required|matches[password]');
-            
+            $this->form_validation->set_rules('confirm_password', 'Confirmation du mot de passe',
+                'required|matches[password]');
+
             // Set custom error messages
             $this->form_validation->set_message('required', 'Le %s est requis.');
             $this->form_validation->set_message('matches', 'Le mot de passe et la confirmation ne correspondent pas.');
             $this->form_validation->set_message('min_length', 'Le mot de passe doit comporter au moins 8 caractères.');
         }
-    
+
         // Check if the form is submitted and valid
         if ($this->form_validation->run() === true) {
             // Prepare user data for update
@@ -357,11 +417,11 @@ class DashboardController extends CI_Controller
                 'first_name' => $this->input->post('first_name'),
                 'last_name'  => $this->input->post('last_name'),
             ];
-    
+
             if ($this->input->post('password')) {
                 $update_data['password'] = password_hash($this->input->post('password'), PASSWORD_BCRYPT);
             }
-    
+
             if ($is_admin_exists) {
                 // Update role only if it's present in the form submission
                 if ($this->input->post('role')) {
@@ -371,17 +431,17 @@ class DashboardController extends CI_Controller
                 // Preserve existing role if current user is not an admin
                 $update_data['role'] = $user['role'];
             }
-    
+
             // Update user data in the database
             $this->UserModel->update_user($id, $update_data);
-    
+
             // Set success message and redirect to user list
             $this->session->set_flashdata('success', 'Utilisateur modifié avec succès');
             redirect('DashboardController/usersTable');
         } else {
             // Get current user ID
             $currentUserId = $this->session->userdata('id');
-    
+
             // Pass data to the view
             $data = [
                 'title'           => 'Modifier Utilisateur',
@@ -391,11 +451,10 @@ class DashboardController extends CI_Controller
                 'pending_count'   => $this->session->userdata('pending_count'),
                 'currentUserId'   => $currentUserId,
             ];
-    
+
             $this->load->view('dashboard/layouts', $data);
         }
     }
-    
 
 
     public function suspendre_user($id)
@@ -417,7 +476,8 @@ class DashboardController extends CI_Controller
         $this->UserModel->update_suspended_status($id, $new_status);
 
         // Set success message and redirect to user list
-        $this->session->set_flashdata('success', 'Utilisateur '.($new_status ? 'suspendé' : 'désuspendé').' avec succès');
+        $this->session->set_flashdata('success',
+            'Utilisateur '.($new_status ? 'suspendé' : 'désuspendé').' avec succès');
         redirect('DashboardController/usersTable');
     }
 
