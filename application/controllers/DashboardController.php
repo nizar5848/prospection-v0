@@ -263,17 +263,19 @@ class DashboardController extends CI_Controller
                 "view"              => "dashboard/register_user",
                 "is_admin_exists"   => $is_admin_exists,
                 'validation_errors' => validation_errors(), // Passer les erreurs de validation
+                'pending_count'     => $this->session->userdata('pending_count'),
             ];
             $this->load->view("dashboard/layouts", $data);
         } else {
             $role = $is_admin ? 'admin' : ($this->input->post('role') ?? 'user');
 
             $user_data = [
-                'email'      => $this->input->post('email'),
-                'password'   => password_hash($this->input->post('password'), PASSWORD_BCRYPT),
-                'first_name' => $this->input->post('first_name'),
-                'last_name'  => $this->input->post('last_name'),
-                'role'       => $role,
+                'email'         => $this->input->post('email'),
+                'password'      => password_hash($this->input->post('password'), PASSWORD_BCRYPT),
+                'first_name'    => $this->input->post('first_name'),
+                'last_name'     => $this->input->post('last_name'),
+                'role'          => $role,
+                'pending_count' => $this->session->userdata('pending_count'),
             ];
 
             if ($this->UserModel->create_user($user_data)) {
@@ -344,15 +346,18 @@ class DashboardController extends CI_Controller
         $formattedData = array_map(function ($row) {
             $row['actions'] = '
         <div class="d-flex justify-content-center align-items-center">
-            <button class="btn btn-sm" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-chevron-down"></i>
-            </button>
-            <div class="dropdown-menu dropdown-menu-left">
-                <a class="dropdown-item" href="'.base_url('ProspectController/consult_prospect/'.$row['id']).'">Consulter</a>
-                <a class="dropdown-item" href="'.base_url('ProspectController/selectProspect/'.$row['id']).'">Ajouter à contacter</a>
-                <a class="dropdown-item" href="'.base_url('ProspectController/edit_prospect/'.$row['id']).'">Modifier</a>
-                <a class="dropdown-item" href="'.base_url('ProspectController/delete_prospect/'.$row['id']).'">Supprimer</a>
-            </div>
+            <a class="btn btn-info btn-sm mr-1" href="'.base_url('ProspectController/consult_prospect/'.$row['id']).'" title="Consulter">
+                <i class="fas fa-eye"></i>
+            </a>
+            <a class="btn btn-success btn-sm mr-1" href="'.base_url('ProspectController/selectProspect/'.$row['id']).'" title="Ajouter à contacter">
+                <i class="fas fa-plus text-white mt-1"></i>
+            </a>
+            <a class="btn btn-primary btn-sm mr-1" href="'.base_url('ProspectController/edit_prospect/'.$row['id']).'" title="Modifier">
+                <i class="fas fa-edit"></i>
+            </a>
+            <a class="btn btn-danger btn-sm" href="'.base_url('ProspectController/delete_prospect/'.$row['id']).'" title="Supprimer">
+                <i class="fas fa-trash"></i>
+            </a>
         </div>';
 
             return $row;

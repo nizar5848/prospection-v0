@@ -97,7 +97,129 @@
 
     <?php endif; ?>
 
+    <style>
+        /* prospects table experimental styles */
+        /* Basic table styling */
+        .dataTables_wrapper .dataTables_length,
+        .dataTables_wrapper .dataTables_filter,
+        .dataTables_wrapper .dataTables_info,
+        .dataTables_wrapper .dataTables_paginate {
+            margin: 20px 0;
+        }
 
+        .dataTables_wrapper .dataTables_filter input {
+            width: 250px;
+            border-radius: 4px;
+            border: 1px solid #ced4da;
+            padding: 5px 10px;
+        }
+
+        /* Table header styling */
+        table.dataTable thead th {
+            background-color: #f8f9fa;
+            color: #333;
+            font-weight: bold;
+            border-bottom: 2px solid #dee2e6;
+        }
+
+        /* Table body styling */
+        table.dataTable tbody tr {
+            background-color: #fff;
+        }
+
+        table.dataTable tbody tr:hover {
+            background-color: #f1f3f5;
+        }
+
+        table.dataTable tbody tr.odd {
+            background-color: #f9f9f9;
+        }
+
+        /* Row highlighting */
+        table.dataTable tbody tr.selected {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        /* Cell padding */
+        table.dataTable td, table.dataTable th {
+            padding: 12px 15px;
+        }
+
+        /* Borders and spacing */
+        table.dataTable {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        table.dataTable, table.dataTable th, table.dataTable td {
+            border: 1px solid #dee2e6;
+        }
+
+        /* Pagination button styling */
+        .dataTables_wrapper .dataTables_paginate .paginate_button {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            padding: 5px 10px;
+            margin-left: 5px;
+            cursor: pointer;
+            color: #333;
+            border-radius: 4px;
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button.current,
+        .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+            background-color: #007bff;
+            border: 1px solid #007bff;
+            color: #fff;
+        }
+
+        /* Info and length styling */
+        .dataTables_wrapper .dataTables_info {
+            color: #333;
+        }
+
+        .dataTables_wrapper .dataTables_length select {
+            border-radius: 4px;
+            border: 1px solid #ced4da;
+            padding: 5px;
+        }
+
+        /* Responsive table styling */
+        @media screen and (max-width: 768px) {
+            table.dataTable {
+                width: 100%;
+                border: 0;
+            }
+
+            table.dataTable tbody td {
+                display: block;
+                text-align: right;
+                padding-left: 50%;
+                position: relative;
+            }
+
+            table.dataTable tbody td::before {
+                content: attr(data-label);
+                position: absolute;
+                left: 0;
+                width: 50%;
+                padding-left: 10px;
+                font-weight: bold;
+                text-align: left;
+                background-color: #f8f9fa;
+                border-right: 1px solid #dee2e6;
+            }
+
+            table.dataTable tbody td:first-child {
+                border-top: 1px solid #dee2e6;
+            }
+
+            table.dataTable tbody td:last-child {
+                border-bottom: 1px solid #dee2e6;
+            }
+        }
+    </style>
 </head>
 <body class="vertical light">
 <div class="wrapper">
@@ -234,7 +356,12 @@
                         <?php if (isset($role) && $role === 'admin'): ?>
                             <a class="nav-link" href="<?php echo base_url('table-prospects-globale'); ?>">
                                 <i class="fe fe-list"></i>
-                                <span class="ml-3 item-text">Liste de tous les prospects</span>
+                                <span class="ml-3 item-text">Liste globale prospects</span>
+                            </a>
+                        <?php else: ?>
+                            <a class="nav-link" href="<?php echo base_url('table-prospects'); ?>">
+                                <i class="fe fe-list"></i>
+                                <span class="ml-3 item-text">Tous les prospects</span>
                             </a>
                         <?php endif; ?>
                     </li>

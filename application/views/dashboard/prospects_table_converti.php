@@ -109,24 +109,25 @@
         </div>
     </div>
 
-    <br><br>
-    <table id="example1" class="table border dt-responsive nowrap mt-3" style="width:100%">
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Nom</th>
-            <th>Prénom</th>
-            <th>Email</th>
-            <th>Entreprise</th>
-            <th>Téléphone</th>
-            <th>Adresse</th>
-            <th>Statut</th>
-            <?php if ($this->session->userdata('role') === 'user'): ?>
-                <th>Actions</th>
-            <?php endif; ?>
-        </tr>
-        </thead>
-    </table>
+    <div class="bg-white mt-5 px-5 border">
+        <table id="example1" class="table border dt-responsive nowrap mt-3" style="width:100%">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Email</th>
+                <th>Entreprise</th>
+                <th>Téléphone</th>
+                <th>Adresse</th>
+                <th>Statut</th>
+                <?php if ($this->session->userdata('role') === 'user'): ?>
+                    <th>Actions</th>
+                <?php endif; ?>
+            </tr>
+            </thead>
+        </table>
+    </div>
 </div>
 
 <!-- Import jQuery -->
