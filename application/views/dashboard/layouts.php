@@ -87,17 +87,20 @@
             .nav-item:hover .nav-link .item-text {
                 color: #32CD32;
             }
-
-            @media (min-width: 1200px) {
-                .container, .container-sm, .container-md, .container-lg, .container-xl {
-                    max-width: 1400px;
-                }
-            }
         </style>
 
     <?php endif; ?>
 
+
     <style>
+
+
+        @media (min-width: 1200px) {
+            .container, .container-sm, .container-md, .container-lg, .container-xl {
+                max-width: 1400px;
+            }
+        }
+
         /* prospects table experimental styles */
         /* Basic table styling */
         .dataTables_wrapper .dataTables_length,
