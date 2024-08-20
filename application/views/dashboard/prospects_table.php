@@ -191,12 +191,47 @@
       {data: 'company'},
       {data: 'phone_number'},
       {data: 'address'},
-      {data: 'status'},
-    ];
+      {
+        data: 'status',
+        render: function(data, type, row) {
+          var labelClass = '';
+          var statusLabel = '';
 
-      <?php if ($this->session->userdata('role') === 'user'): ?>
-    columns.push({data: 'actions', orderable: false, searchable: false});
-      <?php endif; ?>
+          switch (data) {
+            case 'nouveau':
+              labelClass = 'badge badge-danger';
+              statusLabel = 'Nouveau';
+              break;
+            case 'contacte':
+              labelClass = 'badge badge-primary';
+              statusLabel = 'Contacté';
+              break;
+            case 'en_negociation':
+              labelClass = 'badge badge-warning';
+              statusLabel = 'En Négociation';
+              break;
+            case 'converti':
+              labelClass = 'badge badge-success';
+              statusLabel = 'Converti';
+              break;
+            case 'perdu':
+              labelClass = 'badge badge-secondary';
+              statusLabel = 'Perdu';
+              break;
+            default:
+              labelClass = 'badge badge-light';
+              statusLabel = data;
+          }
+
+          return '<span class="' + labelClass +
+              ' px-3 py-2 text-white mt-2" style="font-size: 12px; font-weight: 800">' + statusLabel +
+              '</span>';
+        },
+      },
+        <?php if ($this->session->userdata('role') === 'user'): ?>
+      {data: 'actions', orderable: false, searchable: false}
+        <?php endif; ?>
+    ];
 
     var table = $('#example1').DataTable({
       language: {
