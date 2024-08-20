@@ -28,7 +28,13 @@ class ProspectModel extends CI_Model
         $this->db->where('id', $id);
         $query = $this->db->get('prospects');
 
-        return $query->row_array(); // Return the result as an associative array
+        $prospect = $query->row_array(); // Return the result as an associative array
+
+        if ( ! empty($prospect['phone_numbers'])) {
+            $prospect['phone_numbers'] = json_decode($prospect['phone_numbers'], true);
+        }
+
+        return $prospect;
     }
 
     public function update_prospect($id, $data)
@@ -42,7 +48,13 @@ class ProspectModel extends CI_Model
     {
         $query = $this->db->get_where('prospects', array('id' => $id));
 
-        return $query->row();
+        $prospect = $query->row();
+
+        if ( ! empty($prospect->phone_numbers)) {
+            $prospect->phone_numbers = json_decode($prospect->phone_numbers, true);
+        }
+
+        return $prospect;
     }
 
     public function fetchProspects($status, $numberOfProspects)
@@ -155,7 +167,8 @@ class ProspectModel extends CI_Model
         ];
     }
 
-    public function updateActiveStatus($id, $status) {
+    public function updateActiveStatus($id, $status)
+    {
         // Update the active column for the specified ID
         $this->db->where('id', $id);
 
@@ -208,31 +221,31 @@ class ProspectModel extends CI_Model
 
 
     public function getProspectStatus($id)
-{
-    $this->db->select('active');
-    $this->db->from('prospects');
-    $this->db->where('id', $id);
-    $query = $this->db->get();
-    
-    if ($query->num_rows() > 0) {
-        return $query->row()->active;
-    } else {
-        return null; // or handle it as needed
+    {
+        $this->db->select('active');
+        $this->db->from('prospects');
+        $this->db->where('id', $id);
+        $query = $this->db->get();
+
+        if ($query->num_rows() > 0) {
+            return $query->row()->active;
+        } else {
+            return null; // or handle it as needed
+        }
     }
-}
 
-public function delete_notes_by_prospect_id($id)
-{
-    return $this->db->delete('notes', array('prospect_id' => $id));
-}
+    public function delete_notes_by_prospect_id($id)
+    {
+        return $this->db->delete('notes', array('prospect_id' => $id));
+    }
 
-public function has_related_notes($id)
-{
-    $this->db->where('prospect_id', $id);
-    $query = $this->db->get('notes');
-    return $query->num_rows() > 0;
-}
+    public function has_related_notes($id)
+    {
+        $this->db->where('prospect_id', $id);
+        $query = $this->db->get('notes');
 
+        return $query->num_rows() > 0;
+    }
 
 
 }

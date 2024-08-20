@@ -152,8 +152,8 @@
                 <th>Prénom</th>
                 <th>Email</th>
                 <th>Entreprise</th>
-                <th>Téléphone</th>
-                <th>Adresse</th>
+                <th>Téléphone(s)</th>
+                <th>Ville</th>
                 <th>Statut</th>
 
                 <th>Actions</th>
@@ -173,7 +173,6 @@
 <!-- Import DataTables JS -->
 <script src="https://cdn.datatables.net/2.0.8/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.min.js"></script>
-
 <script>
   $(document).ready(function() {
     var columns = [
@@ -182,8 +181,24 @@
       {data: 'first_name'},
       {data: 'email'},
       {data: 'company'},
-      {data: 'phone_number'},
-      {data: 'address'},
+      {
+        'data': 'phone_numbers',
+        'render': function(data, type, row) {
+          // Parse JSON data if it's a string
+          if (typeof data === 'string') {
+            try {
+              data = JSON.parse(data);
+            } catch (e) {
+              console.error('Error parsing phone numbers:', e);
+              return 'N/A';
+            }
+          }
+
+          // Join the array into a comma-separated string
+          return data.length ? data.join(', ') : 'N/A';
+        },
+      },
+      {data: 'ville'}, // Add this column to show the city
       {
         data: 'status',
         render: function(data, type, row) {
@@ -223,7 +238,6 @@
       },
 
       {data: 'actions', orderable: false, searchable: false},
-
     ];
 
     var table = $('#example1').DataTable({

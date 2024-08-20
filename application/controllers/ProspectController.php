@@ -28,11 +28,6 @@ class ProspectController extends CI_Controller
 
     public function register()
     {
-        // Load the model that checks for the existence of an admin, if needed
-        $this->load->model('UserModel');
-        $is_admin_exists = $this->UserModel->count_admins() > 0;
-
-        // Set form validation rules
         $this->form_validation->set_rules('first_name', 'Prénom', 'required', [
             'required' => 'Le champ Prénom est obligatoire.',
         ]);
@@ -46,48 +41,49 @@ class ProspectController extends CI_Controller
         $this->form_validation->set_rules('company', 'Entreprise', 'required', [
             'required' => 'Le champ Entreprise est obligatoire.',
         ]);
-        $this->form_validation->set_rules('phone_number', 'Numéro téléphone', 'required', [
-            'required' => 'Le champ Numéro téléphone est obligatoire.',
+        $this->form_validation->set_rules('ville', 'Ville', 'required', [
+            'required' => 'Le champ Ville est obligatoire.',
         ]);
         $this->form_validation->set_rules('address', 'Adresse', 'required', [
             'required' => 'Le champ Adresse est obligatoire.',
         ]);
-        $this->form_validation->set_rules('ville', 'Ville', 'required', [
-            'required' => 'Le champ Adresse est obligatoire.',
-        ]);
+
+        // Validate phone numbers
+        $phone_numbers = $this->input->post('phone_number');
+        if (empty($phone_numbers) || ! is_array($phone_numbers)) {
+            $this->form_validation->set_rules('phone_number[]', 'Numéros de téléphone', 'required', [
+                'required' => 'Le champ Numéros de téléphone est obligatoire.',
+            ]);
+        }
 
         if ($this->form_validation->run() === false) {
-            // Form validation failed, pass validation errors and other data to the view
             $data = [
                 'title'             => 'Créer un nouveau prospect',
-                'is_admin_exists'   => $is_admin_exists,
+                'is_admin_exists'   => $this->UserModel->count_admins() > 0,
                 'validation_errors' => validation_errors(),
             ];
             $this->load->view('dashboard/register_prospect', $data);
         } else {
-            // Form validation succeeded, insert data into the database
             $prospect_data = [
-                'first_name'   => $this->input->post('first_name'),
-                'last_name'    => $this->input->post('last_name'),
-                'email'        => $this->input->post('email'),
-                'company'      => $this->input->post('company'),
-                'phone_number' => $this->input->post('phone_number'),
-                'ville'        => $this->input->post('ville'),
-                'address'      => $this->input->post('address'),
-                'status'       => 'nouveau', // Default status
+                'first_name'    => $this->input->post('first_name'),
+                'last_name'     => $this->input->post('last_name'),
+                'email'         => $this->input->post('email'),
+                'company'       => $this->input->post('company'),
+                'phone_numbers' => json_encode($this->input->post('phone_number')), // Store phone numbers as JSON
+                'ville'         => $this->input->post('ville'),
+                'address'       => $this->input->post('address'),
+                'status'        => 'nouveau', // Default status
             ];
 
             if ($this->ProspectModel->insert_prospect($prospect_data)) {
-                // Successfully inserted
                 $this->session->set_flashdata('success', 'Le prospect a été ajouté avec succès.');
-                redirect('register-prospect'); // Redirect to the dashboard or any appropriate page
+                redirect('register-prospect');
             } else {
-                // Insertion failed, set flashdata for error
                 $this->session->set_flashdata('error',
                     'Un problème est survenu lors de l\'ajout du prospect. Veuillez réessayer.');
                 $data = [
                     'title'             => 'Créer un nouveau prospect',
-                    'is_admin_exists'   => $is_admin_exists,
+                    'is_admin_exists'   => $this->UserModel->count_admins() > 0,
                     'validation_errors' => validation_errors(),
                 ];
                 $this->load->view('dashboard/register_prospect', $data);
@@ -97,55 +93,55 @@ class ProspectController extends CI_Controller
 
     public function edit_prospect($id)
     {
-        // Validate form input
         $this->form_validation->set_rules('first_name', 'Prénom', 'required');
         $this->form_validation->set_rules('last_name', 'Nom', 'required');
         $this->form_validation->set_rules('email', 'E-mail', 'required|valid_email');
         $this->form_validation->set_rules('company', 'Entreprise', 'required');
-        $this->form_validation->set_rules('phone_number', 'Numéro téléphone', 'required');
         $this->form_validation->set_rules('ville', 'Ville', 'required');
         $this->form_validation->set_rules('address', 'Adresse', 'required');
 
-        // Load user data
-        $user = $this->session->userdata('user'); // Adjust this as per your application
+        // Validate phone numbers
+        $phone_numbers = $this->input->post('phone_number');
+        if (empty($phone_numbers) || ! is_array($phone_numbers)) {
+            $this->form_validation->set_rules('phone_number[]', 'Numéros de téléphone', 'required', [
+                'required' => 'Le champ Numéros de téléphone est obligatoire.',
+            ]);
+        }
+
+        $user = $this->session->userdata('user');
 
         if ($this->form_validation->run() === false) {
-            // Form validation failed, load the form again with errors
             $data = [
-                'title'         => 'Modifier Prospects',
+                'title'         => 'Modifier Prospect',
                 'view'          => 'dashboard/edit_prospect',
                 'user'          => $user,
-                'prospects'     => $this->ProspectModel->get_prospect($id),
+                'prospect'      => $this->ProspectModel->get_prospect($id),
                 'pending_count' => $this->session->userdata('pending_count'),
             ];
             $this->load->view('dashboard/layouts', $data);
         } else {
-            // Form validation succeeded, proceed to update the database
-            $data = array(
+            $data = [
                 'first_name'             => $this->input->post('first_name'),
                 'last_name'              => $this->input->post('last_name'),
                 'email'                  => $this->input->post('email'),
                 'company'                => $this->input->post('company'),
-                'phone_number'           => $this->input->post('phone_number'),
+                'phone_numbers'          => json_encode($this->input->post('phone_number')),
                 'ville'                  => $this->input->post('ville'),
                 'address'                => $this->input->post('address'),
-                'status'                 => 'nouveau', // Update status if needed
-                'historiqueInteractions' => '', // Update this field as needed
-            );
+                'status'                 => 'nouveau',
+                'historiqueInteractions' => '',
+            ];
 
-            // Call the model to update data
             if ($this->ProspectModel->update_prospect($id, $data)) {
-                // Successfully updated
                 $this->session->set_flashdata('success', 'Le prospect a été modifié avec succès!');
-                redirect('table-prospects-globale'); // Replace with your redirect URL
+                redirect('table-prospects-globale');
             } else {
-                // Update failed, handle error
                 $data = [
-                    'title'     => 'Modifier Prospects',
-                    'view'      => 'dashboard/edit_prospect',
-                    'user'      => $user,
-                    'prospects' => $this->ProspectModel->get_prospect($id),
-                    'error'     => 'Échec de la modification du prospect',
+                    'title'    => 'Modifier Prospect',
+                    'view'     => 'dashboard/edit_prospect',
+                    'user'     => $user,
+                    'prospect' => $this->ProspectModel->get_prospect($id),
+                    'error'    => 'Échec de la modification du prospect',
                 ];
                 $this->load->view('dashboard/layouts', $data);
             }

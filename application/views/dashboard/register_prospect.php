@@ -131,10 +131,20 @@
 
         <div class="form-group">
             <label for="phone_number">Numéro téléphone</label>
-            <input type="tel" id="phone_number" name="phone_number" class="form-control"
-                   value="<?php echo set_value('phone_number'); ?>" required>
+            <div class="input-group">
+                <input type="tel" id="phone_number" name="phone_number[]" class="form-control"
+                       value="<?php echo set_value('phone_number[0]'); ?>" required>
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary add-phone-btn" type="button"
+                            title="Ajouter un autre numéro">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+            </div>
             <div class="invalid-feedback text-left">Veuillez saisir le numéro du téléphone.</div>
         </div>
+        <div id="additional-phone-numbers"></div>
+
         <div class="form-group">
             <label for="ville">Ville</label>
             <input type="text" id="ville" name="ville" class="form-control"
@@ -210,4 +220,34 @@
       alertElement.style.transition = 'opacity 0.5s ease-out';
     });
   }, 7000);
+
+  // more phone numbers
+
+  document.addEventListener('DOMContentLoaded', function() {
+    let phoneIndex = 1; // Start index for additional phone numbers
+
+    document.querySelector('.add-phone-btn').addEventListener('click', function() {
+      const newPhoneInput = document.createElement('div');
+      newPhoneInput.classList.add('input-group', 'mt-2');
+
+      newPhoneInput.innerHTML = `
+                <input type="tel" id="phone_number_${phoneIndex}" name="phone_number[]" class="form-control" required>
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary remove-phone-btn" type="button" title="Supprimer ce numéro">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                </div>
+                <div class="invalid-feedback text-left">Veuillez saisir le numéro du téléphone.</div>
+            `;
+
+      document.getElementById('additional-phone-numbers').appendChild(newPhoneInput);
+      phoneIndex++;
+    });
+
+    document.getElementById('additional-phone-numbers').addEventListener('click', function(e) {
+      if (e.target && e.target.closest('.remove-phone-btn')) {
+        e.target.closest('.input-group').remove();
+      }
+    });
+  });
 </script>
