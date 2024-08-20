@@ -103,6 +103,12 @@
                            value="<?php echo set_value('phone_number', $prospects['phone_number']); ?>" required>
                     <div class="invalid-feedback text-left"> Please enter a phone number.</div>
                 </div>
+                <div class="form-group">
+                    <label for="ville">Ville</label>
+                    <input type="text" id="ville" name="ville" class="form-control"
+                           value="<?php echo set_value('ville', $prospects['ville']); ?>" required>
+                    <div class="invalid-feedback text-left">Veuillez saisir la ville.</div>
+                </div>
             </div>
             <div class="form-group">
                 <label for="address">Adresse</label>

@@ -26,50 +26,55 @@ class ProspectController extends CI_Controller
         $this->load->view('dashboard/layouts', $data);
     }
 
-    public function register() {
+    public function register()
+    {
         // Load the model that checks for the existence of an admin, if needed
         $this->load->model('UserModel');
         $is_admin_exists = $this->UserModel->count_admins() > 0;
 
         // Set form validation rules
         $this->form_validation->set_rules('first_name', 'Prénom', 'required', [
-            'required' => 'Le champ Prénom est obligatoire.'
+            'required' => 'Le champ Prénom est obligatoire.',
         ]);
         $this->form_validation->set_rules('last_name', 'Nom', 'required', [
-            'required' => 'Le champ Nom est obligatoire.'
+            'required' => 'Le champ Nom est obligatoire.',
         ]);
         $this->form_validation->set_rules('email', 'E-mail', 'required|valid_email', [
-            'required' => 'Le champ E-mail est obligatoire.',
-            'valid_email' => 'Veuillez fournir une adresse e-mail valide.'
+            'required'    => 'Le champ E-mail est obligatoire.',
+            'valid_email' => 'Veuillez fournir une adresse e-mail valide.',
         ]);
         $this->form_validation->set_rules('company', 'Entreprise', 'required', [
-            'required' => 'Le champ Entreprise est obligatoire.'
+            'required' => 'Le champ Entreprise est obligatoire.',
         ]);
         $this->form_validation->set_rules('phone_number', 'Numéro téléphone', 'required', [
-            'required' => 'Le champ Numéro téléphone est obligatoire.'
+            'required' => 'Le champ Numéro téléphone est obligatoire.',
         ]);
         $this->form_validation->set_rules('address', 'Adresse', 'required', [
-            'required' => 'Le champ Adresse est obligatoire.'
+            'required' => 'Le champ Adresse est obligatoire.',
+        ]);
+        $this->form_validation->set_rules('ville', 'Ville', 'required', [
+            'required' => 'Le champ Adresse est obligatoire.',
         ]);
 
         if ($this->form_validation->run() === false) {
             // Form validation failed, pass validation errors and other data to the view
             $data = [
-                'title' => 'Créer un nouveau prospect',
-                'is_admin_exists' => $is_admin_exists,
+                'title'             => 'Créer un nouveau prospect',
+                'is_admin_exists'   => $is_admin_exists,
                 'validation_errors' => validation_errors(),
             ];
             $this->load->view('dashboard/register_prospect', $data);
         } else {
             // Form validation succeeded, insert data into the database
             $prospect_data = [
-                'first_name' => $this->input->post('first_name'),
-                'last_name' => $this->input->post('last_name'),
-                'email' => $this->input->post('email'),
-                'company' => $this->input->post('company'),
+                'first_name'   => $this->input->post('first_name'),
+                'last_name'    => $this->input->post('last_name'),
+                'email'        => $this->input->post('email'),
+                'company'      => $this->input->post('company'),
                 'phone_number' => $this->input->post('phone_number'),
-                'address' => $this->input->post('address'),
-                'status' => 'nouveau', // Default status
+                'ville'        => $this->input->post('ville'),
+                'address'      => $this->input->post('address'),
+                'status'       => 'nouveau', // Default status
             ];
 
             if ($this->ProspectModel->insert_prospect($prospect_data)) {
@@ -78,16 +83,18 @@ class ProspectController extends CI_Controller
                 redirect('register-prospect'); // Redirect to the dashboard or any appropriate page
             } else {
                 // Insertion failed, set flashdata for error
-                $this->session->set_flashdata('error', 'Un problème est survenu lors de l\'ajout du prospect. Veuillez réessayer.');
+                $this->session->set_flashdata('error',
+                    'Un problème est survenu lors de l\'ajout du prospect. Veuillez réessayer.');
                 $data = [
-                    'title' => 'Créer un nouveau prospect',
-                    'is_admin_exists' => $is_admin_exists,
+                    'title'             => 'Créer un nouveau prospect',
+                    'is_admin_exists'   => $is_admin_exists,
                     'validation_errors' => validation_errors(),
                 ];
                 $this->load->view('dashboard/register_prospect', $data);
             }
         }
     }
+
     public function edit_prospect($id)
     {
         // Validate form input
@@ -96,11 +103,12 @@ class ProspectController extends CI_Controller
         $this->form_validation->set_rules('email', 'E-mail', 'required|valid_email');
         $this->form_validation->set_rules('company', 'Entreprise', 'required');
         $this->form_validation->set_rules('phone_number', 'Numéro téléphone', 'required');
+        $this->form_validation->set_rules('ville', 'Ville', 'required');
         $this->form_validation->set_rules('address', 'Adresse', 'required');
-    
+
         // Load user data
         $user = $this->session->userdata('user'); // Adjust this as per your application
-    
+
         if ($this->form_validation->run() === false) {
             // Form validation failed, load the form again with errors
             $data = [
@@ -119,11 +127,12 @@ class ProspectController extends CI_Controller
                 'email'                  => $this->input->post('email'),
                 'company'                => $this->input->post('company'),
                 'phone_number'           => $this->input->post('phone_number'),
+                'ville'                  => $this->input->post('ville'),
                 'address'                => $this->input->post('address'),
                 'status'                 => 'nouveau', // Update status if needed
                 'historiqueInteractions' => '', // Update this field as needed
             );
-    
+
             // Call the model to update data
             if ($this->ProspectModel->update_prospect($id, $data)) {
                 // Successfully updated
@@ -142,7 +151,7 @@ class ProspectController extends CI_Controller
             }
         }
     }
-    
+
 
     public function consult_prospect($id)
     {
@@ -188,53 +197,54 @@ class ProspectController extends CI_Controller
         }
         redirect('table-prospects');
     }
-    
+
 
     public function selectProspects()
-{
-    // Assuming you have some way to get the current user, possibly from the session
-    $user = $this->session->userdata('user');
+    {
+        // Assuming you have some way to get the current user, possibly from the session
+        $user = $this->session->userdata('user');
 
-    // Get the number of prospects and status from POST data
-    $numberOfProspects = $this->input->post('number_of_prospects');
-    $status = $this->input->post('status');
+        // Get the number of prospects and status from POST data
+        $numberOfProspects = $this->input->post('number_of_prospects');
+        $status            = $this->input->post('status');
 
-    // Ensure the inputs are valid
-    if (!is_numeric($numberOfProspects) || empty($status)) {
-        // Set an error flash message
-        $this->session->set_flashdata('error', 'Veuiller choisir le nombre et la statut des prospects');
-        redirect('table-prospects');
-        return;
+        // Ensure the inputs are valid
+        if ( ! is_numeric($numberOfProspects) || empty($status)) {
+            // Set an error flash message
+            $this->session->set_flashdata('error', 'Veuiller choisir le nombre et la statut des prospects');
+            redirect('table-prospects');
+
+            return;
+        }
+
+        // Call the model to fetch the prospects based on the criteria
+        $prospects = $this->ProspectModel->fetchProspects($status, $numberOfProspects);
+
+        // Check if any prospects were found
+        if (empty($prospects)) {
+            $this->session->set_flashdata('error', 'No prospects found for the given criteria.');
+            redirect('table-prospects');
+
+            return;
+        }
+
+        // Update the 'active' column for selected prospects
+        $this->ProspectModel->updateActiveProspects($numberOfProspects, $status);
+
+        // Set a flash message for success
+        $this->session->set_flashdata('success', 'Les prospects sont  ajoutés au contact avec succès.');
+
+        // Prepare data for the view
+        $data = [
+            'title'     => 'Prospects',
+            'view'      => 'dashboard/prospects_table',
+            'user'      => $user,
+            'prospects' => $prospects,
+        ];
+
+        // Load the view with the data
+        $this->load->view('dashboard/layouts', $data);
     }
-
-    // Call the model to fetch the prospects based on the criteria
-    $prospects = $this->ProspectModel->fetchProspects($status, $numberOfProspects);
-
-    // Check if any prospects were found
-    if (empty($prospects)) {
-        $this->session->set_flashdata('error', 'No prospects found for the given criteria.');
-        redirect('table-prospects');
-        return;
-    }
-
-    // Update the 'active' column for selected prospects
-    $this->ProspectModel->updateActiveProspects($numberOfProspects, $status);
-
-    // Set a flash message for success
-    $this->session->set_flashdata('success', 'Les prospects sont  ajoutés au contact avec succès.');
-
-    // Prepare data for the view
-    $data = [
-        'title' => 'Prospects',
-        'view' => 'dashboard/prospects_table',
-        'user' => $user,
-        'prospects' => $prospects,
-    ];
-
-    // Load the view with the data
-    $this->load->view('dashboard/layouts', $data);
-}
-
 
 
     public function active_prospects()
@@ -249,7 +259,6 @@ class ProspectController extends CI_Controller
         ];
 
         $this->load->view('dashboard/layouts', $data);
-        
     }
 
     public function change_status($id)
@@ -271,17 +280,17 @@ class ProspectController extends CI_Controller
     {
         // Load the model
         $this->load->model('ProspectModel');
-    
+
         // Update the prospect's active status to 0
         $this->ProspectModel->set_active_status($id, 0);
-    
+
         // Set a session flashdata to indicate the call has ended
         $this->session->set_flashdata('call_ended', 'L\'appel a été clôturé avec succès.');
-    
+
         // Redirect to a success page or back to the prospect details
-        redirect('ProspectController/active_prospects/'.$id);  
+        redirect('ProspectController/active_prospects/'.$id);
     }
-    
+
 
     public function exportToExcel()
     {
@@ -308,8 +317,9 @@ class ProspectController extends CI_Controller
             ->setCellValue('D1', 'Email')
             ->setCellValue('E1', 'Entreprise')
             ->setCellValue('F1', 'Téléphone')
-            ->setCellValue('G1', 'Adresse')
-            ->setCellValue('H1', 'Statut');
+            ->setCellValue('G1', 'Ville')
+            ->setCellValue('H1', 'Adresse')
+            ->setCellValue('I1', 'Statut');
 
         // Add data
         $row = 2;
@@ -321,8 +331,9 @@ class ProspectController extends CI_Controller
                 ->setCellValue('D'.$row, $prospect->email)
                 ->setCellValue('E'.$row, $prospect->company)
                 ->setCellValue('F'.$row, $prospect->phone_number)
-                ->setCellValue('G'.$row, $prospect->address)
-                ->setCellValue('H'.$row, $prospect->status);
+                ->setCellValue('G'.$row, $prospect->ville)
+                ->setCellValue('H'.$row, $prospect->address)
+                ->setCellValue('I'.$row, $prospect->status);
             $row++;
         }
 
@@ -347,10 +358,10 @@ class ProspectController extends CI_Controller
         if (isset($_FILES['excel_file']['name']) && $_FILES['excel_file']['name'] != '') {
             $path        = $_FILES['excel_file']['tmp_name'];
             $objPHPExcel = PHPExcel_IOFactory::load($path);
-    
+
             $sheetData = $objPHPExcel->getActiveSheet()->toArray(null, true, true, true);
             $data      = array();
-    
+
             foreach ($sheetData as $row) {
                 if ($row['A'] != 'ID') {
                     $data[] = array(
@@ -359,52 +370,52 @@ class ProspectController extends CI_Controller
                         'email'        => $row['D'],
                         'company'      => $row['E'],
                         'phone_number' => $row['F'],
-                        'address'      => $row['G'],
-                        'status'       => $row['H'],
+                        'ville'        => $row['G'],
+                        'address'      => $row['H'],
+                        'status'       => $row['I'],
                     );
                 }
             }
-    
-            if (!empty($data)) {
+
+            if ( ! empty($data)) {
                 $this->ProspectModel->insert_batch($data);
                 $this->session->set_flashdata('success', 'La table excel est importé avec succès!');
             } else {
                 $this->session->set_flashdata('warning', 'Pas de fichier excel selectioné.');
             }
-    
+
             redirect('table-prospects');
         } else {
             $this->session->set_flashdata('error', 'Veuillez choisir un fichier excel.');
             redirect('table-prospects');
         }
     }
-    
+
 
     public function selectProspect($id)
-{
-    // Retrieve the current status of the prospect
-    $currentStatus = $this->ProspectModel->getProspectStatus($id);
+    {
+        // Retrieve the current status of the prospect
+        $currentStatus = $this->ProspectModel->getProspectStatus($id);
 
-    if ($currentStatus == 1) {
-        // Prospect is already active
-        $this->session->set_flashdata('warning', 'Ce prospect est déjà ajouté au contact!');
-    } else {
-        // Update the active column to 1 for the given ID
-        $updateStatus = $this->ProspectModel->updateActiveStatus($id, 1);
-
-        if ($updateStatus) {
-            // Set a success message
-            $this->session->set_flashdata('success', 'Ce prospect est ajouté au contact avec succès!');
+        if ($currentStatus == 1) {
+            // Prospect is already active
+            $this->session->set_flashdata('warning', 'Ce prospect est déjà ajouté au contact!');
         } else {
-            // Set an error message
-            $this->session->set_flashdata('error', 'Failed to update prospect.');
+            // Update the active column to 1 for the given ID
+            $updateStatus = $this->ProspectModel->updateActiveStatus($id, 1);
+
+            if ($updateStatus) {
+                // Set a success message
+                $this->session->set_flashdata('success', 'Ce prospect est ajouté au contact avec succès!');
+            } else {
+                // Set an error message
+                $this->session->set_flashdata('error', 'Failed to update prospect.');
+            }
         }
+
+        // Redirect to a relevant page, such as the list of prospects
+        redirect('table-prospects');
     }
-
-    // Redirect to a relevant page, such as the list of prospects
-    redirect('table-prospects');
-}
-
 
 
     public function add_note($prospect_id)
