@@ -344,21 +344,30 @@ class DashboardController extends CI_Controller
         $data  = $query->result_array();
 
         $formattedData = array_map(function ($row) {
-            $row['actions'] = '
-        <div class="d-flex justify-content-center align-items-center">
-            <a class="btn btn-success btn-sm mr-1" href="'.base_url('ProspectController/selectProspect/'.$row['id']).'" title="Ajouter à contacter">
-                <i class="fas fa-plus text-white mt-1"></i>
-            </a>
-            <a class="btn btn-primary btn-sm mr-1" href="'.base_url('ProspectController/edit_prospect/'.$row['id']).'" title="Modifier">
-                <i class="fas fa-edit"></i>
-            </a>
-            <a class="btn btn-danger btn-sm" href="'.base_url('ProspectController/delete_prospect/'.$row['id']).'" title="Supprimer">
-                <i class="fas fa-trash"></i>
-            </a>
-        </div>';
+            $actions = '
+    <div class="d-flex justify-content-center align-items-center">
+        <a class="btn btn-success btn-sm mr-1" href="'.base_url('ProspectController/selectProspect/'.$row['id']).'" title="Ajouter à contacter">
+            <i class="fas fa-plus text-white mt-1"></i>
+        </a>
+        <a class="btn btn-primary btn-sm mr-1" href="'.base_url('ProspectController/edit_prospect/'.$row['id']).'" title="Modifier">
+            <i class="fas fa-edit"></i>
+        </a>';
+
+            // Check if the user has the admin role
+            if ($this->session->userdata('role') === 'admin') {
+                $actions .= '
+        <a class="btn btn-danger btn-sm" href="'.base_url('ProspectController/delete_prospect/'.$row['id']).'" title="Supprimer">
+            <i class="fas fa-trash"></i>
+        </a>';
+            }
+
+            $actions .= '</div>';
+
+            $row['actions'] = $actions;
 
             return $row;
         }, $data);
+
 
         echo json_encode(['data' => $formattedData]);
     }
