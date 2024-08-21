@@ -73,6 +73,7 @@ class ProspectController extends CI_Controller
                 'ville'         => $this->input->post('ville'),
                 'address'       => $this->input->post('address'),
                 'status'        => 'nouveau', // Default status
+                'assigned_to'   => $this->session->userdata('id'), // Set the assigned_to field
             ];
 
             if ($this->ProspectModel->insert_prospect($prospect_data)) {
@@ -90,6 +91,7 @@ class ProspectController extends CI_Controller
             }
         }
     }
+
 
     public function edit_prospect($id)
     {
@@ -156,15 +158,33 @@ class ProspectController extends CI_Controller
             show_404();
         }
 
+        // Load the models
+        $this->load->model('ProspectModel');
+        $this->load->model('NoteModel');
+        $this->load->model('UserModel'); // Load the UserModel to fetch user details
+
+        // Get the prospect details
         $prospect = $this->ProspectModel->get_prospect_consult($id);
 
         if (empty($prospect)) {
             show_404();
         }
 
-        $user  = $this->session->userdata('user'); // Adjust this as per your application
+        // Fetch user details if assigned_to is set
+        if ( ! empty($prospect->assigned_to)) {
+            $assignedUser            = $this->UserModel->get_user_by_id($prospect->assigned_to);
+            $prospect->assigned_user = $assignedUser; // Attach user details to prospect
+        } else {
+            $prospect->assigned_user = null; // No user assigned
+        }
+
+        // Get notes related to the prospect
         $notes = $this->NoteModel->get_notes_by_prospect($id);
 
+        // Get user data from session
+        $user = $this->session->userdata('user');
+
+        // Prepare data for the view
         $data = [
             'title'         => 'Consulter Prospect',
             'view'          => 'dashboard/consulter_prospect',
@@ -172,9 +192,8 @@ class ProspectController extends CI_Controller
             'prospect'      => $prospect,
             'notes'         => $notes,
             'pending_count' => $this->session->userdata('pending_count'),
-
         ];
-
+        // Load the layout view
         $this->load->view('dashboard/layouts', $data);
     }
 

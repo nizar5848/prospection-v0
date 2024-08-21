@@ -85,6 +85,18 @@
                         </div>
                     </div>
                     <div class="list-group">
+                        <?php if ($prospect->assigned_user): ?>
+                            <div class="list-group-item bg-light">
+                                <i class="fas fa-user text-success me-2 mr-2"></i>
+                                <strong>Assigné
+                                    à:</strong> <?= $prospect->assigned_user['first_name'] ?> <?= $prospect->assigned_user['last_name'] ?>
+                            </div>
+                        <?php else: ?>
+                            <div class="list-group-item bg-light">
+                                <i class="fas fa-user text-success me-2 mr-2"></i>
+                                <strong>Assigné à: </strong> N/A
+                            </div>
+                        <?php endif; ?>
                         <div class="list-group-item bg-light">
                             <i class="fas fa-envelope text-success me-2 mr-2"></i>
                             <strong>E-mail:</strong> <?= $prospect->email ?>
@@ -139,6 +151,7 @@
                             <strong>Dernière Mise à Jour:</strong> <?= date('d-m-Y',
                                 strtotime($prospect->updated_at)) ?>
                         </div>
+
                     </div>
                 </div>
                 <div class="card-footer text-right">
