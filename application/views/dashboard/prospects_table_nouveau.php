@@ -116,7 +116,6 @@
             <div class="card">
                 <div class="card-body" style="height: 115px">
                     <div class="row">
-
                         <div class="col-md-8">
                             <form method="post" enctype="multipart/form-data"
                                   action="<?php echo base_url('ProspectController/importFromExcel'); ?>">
@@ -130,9 +129,9 @@
 
                             </form>
                         </div>
-
-                        <div class="col-md-4">
-                            <form method="post" action="<?php echo base_url('ProspectController/exportToExcel'); ?>">
+                        <div class="">
+                            <form method="post"
+                                  action="<?php echo base_url('ProspectController/exportToExcel'); ?>">
                                 <label class="d-block" for="number_of_prospects">Exporter la table vers Excel:</label>
                                 <button type="submit" class="btn btn-success mt-2" style="color: white">Exporter
                                 </button>
@@ -153,8 +152,8 @@
                 <th>Prénom</th>
                 <th>Email</th>
                 <th>Entreprise</th>
-                <th>Téléphone</th>
-                <th>Adresse</th>
+                <th>Téléphone(s)</th>
+                <th>Ville</th>
                 <th>Statut</th>
 
                 <th>Actions</th>
@@ -174,7 +173,6 @@
 <!-- Import DataTables JS -->
 <script src="https://cdn.datatables.net/2.0.8/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.min.js"></script>
-
 <script>
   $(document).ready(function() {
     var columns = [
@@ -183,12 +181,64 @@
       {data: 'first_name'},
       {data: 'email'},
       {data: 'company'},
-      {data: 'phone_number'},
-      {data: 'address'},
-      {data: 'status'},
-    ];
+      {
+        'data': 'phone_numbers',
+        'render': function(data, type, row) {
+          // Parse JSON data if it's a string
+          if (typeof data === 'string') {
+            try {
+              data = JSON.parse(data);
+            } catch (e) {
+              console.error('Error parsing phone numbers:', e);
+              return 'N/A';
+            }
+          }
 
-    columns.push({data: 'actions', orderable: false, searchable: false});
+          // Join the array into a comma-separated string
+          return data.length ? data.join(', ') : 'N/A';
+        },
+      },
+      {data: 'ville'}, // Add this column to show the city
+      {
+        data: 'status',
+        render: function(data, type, row) {
+          var labelClass = '';
+          var statusLabel = '';
+
+          switch (data) {
+            case 'nouveau':
+              labelClass = 'badge badge-danger';
+              statusLabel = 'Nouveau';
+              break;
+            case 'contacte':
+              labelClass = 'badge badge-primary';
+              statusLabel = 'Contacté';
+              break;
+            case 'en_negociation':
+              labelClass = 'badge badge-warning';
+              statusLabel = 'En Négociation';
+              break;
+            case 'converti':
+              labelClass = 'badge badge-success';
+              statusLabel = 'Converti';
+              break;
+            case 'perdu':
+              labelClass = 'badge badge-secondary';
+              statusLabel = 'Perdu';
+              break;
+            default:
+              labelClass = 'badge badge-light';
+              statusLabel = data;
+          }
+
+          return '<span class="' + labelClass +
+              ' px-3 py-2 text-white mt-2" style="font-size: 12px; font-weight: 800">' + statusLabel +
+              '</span>';
+        },
+      },
+
+      {data: 'actions', orderable: false, searchable: false},
+    ];
 
     var table = $('#example1').DataTable({
       language: {
