@@ -355,17 +355,17 @@
                         <span>Gestion des prospections</span>
                     </p>
                     <ul class="navbar-nav flex-fill w-100 mb-2">
-                        <?php if ($this->session->userdata('role') == 'user'): ?>
-                            <li class="nav-item w-100">
-                                <a class="nav-link"
-                                   href="<?= base_url('register-prospect') ?>"
-                                   style="color: <?= ($current_url === 'register-prospect') ? $sidebar_active_color : 'inherit'; ?>;
-                                           background: <?= ($current_url === 'register-prospect') ? 'whitesmoke' : 'inherit'; ?>;">
-                                    <i class="fe fe-user-plus fe-16"></i>
-                                    <span class="ml-3 item-text">Créer prospect</span>
-                                </a>
-                            </li>
-                        <?php endif; ?>
+                        <!--                        <?php //if ($this->session->userdata('role') == 'user'): ?>-->
+                        <li class="nav-item w-100">
+                            <a class="nav-link"
+                               href="<?= base_url('register-prospect') ?>"
+                               style="color: <?= ($current_url === 'register-prospect') ? $sidebar_active_color : 'inherit'; ?>;
+                                       background: <?= ($current_url === 'register-prospect') ? 'whitesmoke' : 'inherit'; ?>;">
+                                <i class="fe fe-user-plus fe-16"></i>
+                                <span class="ml-3 item-text">Créer prospect</span>
+                            </a>
+                        </li>
+                        <!--                       <?php //endif; ?> -->
                         <li class="nav-item w-100">
                             <?php if ($this->session->userdata('role') === 'admin'): ?>
                                 <a class="nav-link"
