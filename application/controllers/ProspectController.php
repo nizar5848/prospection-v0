@@ -95,6 +95,12 @@ class ProspectController extends CI_Controller
 
     public function edit_prospect($id)
     {
+        // Load the necessary libraries and models
+        $this->load->library('form_validation');
+        $this->load->model('ProspectModel');
+        $this->load->model('UserModel');
+
+        // Set form validation rules
         $this->form_validation->set_rules('first_name', 'Prénom', 'required');
         $this->form_validation->set_rules('last_name', 'Nom', 'required');
         $this->form_validation->set_rules('email', 'E-mail', 'required|valid_email');
@@ -110,14 +116,23 @@ class ProspectController extends CI_Controller
             ]);
         }
 
+        // Set validation rules for the assigned_to field
+        $this->form_validation->set_rules('assigned_to', 'Assigné à', 'required|integer');
+
+        // Get the current user
         $user = $this->session->userdata('user');
 
         if ($this->form_validation->run() === false) {
+            // Fetch the prospect data and all users
+            $prospect = $this->ProspectModel->get_prospect($id);
+            $users    = $this->UserModel->get_all_users();
+
             $data = [
                 'title'         => 'Modifier Prospect',
                 'view'          => 'dashboard/edit_prospect',
                 'user'          => $user,
-                'prospect'      => $this->ProspectModel->get_prospect($id),
+                'prospect'      => $prospect,
+                'users'         => $users, // Pass the users data to the view
                 'pending_count' => $this->session->userdata('pending_count'),
             ];
             $this->load->view('dashboard/layouts', $data);
@@ -130,6 +145,7 @@ class ProspectController extends CI_Controller
                 'phone_numbers'          => json_encode($this->input->post('phone_number')),
                 'ville'                  => $this->input->post('ville'),
                 'address'                => $this->input->post('address'),
+                'assigned_to'            => $this->input->post('assigned_to'), // Update assigned_to field
                 'status'                 => 'nouveau',
                 'historiqueInteractions' => '',
             ];
@@ -138,11 +154,16 @@ class ProspectController extends CI_Controller
                 $this->session->set_flashdata('success', 'Le prospect a été modifié avec succès!');
                 redirect('table-prospects-globale');
             } else {
+                // Fetch the prospect data and all users again
+                $prospect = $this->ProspectModel->get_prospect_by_id($id);
+                $users    = $this->UserModel->get_all_users();
+
                 $data = [
                     'title'    => 'Modifier Prospect',
                     'view'     => 'dashboard/edit_prospect',
                     'user'     => $user,
-                    'prospect' => $this->ProspectModel->get_prospect($id),
+                    'prospect' => $prospect,
+                    'users'    => $users, // Pass the users data to the view
                     'error'    => 'Échec de la modification du prospect',
                 ];
                 $this->load->view('dashboard/layouts', $data);

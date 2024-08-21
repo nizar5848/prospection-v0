@@ -40,28 +40,42 @@ class UserModel extends CI_Model
         return $query->result_array();
     }
 
-    public function delete_user_by_id($id) {
+    public function delete_user_by_id($id)
+    {
         $this->db->where('id', $id);
+
         return $this->db->delete('users');
     }
 
-    
-    public function get_user_by_id($id) {
 
+    public function get_user_by_id($id)
+    {
         $query = $this->db->get_where('users', ['id' => $id]);
 
         return $query->row_array();
     }
 
-    public function update_user($id, $data) {
+    public function update_user($id, $data)
+    {
         $this->db->where('id', $id);
+
         return $this->db->update('users', $data);
     }
 
-    public function update_suspended_status($id, $status) {
+    public function update_suspended_status($id, $status)
+    {
         $this->db->where('id', $id);
+
         return $this->db->update('users', ['suspended' => $status]);
     }
-    
-    
+
+
+    // for the assigned_to func
+    public function get_all_users()
+    {
+        $query = $this->db->get('users');
+
+        return $query->result_array();
+    }
+
 }

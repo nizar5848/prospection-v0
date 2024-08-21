@@ -86,7 +86,7 @@
     <div class="card">
         <div class="mx-auto text-center mt-5 flex">
             <h3><i class="fas fa-user-edit"></i></h3>
-            <h3 class="my-3"> Modifier un prospect</h3>
+            <h3 class="my-3">Modifier un prospect</h3>
         </div>
         <form action="<?php echo base_url('ProspectController/edit_prospect/'.$prospect['id']); ?>" method="post"
               class="needs-validation" novalidate>
@@ -95,27 +95,27 @@
                     <label for="firstname">Prénom</label>
                     <input type="text" id="firstname" name="first_name" class="form-control"
                            value="<?php echo set_value('first_name', $prospect['first_name']); ?>" required>
-                    <div class="invalid-feedback text-left"> Please enter a first name.</div>
+                    <div class="invalid-feedback text-left">Veuillez entrer un prénom.</div>
                 </div>
                 <div class="form-group col-md-6">
                     <label for="lastname">Nom</label>
                     <input type="text" id="lastname" name="last_name" class="form-control"
                            value="<?php echo set_value('last_name', $prospect['last_name']); ?>" required>
-                    <div class="invalid-feedback text-left"> Please enter a last name.</div>
+                    <div class="invalid-feedback text-left">Veuillez entrer un nom.</div>
                 </div>
             </div>
             <div class="form-group">
                 <label for="inputEmail4">E-mail</label>
                 <input type="email" class="form-control" name="email" id="inputEmail4"
                        value="<?php echo set_value('email', $prospect['email']); ?>" required>
-                <div class="invalid-feedback text-left"> Please use a valid email.</div>
+                <div class="invalid-feedback text-left">Veuillez utiliser un e-mail valide.</div>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="company">Entreprise</label>
                     <input type="text" id="company" name="company" class="form-control"
                            value="<?php echo set_value('company', $prospect['company']); ?>" required>
-                    <div class="invalid-feedback text-left"> Please enter a company name.</div>
+                    <div class="invalid-feedback text-left">Veuillez entrer le nom de l'entreprise.</div>
                 </div>
                 <div class="form-group col-md-6">
                     <label for="phone_numbers">Numéro téléphone</label>
@@ -125,7 +125,7 @@
                     <button type="button" class="btn btn-primary blue" onclick="addPhoneNumber()">
                         Ajouter un numéro
                     </button>
-                    <div class="invalid-feedback text-left"> Please enter at least one phone number.</div>
+                    <div class="invalid-feedback text-left">Veuillez entrer au moins un numéro de téléphone.</div>
                 </div>
                 <div class="form-group">
                     <label for="ville">Ville</label>
@@ -138,7 +138,19 @@
                 <label for="address">Adresse</label>
                 <textarea rows="5" class="form-control" name="address" id="address"
                           required><?php echo set_value('address', $prospect['address']); ?></textarea>
-                <div class="invalid-feedback text-left"> Please enter a valid address.</div>
+                <div class="invalid-feedback text-left">Veuillez entrer une adresse valide.</div>
+            </div>
+            <div class="form-group">
+                <label for="assigned_to">Assigné à</label>
+                <select id="assigned_to" name="assigned_to" class="form-control" required>
+                    <option value="">Sélectionnez un utilisateur</option>
+                    <?php foreach ($users as $user): ?>
+                        <option value="<?php echo $user['id']; ?>" <?php echo ($prospect['assigned_to'] == $user['id']) ? 'selected' : ''; ?>>
+                            <?php echo $user['first_name'].' '.$user['last_name']; ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+                <div class="invalid-feedback text-left">Veuillez sélectionner un utilisateur.</div>
             </div>
             <button class="btn btn-lg btn-success btn-block green" type="submit">Modifier</button>
         </form>
