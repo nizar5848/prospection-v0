@@ -84,6 +84,7 @@
         </table>
     </div>
 </div>
+
 <script>
   $(document).ready(function() {
     $('#example1').DataTable({
@@ -95,6 +96,15 @@
         dataSrc: function(json) {
           console.log('data shows here:');
           console.log(json);
+
+          json.data.forEach(function(row) {
+            if (row.role === 'user') {
+              row.role = 'Utilisateur';
+            } else if (row.role === 'admin') {
+              row.role = 'Administrateur';
+            }
+          });
+
           return json.data;
         },
       },
@@ -104,7 +114,7 @@
         {data: 'first_name'},
         {data: 'email'},
         {data: 'role'},
-        {data: 'actions', orderable: false, searchable: false},
+        {data: 'actions', orderable: false, searchable: false, width: '120px'},
       ],
       order: [],
       responsive: true,

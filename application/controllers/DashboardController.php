@@ -296,37 +296,30 @@ class DashboardController extends CI_Controller
         $query           = $this->db->get('users');
         $data            = $query->result_array();
         $currentUserId   = (int) $this->session->userdata('id');
-        $currentUserRole = $this->session->userdata('role'); // Supposons que le rôle soit stocké dans la session
+        $currentUserRole = $this->session->userdata('role');
 
         $formattedData = array_map(function ($row) use ($currentUserId, $currentUserRole) {
             $rowUserId        = (int) $row['id'];
-            $rowUserRole      = $row['role']; // Supposons que le rôle soit une colonne dans votre table users
-            $rowUserSuspended = $row['suspended']; // Supposons que suspended soit une colonne dans votre table users
+            $rowUserRole      = $row['role'];
+            $rowUserSuspended = $row['suspended'];
 
-            // Déterminer les actions en fonction du rôle de l'utilisateur actuel et du rôle de l'utilisateur de la ligne
-            if ($rowUserId != $currentUserId) { // Empêcher l'utilisateur de voir les actions pour lui-même
+            if ($rowUserId != $currentUserId) {
                 if ($currentUserId == 1 || ($currentUserRole == 'admin' && $rowUserRole == 'user')) {
-                    $suspendLink = $rowUserSuspended
-                        ? '<a class="dropdown-item" href="'.base_url('DashboardController/suspendre_user/'.$row['id']).'">Désuspendre</a>'
-                        : '<a class="dropdown-item" href="'.base_url('DashboardController/suspendre_user/'.$row['id']).'">Suspendre</a>';
+                    $suspendIcon = $rowUserSuspended
+                        ? '<a class="btn btn-success btn-sm mr-1" href="'.base_url('DashboardController/suspendre_user/'.$row['id']).'" title="Désuspendre"><i class="fas fa-play-circle text-white"></i></a>'
+                        : '<a class="btn btn-warning btn-sm mr-1" href="'.base_url('DashboardController/suspendre_user/'.$row['id']).'" title="Suspendre"><i class="fas fa-pause-circle text-white"></i></a>';
 
                     $row['actions'] = '
-                    <div class="d-flex justify-content-center align-items-center">
-                              <button class="btn btn-sm" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fas fa-chevron-down"></i>
-
-                                  </button>
-                        <div class="dropdown-menu dropdown-menu-left">
-                            <a class="dropdown-item" href="'.base_url('DashboardController/delete_user/'.$row['id']).'">Supprimer</a>
-                            <a class="dropdown-item" href="'.base_url('DashboardController/edit_user/'.$row['id']).'">Modifier</a>'
-                        .$suspendLink.'
-                        </div>
-                    </div>';
+                <div class="d-flex justify-content-around">
+                    <a class="btn btn-danger btn-sm mr-1" href="'.base_url('DashboardController/delete_user/'.$row['id']).'" title="Supprimer"><i class="fas fa-trash-alt text-white"></i></a>
+                    <a class="btn btn-primary btn-sm mr-1" href="'.base_url('DashboardController/edit_user/'.$row['id']).'" title="Modifier"><i class="fas fa-edit text-white"></i></a>'
+                        .$suspendIcon.'
+                </div>';
                 } else {
                     $row['actions'] = '';
                 }
             } else {
-                $row['actions'] = ''; // Pas d'actions pour l'utilisateur actuel sur son propre enregistrement
+                $row['actions'] = '';
             }
 
             return $row;
