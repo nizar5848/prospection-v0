@@ -355,7 +355,7 @@
                         <span>Gestion des prospections</span>
                     </p>
                     <ul class="navbar-nav flex-fill w-100 mb-2">
-                        <!--                        <?php //if ($this->session->userdata('role') == 'user'): ?>-->
+
                         <li class="nav-item w-100">
                             <a class="nav-link"
                                href="<?= base_url('register-prospect') ?>"
@@ -365,7 +365,7 @@
                                 <span class="ml-3 item-text">Créer prospect</span>
                             </a>
                         </li>
-                        <!--                       <?php //endif; ?> -->
+
                         <li class="nav-item w-100">
                             <?php if ($this->session->userdata('role') === 'admin'): ?>
                                 <a class="nav-link"
@@ -385,6 +385,18 @@
                                 </a>
                             <?php endif; ?>
                         </li>
+                        <li class="nav-item w-100">
+                            <a class="nav-link"
+                               href="<?= base_url('prospects-contacter') ?>"
+                               style="color: <?= ($current_url === 'prospects-contacter') ? $sidebar_active_color : 'inherit'; ?>;
+                                       background: <?= ($current_url === 'prospects-contacter') ? 'whitesmoke' : 'inherit'; ?>;">
+                                <i class="fe fe-phone-outgoing fe-16"></i>
+                                <span class="ml-3 item-text">Prospects à contacter</span>
+                            </a>
+                        </li>
+                        <p class="text-muted nav-heading mt-4 mb-1">
+                            <span>Tables des prospects par rôle </span>
+                        </p>
                         <li class="nav-item w-100">
                             <a class="nav-link"
                                href="<?php echo base_url('table-prospects-nouveau'); ?>"
@@ -431,17 +443,7 @@
                             </a>
                         </li>
 
-                        <?php if ($this->session->userdata('role') == 'user'): ?>
-                            <li class="nav-item w-100">
-                                <a class="nav-link"
-                                   href="<?= base_url('prospects-contacter') ?>"
-                                   style="color: <?= ($current_url === 'prospects-contacter') ? $sidebar_active_color : 'inherit'; ?>;
-                                           background: <?= ($current_url === 'prospects-contacter') ? 'whitesmoke' : 'inherit'; ?>;">
-                                    <i class="fe fe-phone fe-16"></i>
-                                    <span class="ml-3 item-text">Prospects à contacter</span>
-                                </a>
-                            </li>
-                        <?php endif; ?>
+
                     </ul>
 
                     <p class="text-muted nav-heading mt-4 mb-1">
