@@ -90,6 +90,7 @@
         display: block;
     }
 </style>
+
 <div class="centered-container">
     <div class="card">
         <div class="mx-auto text-center">
@@ -144,7 +145,53 @@
             <div class="invalid-feedback text-left">Veuillez saisir le numéro du téléphone.</div>
         </div>
         <div id="additional-phone-numbers"></div>
+        <!--        interets-->
+        <div class="form-group interest-section">
+            <label for="interets">Intérêts</label>
 
+            <!-- Predefined Interests -->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="interest-checkbox">
+                        <input type="checkbox" name="interets[]" value="Site Web" id="interest1">
+                        <label for="interest1">Site Web</label>
+                    </div>
+                    <div class="interest-checkbox">
+                        <input type="checkbox" name="interets[]" value="Marketing Digital" id="interest2">
+                        <label for="interest2">Marketing Digital</label>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="interest-checkbox">
+                        <input type="checkbox" name="interets[]" value="SEO" id="interest3">
+                        <label for="interest3">SEO</label>
+                    </div>
+                    <div class="interest-checkbox">
+                        <input type="checkbox" name="interets[]" value="Logiciel de gestion" id="interest4">
+                        <label for="interest4">Logiciel de gestion</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add New Interest -->
+            <div class="additional-interests">
+                <label for="new-interest">Ajouter un nouvel intérêt</label>
+                <div class="input-group">
+                    <input type="text" class="form-control" name="new_interest[]" placeholder="Nouvel intérêt">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary add-interest-btn" type="button"
+                                title="Ajouter un autre intérêt">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="additional-interest-fields"></div>
+        </div>
+
+
+        <!--        interets-->
         <div class="form-group">
             <label for="ville">Ville</label>
             <input type="text" id="ville" name="ville" class="form-control"
@@ -246,6 +293,36 @@
 
     document.getElementById('additional-phone-numbers').addEventListener('click', function(e) {
       if (e.target && e.target.closest('.remove-phone-btn')) {
+        e.target.closest('.input-group').remove();
+      }
+    });
+  });
+
+  //   interets
+  document.addEventListener('DOMContentLoaded', function() {
+    let interestIndex = 1; // Start index for additional interests
+
+    // Function to add new interest field
+    document.querySelector('.add-interest-btn').addEventListener('click', function() {
+      const newInterestInput = document.createElement('div');
+      newInterestInput.classList.add('input-group', 'mt-2');
+
+      newInterestInput.innerHTML = `
+                <input type="text" id="new_interest_${interestIndex}" name="new_interest[]" class="form-control" placeholder="Nouvel intérêt">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary remove-interest-btn" type="button" title="Supprimer cet intérêt">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                </div>
+            `;
+
+      document.getElementById('additional-interest-fields').appendChild(newInterestInput);
+      interestIndex++;
+    });
+
+    // Function to remove an interest field
+    document.getElementById('additional-interest-fields').addEventListener('click', function(e) {
+      if (e.target && e.target.closest('.remove-interest-btn')) {
         e.target.closest('.input-group').remove();
       }
     });

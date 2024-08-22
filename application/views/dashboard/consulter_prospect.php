@@ -151,7 +151,35 @@
                             <strong>Dernière Mise à Jour:</strong> <?= date('d-m-Y',
                                 strtotime($prospect->updated_at)) ?>
                         </div>
-
+                        <!-- Interests Section -->
+                        <div class="list-group-item bg-light">
+                            <i class="fas fa-star text-success me-2 mr-2"></i>
+                            <strong>Intérêts:</strong>
+                            <div style="margin-left: 26px;">
+                                <?php
+                                // Check if interets is an array or JSON string
+                                if (is_array($prospect->interets)) {
+                                    // If it's already an array, use it directly
+                                    $interests = $prospect->interets;
+                                } else {
+                                    // If it's a JSON string, decode it
+                                    $interests = json_decode($prospect->interets, true);
+                                    // Ensure decoding was successful and result is an array
+                                    if (json_last_error() !== JSON_ERROR_NONE) {
+                                        $interests = [];
+                                    }
+                                }
+                                // Display the interests
+                                if ( ! empty($interests)) {
+                                    foreach ($interests as $interest) {
+                                        echo htmlspecialchars($interest).'<br>';
+                                    }
+                                } else {
+                                    echo 'N/A';
+                                }
+                                ?>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="card-footer text-right">

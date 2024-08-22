@@ -56,6 +56,14 @@ class ProspectController extends CI_Controller
             ]);
         }
 
+        // Validate interests
+        $interets = $this->input->post('interets');
+        if (empty($interets) || ! is_array($interets)) {
+            $this->form_validation->set_rules('interets[]', 'Intérêts', 'required', [
+                'required' => 'Le champ Intérêts est obligatoire.',
+            ]);
+        }
+
         if ($this->form_validation->run() === false) {
             $data = [
                 'title'             => 'Créer un nouveau prospect',
@@ -72,6 +80,7 @@ class ProspectController extends CI_Controller
                 'phone_numbers' => json_encode($this->input->post('phone_number')), // Store phone numbers as JSON
                 'ville'         => $this->input->post('ville'),
                 'address'       => $this->input->post('address'),
+                'interets'      => json_encode($this->input->post('interets')), // Store interests as JSON
                 'status'        => 'nouveau', // Default status
                 'assigned_to'   => $this->session->userdata('id'), // Set the assigned_to field
             ];
