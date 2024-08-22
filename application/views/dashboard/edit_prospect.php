@@ -82,6 +82,7 @@
         border-radius: 5px;
     }
 </style>
+
 <div class="centered-container vh-98">
     <div class="card">
         <div class="mx-auto text-center mt-5 flex">
@@ -140,6 +141,75 @@
                           required><?php echo set_value('address', $prospect['address']); ?></textarea>
                 <div class="invalid-feedback text-left">Veuillez entrer une adresse valide.</div>
             </div>
+            <!-- Interests Section -->
+            <div class="form-group interest-section">
+                <label for="interets">Intérêts</label>
+
+                <!-- Predefined Interests -->
+                <div class="row">
+                    <?php
+                    // Predefined interests
+                    $predefined_interests = ['Site Web', 'Marketing Digital', 'SEO', 'Logiciel de gestion'];
+
+                    // Ensure existing interests are an array
+                    $json_string = $prospect['interets']; // This should be a JSON-encoded string
+
+                    // Decode the JSON string 2 times lol
+                    $existing_interests = json_decode(json_decode($json_string, true));
+
+
+                    if ( ! is_array($existing_interests)) {
+                        $existing_interests = [];
+                    }
+                    ?>
+
+                    <?php foreach ($predefined_interests as $index => $interest): ?>
+                        <div class="col-md-6">
+                            <div class="interest-checkbox">
+                                <input type="checkbox" name="interets[]" value="<?php echo $interest; ?>"
+                                       id="interest<?php echo $index; ?>"
+                                    <?php echo in_array($interest, $existing_interests) ? 'checked' : ''; ?>>
+                                <label for="interest<?php echo $index; ?>"><?php echo $interest; ?></label>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+
+                    <!-- Custom Interests -->
+                    <?php foreach ($existing_interests as $custom_interest): ?>
+                        <?php if ( ! in_array($custom_interest, $predefined_interests)): ?>
+                            <div class="col-md-6">
+                                <div class="interest-checkbox">
+                                    <input type="checkbox" name="interets[]" value="<?php echo $custom_interest; ?>"
+                                           id="custom-interest<?php echo md5($custom_interest); ?>"
+                                           checked>
+                                    <label for="custom-interest<?php echo md5($custom_interest); ?>"><?php echo $custom_interest; ?></label>
+                                </div>
+                            </div>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                </div>
+
+                <!-- Added Interests -->
+                <div id="additional-interest-fields" class="row">
+                    <!-- Dynamically added interests will appear here -->
+                </div>
+
+                <!-- Add New Interest -->
+                <div class="additional-interests">
+                    <label for="new-interest">Ajouter un nouvel intérêt</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="new_interest[]" placeholder="Nouvel intérêt">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary add-interest-btn" type="button"
+                                    title="Ajouter un autre intérêt">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Other form fields here -->
             <?php if ($this->session->userdata('role') === 'admin'): ?>
                 <div class="form-group">
                     <label for="assigned_to">Assigné à</label>
@@ -196,4 +266,38 @@
     group.appendChild(button);
     container.appendChild(group);
   }
+
+  // Handle adding new interests dynamically
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelector('.add-interest-btn').addEventListener('click', function() {
+      var newInterest = document.querySelector('input[name="new_interest[]"]').value;
+      if (newInterest) {
+        var additionalFields = document.getElementById('additional-interest-fields');
+        var div = document.createElement('div');
+        div.className = 'col-md-6';  // Ensure it fits the grid layout
+        div.innerHTML = `<div class="interest-checkbox">
+                            <input type="checkbox" name="interets[]" value="${newInterest}" id="new-interest-${Date.now()}" checked>
+                            <label for="new-interest-${Date.now()}">${newInterest}</label>
+                         </div>`;
+        additionalFields.appendChild(div);
+        document.querySelector('input[name="new_interest[]"]').value = '';
+      }
+    });
+
+    // Handle removal of unchecked custom interests
+    document.querySelectorAll('input[type="checkbox"]').forEach(function(checkbox) {
+      checkbox.addEventListener('change', function() {
+        if (!this.checked) {
+          var customInterestsField = document.getElementById('additional-interest-fields');
+          if (customInterestsField) {
+            customInterestsField.querySelectorAll('input[type="checkbox"]').forEach(function(cb) {
+              if (cb.value === checkbox.value) {
+                cb.parentElement.parentElement.remove();  // Remove entire column div
+              }
+            });
+          }
+        }
+      });
+    });
+  });
 </script>

@@ -39,6 +39,11 @@ class ProspectModel extends CI_Model
 
     public function update_prospect($id, $data)
     {
+        // Ensure interests are encoded to JSON if provided
+        if (isset($data['interets'])) {
+            $data['interets'] = json_encode($data['interets']);
+        }
+
         $this->db->where('id', $id);
 
         return $this->db->update('prospects', $data);
@@ -175,13 +180,6 @@ class ProspectModel extends CI_Model
         return $this->db->update('prospects', array('active' => $status));
     }
 
-    // dashboard cards
-    // Get total number of prospects
-//    public function get_total_prospects()
-//    {
-//        return $this->db->count_all('prospects');
-//    }
-
 
 // Get total number of reminders
     public function get_total_reminders()
@@ -189,19 +187,6 @@ class ProspectModel extends CI_Model
         return $this->db->count_all('rappels'); // Assuming you have a 'reminders' table
     }
 
-// Get conversion percentage
-//    public function get_conversion_percentage()
-//    {
-//        $total_prospects     = $this->get_total_prospects();
-//        $converted_prospects = $this->db->where('status', 'converti')->count_all_results('prospects');
-//
-//        $conversion_percentage = ($total_prospects > 0) ? ($converted_prospects / $total_prospects) * 100 : 0;
-//
-//        return [
-//            'conversion_percentage' => number_format($conversion_percentage, 2),
-//            'total'                 => $converted_prospects,
-//        ];
-//    }
 
 // Get number of active prospects
     public function get_active_prospects_count()
@@ -247,6 +232,28 @@ class ProspectModel extends CI_Model
         return $query->num_rows() > 0;
     }
 
+    // interests
+
+    // Method to get the list of interests for a specific prospect
+    public function get_interests_list($id)
+    {
+        // Fetch the prospect by ID
+        $this->db->select('interets');
+        $this->db->from('prospects');
+        $this->db->where('id', $id);
+        $query = $this->db->get();
+
+        $result = $query->row_array();
+
+        // Decode the JSON interests column
+        if ( ! empty($result['interets'])) {
+            $interests = json_decode($result['interets'], true);
+        } else {
+            $interests = [];
+        }
+
+        return $interests;
+    }
 
 }
 

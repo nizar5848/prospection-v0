@@ -11,6 +11,7 @@ class ProspectController extends CI_Controller
         $this->load->library('form_validation'); // Load the form_validation library
         $this->load->library('PHPExcel');
         $this->load->model('NoteModel');
+        $this->load->model('UserModel');
         $this->load->helper('date'); // Load the date helper
 
     }
@@ -57,12 +58,12 @@ class ProspectController extends CI_Controller
         }
 
         // Validate interests
-        $interets = $this->input->post('interets');
-        if (empty($interets) || ! is_array($interets)) {
-            $this->form_validation->set_rules('interets[]', 'Intérêts', 'required', [
-                'required' => 'Le champ Intérêts est obligatoire.',
-            ]);
-        }
+//        $interets = $this->input->post('interets');
+//        if (empty($interets) || ! is_array($interets)) {
+//            $this->form_validation->set_rules('interets[]', 'Intérêts', 'required', [
+//                'required' => 'Le champ Intérêts est obligatoire.',
+//            ]);
+//        }
 
         if ($this->form_validation->run() === false) {
             $data = [
@@ -101,15 +102,12 @@ class ProspectController extends CI_Controller
         }
     }
 
-
     public function edit_prospect($id)
     {
-        // Load the necessary libraries and models
         $this->load->library('form_validation');
         $this->load->model('ProspectModel');
         $this->load->model('UserModel');
 
-        // Set form validation rules
         $this->form_validation->set_rules('first_name', 'Prénom', 'required');
         $this->form_validation->set_rules('last_name', 'Nom', 'required');
         $this->form_validation->set_rules('email', 'E-mail', 'required|valid_email');
@@ -117,63 +115,58 @@ class ProspectController extends CI_Controller
         $this->form_validation->set_rules('ville', 'Ville', 'required');
         $this->form_validation->set_rules('address', 'Adresse', 'required');
 
-        // Validate phone numbers
         $phone_numbers = $this->input->post('phone_number');
         if (empty($phone_numbers) || ! is_array($phone_numbers)) {
-            $this->form_validation->set_rules('phone_number[]', 'Numéros de téléphone', 'required', [
-                'required' => 'Le champ Numéros de téléphone est obligatoire.',
-            ]);
+            $this->form_validation->set_rules('phone_number[]', 'Numéros de téléphone', 'required');
         }
 
-        // Set validation rules for the assigned_to field
         $this->form_validation->set_rules('assigned_to', 'Assigné à', 'required|integer');
 
-        // Get the current user
         $user = $this->session->userdata('user');
 
         if ($this->form_validation->run() === false) {
-            // Fetch the prospect data and all users
-            $prospect = $this->ProspectModel->get_prospect($id);
-            $users    = $this->UserModel->get_all_users();
-
-            $data = [
+            $prospect  = $this->ProspectModel->get_prospect($id);
+            $users     = $this->UserModel->get_all_users();
+            $interests = $this->ProspectModel->get_interests_list($id); // Get the interests list
+            $data      = [
                 'title'         => 'Modifier Prospect',
                 'view'          => 'dashboard/edit_prospect',
                 'user'          => $user,
                 'prospect'      => $prospect,
-                'users'         => $users, // Pass the users data to the view
+                'users'         => $users,
+                'interests'     => $interests,
                 'pending_count' => $this->session->userdata('pending_count'),
             ];
             $this->load->view('dashboard/layouts', $data);
         } else {
             $data = [
-                'first_name'             => $this->input->post('first_name'),
-                'last_name'              => $this->input->post('last_name'),
-                'email'                  => $this->input->post('email'),
-                'company'                => $this->input->post('company'),
-                'phone_numbers'          => json_encode($this->input->post('phone_number')),
-                'ville'                  => $this->input->post('ville'),
-                'address'                => $this->input->post('address'),
-                'assigned_to'            => $this->input->post('assigned_to'), // Update assigned_to field
-                'status'                 => 'nouveau',
-                'historiqueInteractions' => '',
+                'first_name'    => $this->input->post('first_name'),
+                'last_name'     => $this->input->post('last_name'),
+                'email'         => $this->input->post('email'),
+                'company'       => $this->input->post('company'),
+                'phone_numbers' => json_encode($this->input->post('phone_number')),
+                'ville'         => $this->input->post('ville'),
+                'address'       => $this->input->post('address'),
+                'assigned_to'   => $this->input->post('assigned_to'),
+                'interets'      => json_encode($this->input->post('interets')), // Update interests
+                'status'        => 'nouveau',
             ];
 
             if ($this->ProspectModel->update_prospect($id, $data)) {
                 $this->session->set_flashdata('success', 'Le prospect a été modifié avec succès!');
                 redirect('table-prospects-globale');
             } else {
-                // Fetch the prospect data and all users again
-                $prospect = $this->ProspectModel->get_prospect_by_id($id);
-                $users    = $this->UserModel->get_all_users();
-
-                $data = [
-                    'title'    => 'Modifier Prospect',
-                    'view'     => 'dashboard/edit_prospect',
-                    'user'     => $user,
-                    'prospect' => $prospect,
-                    'users'    => $users, // Pass the users data to the view
-                    'error'    => 'Échec de la modification du prospect',
+                $prospect  = $this->ProspectModel->get_prospect($id);
+                $users     = $this->UserModel->get_all_users();
+                $interests = $this->ProspectModel->get_interests_list($id); // Get the interests list
+                $data      = [
+                    'title'     => 'Modifier Prospect',
+                    'view'      => 'dashboard/edit_prospect',
+                    'user'      => $user,
+                    'prospect'  => $prospect,
+                    'users'     => $users,
+                    'interests' => $interests,
+                    'error'     => 'Échec de la modification du prospect',
                 ];
                 $this->load->view('dashboard/layouts', $data);
             }

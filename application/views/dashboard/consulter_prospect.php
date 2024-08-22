@@ -157,19 +157,24 @@
                             <strong>Intérêts:</strong>
                             <div style="margin-left: 26px;">
                                 <?php
-                                // Check if interets is an array or JSON string
-                                if (is_array($prospect->interets)) {
-                                    // If it's already an array, use it directly
-                                    $interests = $prospect->interets;
-                                } else {
-                                    // If it's a JSON string, decode it
-                                    $interests = json_decode($prospect->interets, true);
-                                    // Ensure decoding was successful and result is an array
-                                    if (json_last_error() !== JSON_ERROR_NONE) {
-                                        $interests = [];
-                                    }
+                                // Initialize $interests as an empty array
+                                $interests = [];
+
+                                // Get the raw JSON string
+                                $interetsJson = $prospect->interets;
+
+                                // Remove extra quotes and backslashes if present
+                                $cleanedJson = stripslashes(trim($interetsJson, '"'));
+
+                                // Attempt to decode JSON string
+                                $decoded = json_decode($cleanedJson, true);
+
+                                // Check if decoding was successful and result is an array
+                                if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+                                    $interests = $decoded;
                                 }
-                                // Display the interests
+
+                                // Display interests or 'N/A' if none
                                 if ( ! empty($interests)) {
                                     foreach ($interests as $interest) {
                                         echo htmlspecialchars($interest).'<br>';
@@ -180,6 +185,8 @@
                                 ?>
                             </div>
                         </div>
+
+
                     </div>
                 </div>
                 <div class="card-footer text-right">
