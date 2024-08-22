@@ -159,6 +159,11 @@
                        class="btn btn-outline-primary me-2">
                         <i class="fas fa-edit me-1"></i> Modifier
                     </a>
+
+                    <a href="<?= base_url('ProspectController/selectProspect/'.$prospect->id) ?>"
+                       class="btn btn-outline-success me-2">
+                        <i class="fas fa-phone me-1"></i> Contacter Prospect
+                    </a>
                     <a href="<?= site_url('ProspectController/delete_prospect/'.$prospect->id) ?>"
                        class="btn btn-outline-danger">
                         <i class="fas fa-trash-alt me-1"></i> Supprimer
