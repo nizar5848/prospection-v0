@@ -357,7 +357,8 @@ class ProspectController extends CI_Controller
             ->setCellValue('F1', 'Téléphone')
             ->setCellValue('G1', 'Ville')
             ->setCellValue('H1', 'Adresse')
-            ->setCellValue('I1', 'Statut');
+            ->setCellValue('I1', 'Statut')
+            ->setCellValue('J1', 'Interets');
 
         // Add data
         $row = 2;
@@ -368,10 +369,11 @@ class ProspectController extends CI_Controller
                 ->setCellValue('C'.$row, $prospect->first_name)
                 ->setCellValue('D'.$row, $prospect->email)
                 ->setCellValue('E'.$row, $prospect->company)
-                ->setCellValue('F'.$row, $prospect->phone_number)
+                ->setCellValue('F'.$row, $prospect->phone_numbers)
                 ->setCellValue('G'.$row, $prospect->ville)
                 ->setCellValue('H'.$row, $prospect->address)
-                ->setCellValue('I'.$row, $prospect->status);
+                ->setCellValue('I'.$row, $prospect->status)
+                ->setCellValue('J'.$row, $prospect->interets);
             $row++;
         }
 
@@ -403,14 +405,15 @@ class ProspectController extends CI_Controller
             foreach ($sheetData as $row) {
                 if ($row['A'] != 'ID') {
                     $data[] = array(
-                        'last_name'    => $row['B'],
-                        'first_name'   => $row['C'],
-                        'email'        => $row['D'],
-                        'company'      => $row['E'],
-                        'phone_number' => $row['F'],
-                        'ville'        => $row['G'],
-                        'address'      => $row['H'],
-                        'status'       => $row['I'],
+                        'last_name'     => $row['B'],
+                        'first_name'    => $row['C'],
+                        'email'         => $row['D'],
+                        'company'       => $row['E'],
+                        'phone_numbers' => $row['F'],
+                        'ville'         => $row['G'],
+                        'address'       => $row['H'],
+                        'status'        => $row['I'],
+                        'interets'      => $row['J'],
                     );
                 }
             }
