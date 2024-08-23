@@ -33,7 +33,6 @@
     }
 
     .centered-container {
-        height: 100vh;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -41,6 +40,7 @@
     }
 
     .card {
+        margin-top: 20px;
         padding: 30px;
         border-radius: 20px;
         box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
@@ -48,9 +48,8 @@
         max-width: 600px;
         width: 100%;
         border: 1px solid #e0e0e0;
-        overflow: hidden;
         position: relative;
-        margin-top: -120px;
+        margin-bottom: 20px;
     }
 
     .card h3 {

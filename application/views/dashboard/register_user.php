@@ -138,7 +138,7 @@
 
 </style>
 
-<div class="centered-container vh-98">
+<div class="centered-container">
     <div class="card">
         <div class="mx-auto text-center">
 

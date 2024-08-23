@@ -1,19 +1,19 @@
 <style>
     .centered-container {
-        height: 98vh;
         display: flex;
         align-items: center;
         justify-content: center;
     }
 
     .card {
+        margin-top: 20px;
         padding: 30px;
         border-radius: 10px;
         box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
         background-color: #fff;
         width: 100%;
         max-width: 600px;
-        margin-bottom: 150px;
+        margin-bottom: 20px;
     }
 
     .card h2 {
@@ -87,7 +87,7 @@
     <div class="card">
         <div class="mx-auto text-center mt-5 flex">
             <h3><i class="fas fa-user-edit"></i></h3>
-            <h3 class="my-3">Modifier un prospect</h3>
+            <h3 class="my-3">Modifier les informations du prospect</h3>
         </div>
         <form action="<?php echo base_url('ProspectController/edit_prospect/'.$prospect['id']); ?>" method="post"
               class="needs-validation" novalidate>
@@ -257,7 +257,7 @@
 
     var button = document.createElement('button');
     button.type = 'button';
-    button.textContent = 'Supprimer';
+    button.textContent = 'x';
     button.onclick = function() {
       container.removeChild(group);
     };
