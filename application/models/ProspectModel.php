@@ -255,6 +255,23 @@ class ProspectModel extends CI_Model
         return $interests;
     }
 
+    // rendez vous
+    public function get_prospect_name($prospect_id)
+    {
+        $this->db->select('first_name, last_name');
+        $this->db->from('prospects');
+        $this->db->where('id', $prospect_id);
+        $query = $this->db->get();
+
+        if ($query->num_rows() > 0) {
+            $prospect = $query->row();
+
+            return $prospect->first_name.' '.$prospect->last_name;
+        } else {
+            return null;
+        }
+    }
+
 }
 
 ?>

@@ -115,4 +115,40 @@ class Calendar extends CI_Controller
         }
         echo json_encode($data);
     }
+
+
+    // rendez-vous
+
+    public function save_rendezvous()
+    {
+        $rendezvousDate      = $this->input->post('rendezvousDate');
+        $rendezvousStartTime = $this->input->post('rendezvousStartTime');
+        $rendezvousEndTime   = $this->input->post('rendezvousEndTime');
+        $prospectName        = $this->input->post('prospectName');
+
+
+        $rendezvous = [
+            'event_name'           => 'Rendez-vous avec '.$prospectName,
+            // Change this if needed
+            'event_start_datetime' => $rendezvousDate.' '.$rendezvousStartTime,
+            'event_end_datetime'   => $rendezvousDate.' '.$rendezvousEndTime,
+            // 'prospect_id' should be handled in your implementation if needed
+        ];
+
+        if ($this->Event_model->save_event($rendezvous)) {
+            $data = [
+                'status' => true,
+                'msg'    => 'Rendez-vous ajouté avec succès!',
+            ];
+        } else {
+            $data = [
+                'status' => false,
+                'msg'    => 'Désolé, le rendez-vous n\'a pas été ajouté.',
+            ];
+        }
+
+        echo json_encode($data);
+    }
+
+
 }

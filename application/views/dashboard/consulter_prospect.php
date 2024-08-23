@@ -1,10 +1,97 @@
+<style>
+    .custom-card-container {
+        max-height: 528px; /* Set the maximum height for the container */
+        display: flex;
+        flex-direction: column;
+        overflow: hidden; /* Prevent overflow from expanding the container */
+    }
+
+    .historique-interactions {
+        flex: 1; /* Take up remaining space */
+        overflow-y: auto; /* Enable vertical scrolling if content overflows */
+    }
+
+    .h-100 {
+        height: 100%;
+    }
+
+    .custom-close-btn {
+        background-color: transparent;
+        border: none;
+        font-size: 1.5rem;
+        color: #454545;
+        cursor: pointer;
+        outline: none;
+    }
+
+    .custom-close-btn:hover {
+        color: #ff1a1a;
+    }
+</style>
+
+
 <div class="container">
     <!-- Check if the source is 'contact' to display the status and notes cards -->
     <?php if (isset($_GET['source']) && $_GET['source'] === 'contact'): ?>
-        <button type="button" class="btn btn-outline-danger ms-2 mb-3"
-                onclick="window.location.href='<?= site_url('ProspectController/close_call/'.$prospect->id) ?>'">
-            <i class="fas fa-phone-slash me-1"></i> Clôturer l'appel
-        </button>
+        <div style="display: flex; gap: 10px;">
+
+            <button type="button" class="btn btn-outline-danger ms-2 mb-3"
+                    onclick="window.location.href='<?= site_url('ProspectController/close_call/'.$prospect->id) ?>'">
+                <i class="fas fa-phone-slash me-1"></i> Clôturer l'appel
+            </button>
+            <!-- donner rendez-vous start-->
+
+            <!-- Add this button in the prospect consult page -->
+
+            <button type="button" class="btn btn-primary ms-2 mb-3" data-toggle="modal"
+                    data-target="#rendezvousModal">
+                Donner rendez-vous
+            </button>
+
+        </div>
+
+        <!-- Modal for scheduling a rendez-vous -->
+        <div class="modal fade" id="rendezvousModal" tabindex="-1" role="dialog"
+             aria-labelledby="rendezvousModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="rendezvousModalLabel">Planifier un rendez-vous</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="rendezvousForm">
+                            <div class="form-group">
+                                <label for="rendezvousDate">Date</label>
+                                <input type="date" class="form-control" id="rendezvousDate"
+                                       name="rendezvousDate" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="rendezvousStartTime">Heure de début</label>
+                                <input type="time" class="form-control" id="rendezvousStartTime"
+                                       name="rendezvousStartTime" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="rendezvousEndTime">Heure de fin</label>
+                                <input type="time" class="form-control" id="rendezvousEndTime"
+                                       name="rendezvousEndTime" required>
+                            </div>
+                            <input type="hidden" id="prospectId" name="prospectName"
+                                   value="<?= $prospect->first_name ?> <?= $prospect->last_name ?>">
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                        <button type="button" class="btn btn-primary" id="submitRendezvous">Enregistrer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- donner rendez-vous end-->
 
         <!-- Change Status and Notes Cards in the Same Row -->
         <div class="row mb-4">
@@ -189,6 +276,8 @@
 
                     </div>
                 </div>
+
+
                 <div class="card-footer text-right">
                     <a href="<?= site_url('ProspectController/edit_prospect/'.$prospect->id) ?>"
                        class="btn btn-outline-primary me-2">
@@ -270,34 +359,33 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
 
-            <style>
-                .custom-card-container {
-                    max-height: 528px; /* Set the maximum height for the container */
-                    display: flex;
-                    flex-direction: column;
-                    overflow: hidden; /* Prevent overflow from expanding the container */
-                }
+<script>
+  document.getElementById('submitRendezvous').addEventListener('click', function() {
+    const form = document.getElementById('rendezvousForm');
+    const formData = new FormData(form);
+    const dataObject = {};
+    formData.forEach((value, key) => {
+      dataObject[key] = value;
+    });
+    console.log(dataObject);
 
-                .historique-interactions {
-                    flex: 1; /* Take up remaining space */
-                    overflow-y: auto; /* Enable vertical scrolling if content overflows */
-                }
+    fetch('<?php echo site_url('Calendar/save_rendezvous'); ?>', {
+      method: 'POST',
+      body: formData,
+    }).then(response => response.json()).then(data => {
+      if (data.status) {
+        alert(data.msg);
+        $('#rendezvousModal').modal('hide');
+        window.location.reload();
 
-                .h-100 {
-                    height: 100%;
-                }
+      } else {
+        alert(data.msg);
+      }
+    }).catch(error => console.error('Error:', error));
+  });
 
-                .custom-close-btn {
-                    background-color: transparent;
-                    border: none;
-                    font-size: 1.5rem;
-                    color: #454545;
-                    cursor: pointer;
-                    outline: none;
-                }
-
-                .custom-close-btn:hover {
-                    color: #ff1a1a;
-                }
-            </style>
+</script>
