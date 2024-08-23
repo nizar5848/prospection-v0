@@ -57,14 +57,6 @@ class ProspectController extends CI_Controller
             ]);
         }
 
-        // Validate interests
-//        $interets = $this->input->post('interets');
-//        if (empty($interets) || ! is_array($interets)) {
-//            $this->form_validation->set_rules('interets[]', 'Intérêts', 'required', [
-//                'required' => 'Le champ Intérêts est obligatoire.',
-//            ]);
-//        }
-
         if ($this->form_validation->run() === false) {
             $data = [
                 'title'             => 'Créer un nouveau prospect',

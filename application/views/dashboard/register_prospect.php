@@ -149,35 +149,33 @@
         <div class="form-group interest-section">
             <label for="interets">Intérêts</label>
 
-            <!-- Predefined Interests -->
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="interest-checkbox">
-                        <input type="checkbox" name="interets[]" value="Site Web" id="interest1">
-                        <label for="interest1">Site Web</label>
+            <div class="row" id="interest-grid">
+                <?php
+                // Predefined interests
+                $predefined_interests = ['Site Web', 'Marketing Digital', 'SEO', 'Logiciel de gestion'];
+                ?>
+
+                <!-- Display Predefined Interests -->
+                <?php foreach ($predefined_interests as $index => $interest): ?>
+                    <div class="col-md-6">
+                        <div class="interest-checkbox d-flex align-items-center">
+                            <input type="checkbox" name="interets[]" value="<?php echo $interest; ?>"
+                                   id="interest<?php echo $index; ?>" class="mr-2">
+                            <label for="interest<?php echo $index; ?>"><?php echo $interest; ?></label>
+                        </div>
                     </div>
-                    <div class="interest-checkbox">
-                        <input type="checkbox" name="interets[]" value="Marketing Digital" id="interest2">
-                        <label for="interest2">Marketing Digital</label>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="interest-checkbox">
-                        <input type="checkbox" name="interets[]" value="SEO" id="interest3">
-                        <label for="interest3">SEO</label>
-                    </div>
-                    <div class="interest-checkbox">
-                        <input type="checkbox" name="interets[]" value="Logiciel de gestion" id="interest4">
-                        <label for="interest4">Logiciel de gestion</label>
-                    </div>
-                </div>
+                <?php endforeach; ?>
             </div>
 
-            <!-- Add New Interest -->
-            <div class="additional-interests">
+            <!-- Placeholder for Additional Interests -->
+            <div class="row" id="additional-interest-fields"></div>
+
+            <!-- Section to Add New Interests -->
+            <div class="additional-interests mt-3">
                 <label for="new-interest">Ajouter un nouvel intérêt</label>
                 <div class="input-group">
-                    <input type="text" class="form-control" name="new_interest[]" placeholder="Nouvel intérêt">
+                    <input type="text" id="new-interest" class="form-control" name="new_interest[]"
+                           placeholder="Nouvel intérêt">
                     <div class="input-group-append">
                         <button class="btn btn-outline-secondary add-interest-btn" type="button"
                                 title="Ajouter un autre intérêt">
@@ -186,8 +184,6 @@
                     </div>
                 </div>
             </div>
-
-            <div id="additional-interest-fields"></div>
         </div>
 
 
@@ -298,33 +294,31 @@
     });
   });
 
-  //   interets
+  // interets
   document.addEventListener('DOMContentLoaded', function() {
-    let interestIndex = 1; // Start index for additional interests
-
-    // Function to add new interest field
+    // Handle adding new interests dynamically
     document.querySelector('.add-interest-btn').addEventListener('click', function() {
-      const newInterestInput = document.createElement('div');
-      newInterestInput.classList.add('input-group', 'mt-2');
+      var newInterestInput = document.querySelector('input[name="new_interest[]"]');
+      var newInterest = newInterestInput.value.trim();
 
-      newInterestInput.innerHTML = `
-                <input type="text" id="new_interest_${interestIndex}" name="new_interest[]" class="form-control" placeholder="Nouvel intérêt">
-                <div class="input-group-append">
-                    <button class="btn btn-outline-secondary remove-interest-btn" type="button" title="Supprimer cet intérêt">
-                        <i class="fas fa-minus"></i>
-                    </button>
+      if (newInterest) {
+        var additionalFields = document.getElementById('additional-interest-fields');
+        var timestamp = Date.now();
+        var newInterestDiv = document.createElement('div');
+        newInterestDiv.className = 'col-md-6';  // Ensure it fits the grid layout
+
+        newInterestDiv.innerHTML = `
+                <div class="interest-checkbox d-flex align-items-center">
+                    <input type="checkbox" name="interets[]" value="${newInterest}" id="new-interest-${timestamp}" class="mr-2" checked>
+                    <label for="new-interest-${timestamp}">${newInterest}</label>
                 </div>
             `;
 
-      document.getElementById('additional-interest-fields').appendChild(newInterestInput);
-      interestIndex++;
-    });
-
-    // Function to remove an interest field
-    document.getElementById('additional-interest-fields').addEventListener('click', function(e) {
-      if (e.target && e.target.closest('.remove-interest-btn')) {
-        e.target.closest('.input-group').remove();
+        additionalFields.appendChild(newInterestDiv); // Append new interest to the grid
+        newInterestInput.value = '';  // Clear input field after adding
       }
     });
   });
+
+
 </script>

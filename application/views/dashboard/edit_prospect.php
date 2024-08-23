@@ -154,8 +154,8 @@
                     // Ensure existing interests are an array
                     $json_string = $prospect['interets']; // This should be a JSON-encoded string
 
-                    // Decode the JSON string 2 times lol
-                    $existing_interests = json_decode(json_decode($json_string, true));
+                    // Decode the JSON string
+                    $existing_interests = json_decode($json_string, true);
 
 
                     if ( ! is_array($existing_interests)) {
