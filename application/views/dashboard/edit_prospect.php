@@ -155,9 +155,25 @@
                     $json_string = $prospect['interets']; // This should be a JSON-encoded string
 
                     // Decode the JSON string
-                    $existing_interests = json_decode($json_string, true);
+                    //                    $existing_interests = json_decode(json_decode($json_string, true));
 
+                    //                    var_dump($existing_interests);
 
+                    if (is_array($json_string)) {
+                        // If it's already an array, no need to decode
+                        $existing_interests = $json_string;
+                    } else {
+                        // If it's a JSON string, decode it
+                        $decoded_data = json_decode($json_string, true);
+
+                        // If the first decoding gives an array, use it directly
+                        if (is_array($decoded_data)) {
+                            $existing_interests = $decoded_data;
+                        } else {
+                            // If the first decoding returns a string, decode it again
+                            $existing_interests = json_decode($decoded_data, true);
+                        }
+                    }
                     if ( ! is_array($existing_interests)) {
                         $existing_interests = [];
                     }
@@ -208,6 +224,11 @@
                     </div>
                 </div>
             </div>
+
+            <!-- send asigned to the same as the current one -->
+
+            <input type="hidden" name="assigned_to" value="<?php echo $prospect['assigned_to'] ?>">
+            <!-- send asigned to the same as the current one -->
 
             <!-- Other form fields here -->
             <?php if ($this->session->userdata('role') === 'admin'): ?>
