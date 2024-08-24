@@ -18,6 +18,26 @@ class DashboardController extends CI_Controller
             redirect('authController/login');
         }
     }
+//
+//    public function adminDashboard()
+//    {
+//        $user_id         = $this->session->userdata('id');
+//        $pending_rappels = $this->Rappel_model->get_rappels_by_user($user_id);
+//        $pending_count   = count($pending_rappels);
+//
+//        $this->session->set_userdata('pending_count', $pending_count);
+//        $data = [
+//            "title"         => 'Admin Dashboard',
+//            'view'          => 'dashboard/home',
+//            "firstname"     => $this->session->userdata('first_name'),
+//            "lastname"      => $this->session->userdata('last_name'),
+//            "role"          => $this->session->userdata('role'),
+//            'pending_count' => $this->session->userdata('pending_count'),
+//
+//        ];
+//
+//        $this->load->view('dashboard/layouts', $data);
+//    }
 
     public function adminDashboard()
     {
@@ -25,19 +45,30 @@ class DashboardController extends CI_Controller
         $pending_rappels = $this->Rappel_model->get_rappels_by_user($user_id);
         $pending_count   = count($pending_rappels);
 
+        // Load the Event_model
+        $this->load->model('Event_model');
+
+        // Fetch rendez-vous for today
+        $today      = date('Y-m-d');
+        $rendezvous = $this->Event_model->get_rendezvous_by_user_and_date($user_id, $today);
+
+        // Set session data
         $this->session->set_userdata('pending_count', $pending_count);
+
         $data = [
             "title"         => 'Admin Dashboard',
-            'view'          => 'dashboard/home',
+            'view'          => 'dashboard/home_user',
             "firstname"     => $this->session->userdata('first_name'),
             "lastname"      => $this->session->userdata('last_name'),
             "role"          => $this->session->userdata('role'),
             'pending_count' => $this->session->userdata('pending_count'),
-
+            'rendezvous'    => 'rrr',
         ];
 
+        // Load the main dashboard layout
         $this->load->view('dashboard/layouts', $data);
     }
+
 
     public function userDashboard()
     {
@@ -62,8 +93,12 @@ class DashboardController extends CI_Controller
 
         $this->session->set_userdata('pending_count', $pending_count);
 
+        // Fetch rendez-vous for today
+        $today      = date('Y-m-d');
+        $rendezvous = $this->Event_model->get_rendezvous_by_user_and_date($user_id, $today);
+
         $data = [
-            "title"                 => 'User Dashboard',
+            "title"                 => 'Dashboard',
             'view'                  => 'dashboard/home_user',
             "firstname"             => $this->session->userdata('first_name'),
             "lastname"              => $this->session->userdata('last_name'),
@@ -80,6 +115,7 @@ class DashboardController extends CI_Controller
 //            "conversion_percentage" => $conversion_data['conversion_percentage'],
             "total_conversion"      => $conversion_data['total'],
             'pending_count'         => $this->session->userdata('pending_count'),
+            'rendezvous'            => $rendezvous,
         ];
 
         $this->load->view('dashboard/layouts', $data);

@@ -65,22 +65,28 @@
                         <form id="rendezvousForm">
                             <div class="form-group">
                                 <label for="rendezvousDate">Date</label>
-                                <input type="date" class="form-control" id="rendezvousDate"
-                                       name="rendezvousDate" required>
+                                <input type="date" class="form-control" id="rendezvousDate" name="rendezvousDate"
+                                       required>
+                                <div class="invalid-feedback">La date est requise.</div>
                             </div>
                             <div class="form-group">
                                 <label for="rendezvousStartTime">Heure de début</label>
                                 <input type="time" class="form-control" id="rendezvousStartTime"
                                        name="rendezvousStartTime" required>
+                                <div class="invalid-feedback">L'heure de début est requise.</div>
                             </div>
                             <div class="form-group">
                                 <label for="rendezvousEndTime">Heure de fin</label>
-                                <input type="time" class="form-control" id="rendezvousEndTime"
-                                       name="rendezvousEndTime" required>
+                                <input type="time" class="form-control" id="rendezvousEndTime" name="rendezvousEndTime"
+                                       required>
+                                <div class="invalid-feedback">L'heure de fin est requise.</div>
                             </div>
-                            <input type="hidden" id="prospectId" name="prospectName"
+                            <input type="hidden" id="prospectName" name="prospectName"
                                    value="<?= $prospect->first_name ?> <?= $prospect->last_name ?>">
+                            <input type="hidden" name="added_by" id="added_by"
+                                   value="<?php echo $this->session->userdata('id'); ?>">
                         </form>
+
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
@@ -89,7 +95,6 @@
                 </div>
             </div>
         </div>
-
 
         <!-- donner rendez-vous end-->
 
@@ -364,28 +369,61 @@
 </div>
 
 <script>
-  document.getElementById('submitRendezvous').addEventListener('click', function() {
-    const form = document.getElementById('rendezvousForm');
-    const formData = new FormData(form);
-    const dataObject = {};
-    formData.forEach((value, key) => {
-      dataObject[key] = value;
-    });
-    console.log(dataObject);
+  $(document).ready(function() {
+    $('#submitRendezvous').click(function() {
+      // Simple client-side validation
+      var isValid = true;
 
-    fetch('<?php echo site_url('Calendar/save_rendezvous'); ?>', {
-      method: 'POST',
-      body: formData,
-    }).then(response => response.json()).then(data => {
-      if (data.status) {
-        alert(data.msg);
-        $('#rendezvousModal').modal('hide');
-        window.location.reload();
+      // Clear previous error messages
+      $('#rendezvousForm .form-control').removeClass('is-invalid');
+      $('.invalid-feedback').hide();
 
-      } else {
-        alert(data.msg);
+      // Validate form fields
+      $('#rendezvousForm .form-control').each(function() {
+        if ($(this).val() === '') {
+          $(this).addClass('is-invalid');
+          $(this).siblings('.invalid-feedback').show();
+          isValid = false;
+        }
+      });
+
+      // Check if start time is before end time
+      const startTime = $('#rendezvousStartTime').val();
+      const endTime = $('#rendezvousEndTime').val();
+      if (startTime && endTime) {
+        const start = new Date('1970-01-01T' + startTime + 'Z');
+        const end = new Date('1970-01-01T' + endTime + 'Z');
+
+        if (start >= end) {
+          $('#rendezvousEndTime').addClass('is-invalid');
+          $('#rendezvousEndTime').
+              siblings('.invalid-feedback').
+              text('L\'heure de fin doit être après l\'heure de début.').
+              show();
+          isValid = false;
+        }
       }
-    }).catch(error => console.error('Error:', error));
+
+      if (isValid) {
+        // Collect form data
+        const form = document.getElementById('rendezvousForm');
+        const formData = new FormData(form);
+
+        // Send AJAX request
+        fetch('<?php echo site_url('Calendar/save_rendezvous'); ?>', {
+          method: 'POST',
+          body: formData,
+        }).then(response => response.json()).then(data => {
+          if (data.status) {
+            alert(data.msg);
+            $('#rendezvousModal').modal('hide');
+            window.location.reload();
+          } else {
+            alert(data.msg);
+          }
+        }).catch(error => console.error('Error:', error));
+      }
+    });
   });
 
 </script>

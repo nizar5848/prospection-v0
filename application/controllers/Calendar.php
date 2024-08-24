@@ -125,14 +125,14 @@ class Calendar extends CI_Controller
         $rendezvousStartTime = $this->input->post('rendezvousStartTime');
         $rendezvousEndTime   = $this->input->post('rendezvousEndTime');
         $prospectName        = $this->input->post('prospectName');
+        $added_by            = $this->input->post('added_by');
 
 
         $rendezvous = [
             'event_name'           => 'Rendez-vous avec '.$prospectName,
-            // Change this if needed
             'event_start_datetime' => $rendezvousDate.' '.$rendezvousStartTime,
             'event_end_datetime'   => $rendezvousDate.' '.$rendezvousEndTime,
-            // 'prospect_id' should be handled in your implementation if needed
+            'added_by'             => $added_by,
         ];
 
         if ($this->Event_model->save_event($rendezvous)) {
@@ -148,6 +148,23 @@ class Calendar extends CI_Controller
         }
 
         echo json_encode($data);
+    }
+
+    // rendez-vous for the day
+
+    public function getMyRendezvous()
+    {
+        $user_id = $this->session->userdata('id'); // Get the logged-in user ID
+        $today   = date('Y-m-d'); // Get today's date
+
+        // Load the Event_model
+        $this->load->model('Event_model');
+
+        // Fetch rendez-vous for today
+        $data['rendezvous'] = $this->Event_model->get_rendezvous_by_user_and_date($user_id, $today);
+
+        // Load the view and pass the data
+        $this->load->view('rendezvous_banner', $data);
     }
 
 

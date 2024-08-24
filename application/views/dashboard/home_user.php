@@ -1,6 +1,7 @@
 <main role="main" class="main-content mx-auto">
     <div class="container-fluid">
         <h1 class="mb-5">Bienvenue, <?= $firstname." ".$lastname ?></h1>
+        <?php $this->load->view('rendezvous_banner') ?>
         <div class="header-body">
             <div class="row">
                 <!-- Total Prospects Card -->

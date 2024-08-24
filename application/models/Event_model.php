@@ -49,4 +49,24 @@ class Event_model extends CI_Model
     {
         return $this->db->count_all('events'); // Assuming you have an 'events' table
     }
+
+
+    // show the rendez-vous for the day
+    public function get_rendezvous_by_user_and_date($user_id, $date)
+    {
+        // Ensure the date is in the format 'Y-m-d'
+        $start_of_day = $date.' 00:00:00';
+        $end_of_day   = $date.' 23:59:59';
+
+        $this->db->select('event_name, event_start_datetime, event_end_datetime');
+        $this->db->from('events'); // Change 'events' to your actual table name if different
+        $this->db->where('added_by', $user_id);
+        $this->db->where('event_start_datetime >=', $start_of_day);
+        $this->db->where('event_end_datetime <=', $end_of_day);
+
+        $query = $this->db->get();
+
+        return $query->result_array();
+    }
+
 }
