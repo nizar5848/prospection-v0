@@ -65,7 +65,7 @@
     <?php endif; ?>
 
     <!-- Table -->
-    <h3>Liste des utilisateurs</h3>
+    <h3>Liste des commerciaux</h3>
 
     <div class="bg-white mt-2 px-5 border">
         <table id="example1" class="table border dt-responsive nowrap" style="width:100%">
@@ -99,7 +99,7 @@
 
           json.data.forEach(function(row) {
             if (row.role === 'user') {
-              row.role = 'Utilisateur';
+              row.role = 'Commercial';
             } else if (row.role === 'admin') {
               row.role = 'Administrateur';
             }

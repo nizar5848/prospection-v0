@@ -146,7 +146,7 @@ class ProspectController extends CI_Controller
 
             if ($this->ProspectModel->update_prospect($id, $data)) {
                 $this->session->set_flashdata('success', 'Le prospect a été modifié avec succès!');
-                redirect('table-prospects-globale');
+                redirect('ProspectController/consult_prospect/'.$id);
             } else {
                 $prospect  = $this->ProspectModel->get_prospect($id);
                 $users     = $this->UserModel->get_all_users();
@@ -218,9 +218,9 @@ class ProspectController extends CI_Controller
         // Delete related notes first
         if ($this->ProspectModel->delete_notes_by_prospect_id($id)) {
             if ($this->ProspectModel->delete_user_by_id($id)) {
-                $this->session->set_flashdata('success', 'Utilisateur supprimé avec succès.');
+                $this->session->set_flashdata('success', 'Commercial supprimé avec succès.');
             } else {
-                $this->session->set_flashdata('error', 'Impossible de supprimer utilisateur.');
+                $this->session->set_flashdata('error', 'Impossible de supprimer ce commercial.');
             }
         } else {
             $this->session->set_flashdata('error', 'Impossible de supprimer les notes associées.');

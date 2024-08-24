@@ -143,7 +143,7 @@
         <div class="mx-auto text-center">
 
             <h3 class="my-3"><i
-                        class="fas fa-user-plus"></i><?php echo $is_admin_exists ? ' '.'Créer Utilisateur' : 'Inscription'; ?>
+                        class="fas fa-user-plus"></i><?php echo $is_admin_exists ? ' '.'Créer Commercial' : 'Inscription'; ?>
             </h3>
         </div>
         <hr class="my-3">
@@ -205,12 +205,12 @@
                 <div>
                     <label class="radio-inline mr-5"><input type="radio" name="role" value="admin"> Admin</label>
                     <label class="radio-inline"><input type="radio" name="role" value="user" checked>
-                        Gestionnaire</label>
+                        Commercial</label>
                 </div>
             </div>
         <?php endif; ?>
         <button class="btn btn-lg btn-primary btn-block"
-                type="submit"><?php echo $is_admin_exists ? 'Créer utilisateur' : 'S\'inscrire'; ?></button>
+                type="submit"><?php echo $is_admin_exists ? 'Créer commercial' : 'S\'inscrire'; ?></button>
         <?php echo form_close(); ?>
     </div>
 </div>

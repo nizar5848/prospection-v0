@@ -209,7 +209,7 @@ class DashboardController extends CI_Controller
     public function usersTable()
     {
         $layout_data = [
-            "title"         => "Liste des utilisateurs",
+            "title"         => "Liste des commerciaux",
             "view"          => "dashboard/users_table",
             'pending_count' => $this->session->userdata('pending_count'),
         ];
@@ -279,7 +279,7 @@ class DashboardController extends CI_Controller
             ];
 
             if ($this->UserModel->create_user($user_data)) {
-                $this->session->set_flashdata('success', 'Utilisateur ajouté avec succès.');
+                $this->session->set_flashdata('success', 'Commercial ajouté avec succès.');
             } else {
                 $this->session->set_flashdata('error',
                     'Un problème est survenu lors de la création du compte. Veuillez réessayer.');
@@ -378,7 +378,7 @@ class DashboardController extends CI_Controller
             redirect('table-utilisateurs');
         } else {
             if ($this->UserModel->delete_user_by_id($id)) {
-                $this->session->set_flashdata('success', 'Utilisateur supprimé avec succès.');
+                $this->session->set_flashdata('success', 'Commercial supprimé avec succès.');
             } else {
                 $this->session->set_flashdata('error', 'Failed to delete user.');
             }
@@ -440,7 +440,7 @@ class DashboardController extends CI_Controller
             $this->UserModel->update_user($id, $update_data);
 
             // Set success message and redirect to user list
-            $this->session->set_flashdata('success', 'Utilisateur modifié avec succès');
+            $this->session->set_flashdata('success', 'Commercial modifié avec succès');
             redirect('DashboardController/usersTable');
         } else {
             // Get current user ID
@@ -448,7 +448,7 @@ class DashboardController extends CI_Controller
 
             // Pass data to the view
             $data = [
-                'title'           => 'Modifier Utilisateur',
+                'title'           => 'Modifier les informations du commercial',
                 'view'            => 'dashboard/edit_user',
                 'user'            => $user,
                 'is_admin_exists' => $is_admin_exists,
@@ -481,7 +481,7 @@ class DashboardController extends CI_Controller
 
         // Set success message and redirect to user list
         $this->session->set_flashdata('success',
-            'Utilisateur '.($new_status ? 'suspendu' : 'réactivé').' avec succès');
+            'Commercial '.($new_status ? 'suspendu' : 'réactivé').' avec succès');
 
         redirect('DashboardController/usersTable');
     }

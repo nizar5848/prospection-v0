@@ -235,14 +235,14 @@
                 <div class="form-group">
                     <label for="assigned_to">Assigné à</label>
                     <select id="assigned_to" name="assigned_to" class="form-control" required>
-                        <option value="">Sélectionnez un utilisateur</option>
+                        <option value="">Sélectionnez un commercial</option>
                         <?php foreach ($users as $user): ?>
                             <option value="<?php echo $user['id']; ?>" <?php echo ($prospect['assigned_to'] == $user['id']) ? 'selected' : ''; ?>>
                                 <?php echo $user['first_name'].' '.$user['last_name']; ?>
                             </option>
                         <?php endforeach; ?>
                     </select>
-                    <div class="invalid-feedback text-left">Veuillez sélectionner un utilisateur.</div>
+                    <div class="invalid-feedback text-left">Veuillez sélectionner un commercial.</div>
                 </div>
             <?php endif; ?>
             <button class="btn btn-lg btn-success btn-block green" type="submit">Modifier</button>

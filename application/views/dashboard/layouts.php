@@ -328,7 +328,7 @@
 
                 <?php if ($this->session->userdata('role') == 'admin'): ?>
                 <p class="text-muted nav-heading mt-4 mb-1">
-                    <span>Gestion des utilisateurs</span>
+                    <span>Gestion des commerciaux</span>
                 </p>
                 <ul class="navbar-nav flex-fill w-100 mb-2">
                     <li class="nav-item w-100">
@@ -337,7 +337,7 @@
                            style="color: <?= ($current_url === 'register_user') ? $sidebar_active_color : 'inherit'; ?>;
                                    background: <?= ($current_url === 'register_user') ? 'whitesmoke' : 'inherit'; ?>;">
                             <i class="fe fe-user-plus fe-16"></i>
-                            <span class="ml-3 item-text">Créer utilisateur</span>
+                            <span class="ml-3 item-text">Créer commercial</span>
                         </a>
                     </li>
                     <li class="nav-item w-100">
@@ -346,7 +346,7 @@
                            style="color: <?= ($current_url === 'table-utilisateurs') ? $sidebar_active_color : 'inherit'; ?>;
                                    background: <?= ($current_url === 'table-utilisateurs') ? 'whitesmoke' : 'inherit'; ?>;">
                             <i class="fe fe-list"></i>
-                            <span class="ml-3 item-text">Liste des utilisateurs</span>
+                            <span class="ml-3 item-text">Liste des commerciaux</span>
                         </a>
                     </li>
                     <?php endif; ?>

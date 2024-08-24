@@ -1,23 +1,35 @@
 <style>
-        .alert-card {
-            position: absolute;
-            top: 10%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 1000;
-            width: 500px;
-            opacity: 0;
-            animation: swingInOut 4s forwards;
-            transform-origin: top center;
-        }
+    .alert-card {
+        position: absolute;
+        top: 10%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1000;
+        width: 500px;
+        opacity: 0;
+        animation: swingInOut 4s forwards;
+        transform-origin: top center;
+    }
 
-        @keyframes swingInOut {
-            0% { opacity: 0; transform: translate(-50%, -50%) rotateX(-90deg); }
-            10% { opacity: 1; transform: translate(-50%, -50%) rotateX(0deg); }
-            90% { opacity: 1; transform: translate(-50%, -50%) rotateX(0deg); }
-            100% { opacity: 0; transform: translate(-50%, -50%) rotateX(-90deg); }
+    @keyframes swingInOut {
+        0% {
+            opacity: 0;
+            transform: translate(-50%, -50%) rotateX(-90deg);
         }
-    </style>
+        10% {
+            opacity: 1;
+            transform: translate(-50%, -50%) rotateX(0deg);
+        }
+        90% {
+            opacity: 1;
+            transform: translate(-50%, -50%) rotateX(0deg);
+        }
+        100% {
+            opacity: 0;
+            transform: translate(-50%, -50%) rotateX(-90deg);
+        }
+    }
+</style>
 <div class="wrapper vh-98 p-5 mt-5">
     <?php if ($this->session->flashdata('error')): ?>
         <div id="errorAlert" class="alert alert-danger alert-dismissible fade show alert-card" role="alert">
@@ -26,7 +38,7 @@
     <?php endif; ?>
     <div class="row align-items-center h-100">
         <?php echo form_open('AuthController/register', [
-            'class' => 'col-lg-6 col-md-8 col-10 mx-auto needs-validation',
+            'class'      => 'col-lg-6 col-md-8 col-10 mx-auto needs-validation',
             'novalidate' => true,
         ]); ?>
 
@@ -43,10 +55,11 @@
                     </g>
                 </svg>
             </a>
-            <h2 class="my-3"><?php echo $is_admin_exists ? 'Inscrire un utilisateur' : 'Inscription'; ?></h2>
+            <h2 class="my-3"><?php echo $is_admin_exists ? 'Enregistrer un commercial' : 'Inscription'; ?></h2>
         </div>
 
-        <?php echo validation_errors('<div class="alert alert-danger alert-dismissible fade show alert-card">', '</div>'); ?>
+        <?php echo validation_errors('<div class="alert alert-danger alert-dismissible fade show alert-card">',
+            '</div>'); ?>
 
         <div class="form-group">
             <label for="inputEmail4">E-mail</label>
@@ -104,7 +117,8 @@
             </div>
             <div class="col-md-6">
                 <p class="mb-2">Exigences du mot de passe</p>
-                <p class="small text-muted mb-2">Pour créer un nouveau mot de passe, vous devez remplir toutes les conditions suivantes :</p>
+                <p class="small text-muted mb-2">Pour créer un nouveau mot de passe, vous devez remplir toutes les
+                    conditions suivantes :</p>
                 <ul class="small text-muted pl-4 mb-0">
                     <li>Minimum 8 caractères</li>
                     <li>Au moins un caractère spécial</li>
@@ -121,7 +135,7 @@
                         <input type="radio" name="role" value="admin"> Admin
                     </label>
                     <label class="radio-inline">
-                        <input type="radio" name="role" value="user" checked> Utilisateur
+                        <input type="radio" name="role" value="user" checked> Commercial
                     </label>
                 </div>
                 <div class="invalid-feedback text-left">
@@ -136,29 +150,29 @@
 </div>
 
 <script>
-    // Bootstrap validation styles
-    (function () {
-        'use strict';
-        window.addEventListener('load', function () {
-            var forms = document.getElementsByClassName('needs-validation');
-            var validation = Array.prototype.filter.call(forms, function (form) {
-                form.addEventListener('submit', function (event) {
-                    if (form.checkValidity() === false) {
-                        event.preventDefault();
-                        event.stopPropagation();
-                    }
-                    form.classList.add('was-validated');
-                }, false);
-            });
+  // Bootstrap validation styles
+  (function() {
+    'use strict';
+    window.addEventListener('load', function() {
+      var forms = document.getElementsByClassName('needs-validation');
+      var validation = Array.prototype.filter.call(forms, function(form) {
+        form.addEventListener('submit', function(event) {
+          if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+          form.classList.add('was-validated');
         }, false);
-    })();
+      });
+    }, false);
+  })();
 
-    // Alert dismissal
-    setTimeout(function() {
-        const alertElement = document.getElementById('errorAlert');
-        if (alertElement) {
-            alertElement.style.opacity = '0';
-            alertElement.style.transition = 'opacity 0.5s ease-out';
-        }
-    }, 3000);
+  // Alert dismissal
+  setTimeout(function() {
+    const alertElement = document.getElementById('errorAlert');
+    if (alertElement) {
+      alertElement.style.opacity = '0';
+      alertElement.style.transition = 'opacity 0.5s ease-out';
+    }
+  }, 3000);
 </script>
