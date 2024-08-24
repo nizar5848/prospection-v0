@@ -306,7 +306,7 @@ class DashboardController extends CI_Controller
             if ($rowUserId != $currentUserId) {
                 if ($currentUserId == 1 || ($currentUserRole == 'admin' && $rowUserRole == 'user')) {
                     $suspendIcon = $rowUserSuspended
-                        ? '<a class="btn btn-success btn-sm mr-1" href="'.base_url('DashboardController/suspendre_user/'.$row['id']).'" title="Désuspendre"><i class="fas fa-play-circle text-white"></i></a>'
+                        ? '<a class="btn btn-success btn-sm mr-1" href="'.base_url('DashboardController/suspendre_user/'.$row['id']).'" title="Réactiver"><i class="fas fa-play-circle text-white"></i></a>'
                         : '<a class="btn btn-warning btn-sm mr-1" href="'.base_url('DashboardController/suspendre_user/'.$row['id']).'" title="Suspendre"><i class="fas fa-pause-circle text-white"></i></a>';
 
                     $row['actions'] = '
@@ -481,7 +481,8 @@ class DashboardController extends CI_Controller
 
         // Set success message and redirect to user list
         $this->session->set_flashdata('success',
-            'Utilisateur '.($new_status ? 'suspendé' : 'désuspendé').' avec succès');
+            'Utilisateur '.($new_status ? 'suspendu' : 'réactivé').' avec succès');
+
         redirect('DashboardController/usersTable');
     }
 
